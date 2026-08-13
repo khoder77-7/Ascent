@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Ascent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  .dash-head{ padding:38px 0 6px; }
+  .dash-head-row{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; }
+  .dash-head h1{ font-family:var(--font-display); font-size:clamp(26px,3vw,32px); font-weight:600; margin:6px 0 4px; }
+  .dash-head p{ color:var(--ink-faint); font-size:14.5px; margin:0; }
+  .season-badge{
+    display:flex; align-items:center; gap:8px; background:var(--ink-900); color:#fff;
+    padding:9px 16px; border-radius:var(--r-pill); font-size:13px; font-weight:600;
+  }
+  .season-badge .dot2{ width:7px; height:7px; border-radius:50%; background:var(--gold-bright); box-shadow:0 0 0 4px rgba(232,169,59,0.25); }
+
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:30px 0; }
+  @media (max-width:860px){ .stat-row{ grid-template-columns:1fr 1fr; } }
+  .stat-card{ background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:20px 22px; }
+  .stat-card .icon{ font-size:18px; margin-bottom:10px; }
+  .stat-card .v{ font-family:var(--font-mono); font-weight:700; font-size:25px; }
+  .stat-card .l{ font-size:12.5px; color:var(--ink-ghost); margin-top:4px; }
+  .stat-card.accent-gold{ border-color:rgba(196,135,12,0.3); background:linear-gradient(160deg,#fff, var(--gold-tint)); }
+  .stat-card.accent-urgent .v{ color:var(--urgent); }
+
+  .dash-grid{ display:grid; grid-template-columns:1fr 360px; gap:22px; padding-bottom:100px; align-items:start; }
+  @media (max-width:980px){ .dash-grid{ grid-template-columns:1fr; } }
+  .dash-col{ display:flex; flex-direction:column; gap:20px; }
+  .side-col{ position:sticky; top:88px; display:flex; flex-direction:column; gap:20px; }
+  @media (max-width:980px){ .side-col{ position:static; } }
+
+  .panel-title{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+  .panel-title h3{ font-family:var(--font-display); font-size:18px; margin:0; font-weight:600; }
+  .panel-title a{ font-size:13px; color:var(--brand); font-weight:600; }
+
+  /* next best move */
+  .nbm-card{
+    background:linear-gradient(135deg, var(--ink-900), var(--brand-ink) 150%);
+    color:#fff; border-radius:20px; padding:26px 26px; position:relative; overflow:hidden;
+  }
+  .nbm-card::after{ content:''; position:absolute; inset:0; background:radial-gradient(340px 200px at 100% 0%, rgba(232,169,59,0.3), transparent 65%); }
+  .nbm-eyebrow{ position:relative; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:10px; }
+  .nbm-title{ position:relative; font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 10px; line-height:1.3; }
+  .nbm-meta{ position:relative; display:flex; gap:14px; font-size:12.5px; color:var(--on-dark-soft); margin-bottom:18px; flex-wrap:wrap; }
+  .nbm-meta strong{ color:#fff; }
+
+  /* applications list */
+  .active-app{
+    display:flex; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid var(--border);
+  }
+  .active-app:last-child{ border-bottom:none; }
+  .aa-ring{ flex:none; position:relative; width:52px; height:52px; }
+  .aa-ring .pct{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:700; font-size:12px; }
+  .aa-body{ flex:1; min-width:0; }
+  .aa-title{ font-weight:600; font-size:14.5px; margin-bottom:4px; }
+  .aa-sub{ font-size:12px; color:var(--ink-ghost); font-family:var(--font-mono); }
+  .aa-right{ text-align:right; flex:none; }
+  .aa-amount{ font-family:var(--font-mono); font-weight:700; font-size:14.5px; }
+
+  /* deadlines */
+  .deadline-row{ display:flex; align-items:center; gap:14px; padding:13px 0; border-bottom:1px solid var(--border); }
+  .deadline-row:last-child{ border-bottom:none; }
+  .dl-date{
+    flex:none; width:52px; height:52px; border-radius:12px; background:var(--surface-sunken);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-family:var(--font-mono);
+  }
+  .dl-date .day{ font-size:17px; font-weight:700; line-height:1; }
+  .dl-date .mon{ font-size:9.5px; color:var(--ink-ghost); text-transform:uppercase; margin-top:2px; }
+  .dl-date.soon{ background:var(--urgent-tint); }
+  .dl-date.soon .day{ color:var(--urgent); }
+  .dl-body{ flex:1; }
+  .dl-title{ font-weight:600; font-size:14px; margin-bottom:2px; }
+  .dl-sub{ font-size:12px; color:var(--ink-ghost); }
+
+  /* strength ring panel */
+  .strength-ring-row{ display:flex; align-items:center; gap:18px; }
+  .strength-ring-holder{ position:relative; width:108px; height:108px; flex:none; }
+  .strength-ring-holder .val{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .strength-ring-holder .val .n{ font-family:var(--font-mono); font-weight:700; font-size:24px; }
+  .strength-ring-holder .val .d{ font-size:9.5px; color:var(--ink-ghost); }
+  .strength-breakdown{ flex:1; display:flex; flex-direction:column; gap:10px; }
+  .sb-row{ font-size:12px; }
+  .sb-row .t{ display:flex; justify-content:space-between; margin-bottom:4px; color:var(--ink-soft); font-weight:600; }
+
+  /* mini match list */
+  .mini-match{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .mini-match:last-child{ border-bottom:none; }
+  .mini-match .mm-pct{ font-family:var(--font-mono); font-weight:700; color:var(--match); flex:none; }
+  .mini-match .mm-name{ flex:1; font-weight:500; }
+  .mini-match .mm-amt{ font-family:var(--font-mono); color:var(--ink-ghost); flex:none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand-mark"><span class="dot"></span>Ascent</a>
+    <div class="nav-links">
+      <a href="index.html">How it works</a>
+      <a href="matches.html">Scholarship matches</a>
+      <a href="application.html">Application coach</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+    </div>
+    <div class="nav-cta">
+      <a href="onboarding.html" class="btn btn-ghost btn-sm">Edit profile</a>
+    </div>
+  </div>
+</nav>
+
+<header class="dash-head">
+  <div class="container">
+    <div class="dash-head-row">
+      <div>
+        <span class="eyebrow">WELCOME BACK</span>
+        <h1>Scholarship Season</h1>
+        <p>Computer Science · Bachelor's · Lebanon → United States</p>
+      </div>
+      <div class="season-badge"><span class="dot2"></span>61 days into this cycle</div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="stat-row reveal">
+    <div class="stat-card accent-gold">
+      <div class="icon">💰</div>
+      <div class="v" data-count-to="37500" data-prefix="$">$0</div>
+      <div class="l">Potential funding</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">🎯</div>
+      <div class="v" data-count-to="12">0</div>
+      <div class="l">Strong matches</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">📝</div>
+      <div class="v" data-count-to="4">0</div>
+      <div class="l">Applications active</div>
+    </div>
+    <div class="stat-card accent-urgent">
+      <div class="icon">⏰</div>
+      <div class="v" data-count-to="2">0</div>
+      <div class="l">Deadlines this week</div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-col">
+
+      <div class="nbm-card reveal">
+        <div class="nbm-eyebrow">🧭 Your next best move</div>
+        <div class="nbm-title">Finish the Global STEM Scholarship essay.</div>
+        <div class="nbm-meta"><span>⏰ Deadline in <strong>6 days</strong></span><span>🎯 Profile match: <strong>94%</strong></span><span>💰 <strong>$10,000</strong> at stake</span></div>
+        <a href="application.html" class="btn btn-gold btn-sm">Open the essay workspace →</a>
+      </div>
+
+      <div class="card card-pad reveal">
+        <div class="panel-title"><h3>Active applications</h3><a href="matches.html">View all matches →</a></div>
+        <div class="active-app">
+          <div class="aa-ring"><div class="ring-holder" data-ring="94" data-color="var(--match)"></div><div class="pct">94%</div></div>
+          <div class="aa-body"><div class="aa-title">Global STEM Futures Scholarship</div><div class="aa-sub">Essay in progress · 2 of 5 requirements done</div></div>
+          <div class="aa-right"><div class="aa-amount">$10,000</div><div style="font-size:11.5px; color:var(--urgent); font-family:var(--font-mono);">6 days left</div></div>
+        </div>
+        <div class="active-app">
+          <div class="aa-ring"><div class="ring-holder" data-ring="91" data-color="var(--match)"></div><div class="pct">91%</div></div>
+          <div class="aa-body"><div class="aa-title">First-Gen Engineering Award</div><div class="aa-sub">Waiting on recommendation letter</div></div>
+          <div class="aa-right"><div class="aa-amount">$5,000</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">20 days left</div></div>
+        </div>
+        <div class="active-app">
+          <div class="aa-ring"><div class="ring-holder" data-ring="87" data-color="var(--brand)"></div><div class="pct">87%</div></div>
+          <div class="aa-body"><div class="aa-title">Women in Data Science Grant</div><div class="aa-sub">Not started · portfolio link needed</div></div>
+          <div class="aa-right"><div class="aa-amount">$2,500</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">36 days left</div></div>
+        </div>
+        <div class="active-app">
+          <div class="aa-ring"><div class="ring-holder" data-ring="82" data-color="var(--brand)"></div><div class="pct">82%</div></div>
+          <div class="aa-body"><div class="aa-title">Lebanon Diaspora Merit Fund</div><div class="aa-sub">Transcript uploaded · essay not started</div></div>
+          <div class="aa-right"><div class="aa-amount">$3,000</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">49 days left</div></div>
+        </div>
+      </div>
+
+      <div class="card card-pad reveal">
+        <div class="panel-title"><h3>New matches this week</h3><a href="matches.html">See why they matched →</a></div>
+        <div class="mini-match"><span class="mm-pct">79%</span><span class="mm-name">International Excellence Award — Toronto</span><span class="mm-amt">$8,000</span></div>
+        <div class="mini-match"><span class="mm-pct">74%</span><span class="mm-name">Future Builders Innovation Scholarship</span><span class="mm-amt">$6,000</span></div>
+      </div>
+
+    </div>
+
+    <aside class="side-col">
+
+      <div class="card card-pad reveal">
+        <div class="panel-title"><h3>Application strength</h3></div>
+        <div class="strength-ring-row">
+          <div class="strength-ring-holder">
+            <div id="strength-ring"></div>
+            <div class="val"><span class="n">78</span><span class="d">OVERALL</span></div>
+          </div>
+          <div class="strength-breakdown">
+            <div class="sb-row"><div class="t"><span>Leadership</span><span>58</span></div><div class="bar-track"><div class="bar-fill gold" data-value="58"></div></div></div>
+            <div class="sb-row"><div class="t"><span>Academic fit</span><span>91</span></div><div class="bar-track"><div class="bar-fill match" data-value="91"></div></div></div>
+            <div class="sb-row"><div class="t"><span>Personal story</span><span>78</span></div><div class="bar-track"><div class="bar-fill" data-value="78"></div></div></div>
+          </div>
+        </div>
+        <p style="font-size:12.5px; color:var(--ink-faint); margin:16px 0 0; line-height:1.6;">Averaged across your 4 active applications. Leadership is your ceiling right now — strengthening it lifts every application at once.</p>
+      </div>
+
+      <div class="card card-pad reveal">
+        <div class="panel-title"><h3>Deadlines this week</h3></div>
+        <div class="deadline-row">
+          <div class="dl-date soon"><span class="day">18</span><span class="mon">Aug</span></div>
+          <div class="dl-body"><div class="dl-title">Recommendation letter due to Prof. Haddad</div><div class="dl-sub">First-Gen Engineering Award</div></div>
+        </div>
+        <div class="deadline-row">
+          <div class="dl-date soon"><span class="day">20</span><span class="mon">Aug</span></div>
+          <div class="dl-body"><div class="dl-title">Portfolio link submission</div><div class="dl-sub">Women in Data Science Grant</div></div>
+        </div>
+      </div>
+
+      <div class="card card-pad tip-card">
+        <span class="eyebrow">MOMENTUM</span>
+        <p style="font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;">You've completed <strong>9 of 20</strong> requirements across active applications this season — ahead of where most students are at the 60-day mark.</p>
+      </div>
+
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 Ascent.</span>
+      <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  renderRing(document.getElementById('strength-ring'), 78, { size:108, stroke:11, color:'var(--brand)' });
+  document.querySelectorAll('.ring-holder').forEach(el => {
+    renderRing(el, parseFloat(el.dataset.ring), { size:52, stroke:5, color: el.dataset.color });
+  });
+</script>
+</body>
+</html>

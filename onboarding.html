@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build your profile — Ascent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  body{ min-height:100vh; }
+  .onb-nav{ border-bottom:1px solid var(--border); }
+  .onb-nav .container{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .onb-wrap{ display:grid; grid-template-columns:280px 1fr; min-height:calc(100vh - 69px); }
+  @media (max-width:860px){ .onb-wrap{ grid-template-columns:1fr; } .onb-rail{ display:none; } }
+
+  .onb-rail{
+    background:var(--ink-900); color:var(--on-dark);
+    padding:48px 36px; position:sticky; top:69px; height:calc(100vh - 69px);
+  }
+  .onb-rail h2{ font-family:var(--font-display); font-size:22px; margin:0 0 8px; font-weight:600; }
+  .onb-rail p{ font-size:13.5px; color:var(--on-dark-soft); line-height:1.6; margin:0 0 40px; }
+  .rail-steps{ display:flex; flex-direction:column; gap:0; }
+  .rail-step{ display:flex; gap:14px; padding:14px 0; position:relative; }
+  .rail-step .num{
+    width:26px; height:26px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:12px; font-weight:700;
+    background:rgba(255,255,255,0.08); color:var(--on-dark-soft);
+    border:1px solid rgba(255,255,255,0.14);
+    transition:all .2s var(--ease);
+  }
+  .rail-step .connector{
+    position:absolute; left:13px; top:38px; width:1px; height:calc(100% - 12px);
+    background:rgba(255,255,255,0.12);
+  }
+  .rail-step:last-child .connector{ display:none; }
+  .rail-step .txt{ padding-top:3px; }
+  .rail-step .txt .t{ font-size:14px; font-weight:600; color:var(--on-dark-soft); transition:color .2s; }
+  .rail-step .txt .d{ font-size:12px; color:rgba(238,240,247,0.35); margin-top:2px; }
+  .rail-step.active .num{ background:var(--gold-bright); color:#241703; border-color:var(--gold-bright); }
+  .rail-step.active .txt .t{ color:#fff; }
+  .rail-step.done .num{ background:var(--match); color:#fff; border-color:var(--match); }
+
+  .onb-main{ padding:56px 48px 100px; max-width:640px; }
+  @media (max-width:600px){ .onb-main{ padding:32px 20px 80px; } }
+  .onb-progress-mobile{ display:none; font-family:var(--font-mono); font-size:12.5px; color:var(--ink-ghost); margin-bottom:20px; }
+  @media (max-width:860px){ .onb-progress-mobile{ display:block; } }
+
+  .fieldset{ display:none; }
+  .fieldset.active{ display:block; animation:fadeUp .4s var(--ease-out); }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+  .fieldset .eyebrow{ margin-bottom:10px; }
+  .fieldset h3{ font-family:var(--font-display); font-size:28px; font-weight:600; margin:0 0 10px; letter-spacing:-0.01em; }
+  .fieldset > p.sub{ color:var(--ink-faint); font-size:15px; margin:0 0 34px; line-height:1.6; }
+
+  .field{ margin-bottom:22px; }
+  .field label{ display:block; font-size:13.5px; font-weight:600; margin-bottom:8px; color:var(--ink-soft); }
+  .field .hint{ font-size:12.5px; color:var(--ink-ghost); margin-top:6px; }
+  .field input[type=text], .field input[type=number], .field select, .field textarea{
+    width:100%; padding:13px 14px; border-radius:11px; border:1.5px solid var(--border);
+    font-family:var(--font-ui); font-size:14.5px; color:var(--ink); background:#fff;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--brand); box-shadow:0 0 0 4px var(--brand-tint);
+  }
+  .field textarea{ resize:vertical; min-height:96px; font-family:var(--font-ui); line-height:1.5; }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:520px){ .field-row{ grid-template-columns:1fr; } }
+
+  .chip-group{ display:flex; flex-wrap:wrap; gap:9px; }
+  .chip{
+    padding:9px 15px; border-radius:var(--r-pill); border:1.5px solid var(--border);
+    font-size:13.5px; font-weight:500; cursor:pointer; background:#fff; color:var(--ink-soft);
+    transition:all .15s var(--ease);
+  }
+  .chip:hover{ border-color:var(--border-strong); }
+  .chip.sel{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  .gpa-scale-toggle{ display:flex; gap:8px; margin-bottom:12px; }
+  .gpa-scale-toggle .chip{ padding:6px 12px; font-size:12.5px; }
+
+  .range-row{ display:flex; align-items:center; gap:16px; }
+  .range-row input[type=range]{ flex:1; accent-color:var(--brand); }
+  .range-val{ font-family:var(--font-mono); font-weight:700; font-size:15px; width:52px; text-align:right; }
+
+  .onb-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:40px; padding-top:28px; border-top:1px solid var(--border); }
+
+  /* review step */
+  .review-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:28px; }
+  @media (max-width:520px){ .review-grid{ grid-template-columns:1fr; } }
+  .review-item{ background:var(--surface-sunken); border-radius:12px; padding:14px 16px; }
+  .review-item .rl{ font-size:11.5px; color:var(--ink-ghost); margin-bottom:4px; text-transform:uppercase; letter-spacing:.04em; }
+  .review-item .rv{ font-size:14.5px; font-weight:600; color:var(--ink); }
+</style>
+</head>
+<body>
+
+<nav class="onb-nav">
+  <div class="container">
+    <a href="index.html" class="brand-mark"><span class="dot"></span>Ascent</a>
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Skip for now</a>
+  </div>
+</nav>
+
+<div class="onb-wrap">
+  <aside class="onb-rail">
+    <h2>Build your profile</h2>
+    <p>Five minutes now saves you from scrolling through thousands of scholarships you'd never qualify for.</p>
+    <div class="rail-steps" id="rail-steps">
+      <div class="rail-step active" data-rail="0"><div class="num">1</div><div class="connector"></div><div class="txt"><div class="t">Academics</div><div class="d">Degree, major, GPA</div></div></div>
+      <div class="rail-step" data-rail="1"><div class="num">2</div><div class="connector"></div><div class="txt"><div class="t">Background</div><div class="d">Nationality &amp; finances</div></div></div>
+      <div class="rail-step" data-rail="2"><div class="num">3</div><div class="connector"></div><div class="txt"><div class="t">Achievements</div><div class="d">Honors &amp; activities</div></div></div>
+      <div class="rail-step" data-rail="3"><div class="num">4</div><div class="connector"></div><div class="txt"><div class="t">Target</div><div class="d">Where you're headed</div></div></div>
+      <div class="rail-step" data-rail="4"><div class="num">5</div><div class="txt"><div class="t">Review</div><div class="d">See your matches</div></div></div>
+    </div>
+  </aside>
+
+  <main class="onb-main">
+    <div class="onb-progress-mobile" id="mobile-progress">Step 1 of 5 — Academics</div>
+
+    <form id="profile-form">
+      <!-- STEP 1: ACADEMICS -->
+      <div class="fieldset active" data-step="0">
+        <div class="eyebrow">STEP 1 OF 5</div>
+        <h3>Let's start with your academics</h3>
+        <p class="sub">This is the backbone of most eligibility criteria — get it right and half your matches sharpen immediately.</p>
+
+        <div class="field">
+          <label for="degree">Degree level</label>
+          <select id="degree">
+            <option>Bachelor's</option>
+            <option>Master's</option>
+            <option>PhD / Doctorate</option>
+            <option>Associate</option>
+            <option>High school (pre-university)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="major">Major / field of study</label>
+            <input type="text" id="major" placeholder="e.g. Computer Science">
+          </div>
+          <div class="field">
+            <label for="university">Current university</label>
+            <input type="text" id="university" placeholder="e.g. American University of Beirut">
+          </div>
+        </div>
+        <div class="field">
+          <label>GPA</label>
+          <div class="gpa-scale-toggle" id="gpa-scale">
+            <span class="chip sel" data-scale="4.0">4.0 scale</span>
+            <span class="chip" data-scale="5.0">5.0 scale</span>
+            <span class="chip" data-scale="100">100 scale</span>
+          </div>
+          <div class="range-row">
+            <input type="range" id="gpa-range" min="0" max="4" step="0.05" value="3.6">
+            <span class="range-val" id="gpa-val">3.60</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: BACKGROUND -->
+      <div class="fieldset" data-step="1">
+        <div class="eyebrow">STEP 2 OF 5</div>
+        <h3>Where you're from, and what you're working with</h3>
+        <p class="sub">Nationality and financial need unlock entire categories of scholarships that GPA alone won't surface.</p>
+
+        <div class="field">
+          <label for="nationality">Country / nationality</label>
+          <input type="text" id="nationality" placeholder="e.g. Lebanese">
+        </div>
+        <div class="field">
+          <label>Financial situation</label>
+          <div class="chip-group" id="financial-chips">
+            <span class="chip">High financial need</span>
+            <span class="chip sel">Some financial need</span>
+            <span class="chip">Limited need</span>
+            <span class="chip">Prefer not to say</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Anything else that shapes your situation? <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+          <textarea placeholder="e.g. First-generation university student, primary income earner for my family, refugee or displaced status, etc."></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 3: ACHIEVEMENTS -->
+      <div class="fieldset" data-step="2">
+        <div class="eyebrow">STEP 3 OF 5</div>
+        <h3>What have you built, won, or led?</h3>
+        <p class="sub">This is what separates a 60% match from a 96% match. Be specific — Ascent reads for substance, not adjectives.</p>
+
+        <div class="field">
+          <label for="achievements">Achievements &amp; honors</label>
+          <textarea id="achievements" placeholder="e.g. Dean's List 2024 &amp; 2025, 1st place National Robotics Olympiad, published undergrad research on..."></textarea>
+        </div>
+        <div class="field">
+          <label for="extracurriculars">Extracurriculars &amp; leadership</label>
+          <textarea id="extracurriculars" placeholder="e.g. President of the Computer Science Society, 200+ hours volunteering at..., founded a campus tutoring program"></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 4: TARGET -->
+      <div class="fieldset" data-step="3">
+        <div class="eyebrow">STEP 4 OF 5</div>
+        <h3>Where are you trying to go?</h3>
+        <p class="sub">Ascent weighs matches differently depending on whether you're funding your current degree or a move abroad.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="target-country">Target country</label>
+            <input type="text" id="target-country" placeholder="e.g. United States, Canada, UK">
+          </div>
+          <div class="field">
+            <label for="target-university">Target university <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+            <input type="text" id="target-university" placeholder="e.g. University of Toronto">
+          </div>
+        </div>
+        <div class="field">
+          <label>What matters most to you in a scholarship?</label>
+          <div class="chip-group">
+            <span class="chip sel">Full tuition</span>
+            <span class="chip">Living stipend</span>
+            <span class="chip">Merit recognition</span>
+            <span class="chip">Renewable / multi-year</span>
+            <span class="chip">Mentorship &amp; network</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: REVIEW -->
+      <div class="fieldset" data-step="4">
+        <div class="eyebrow">STEP 5 OF 5</div>
+        <h3>Here's your profile</h3>
+        <p class="sub">This is what Ascent will match against every scholarship in its database. You can edit any of this later.</p>
+
+        <div class="review-grid" id="review-grid"><!-- filled by JS --></div>
+
+        <div class="card card-pad" style="background:var(--match-tint); border-color:rgba(20,127,82,0.2); margin-bottom:8px;">
+          <strong style="color:var(--match); font-size:14.5px;">✓ Profile complete</strong>
+          <p style="margin:6px 0 0; font-size:13.5px; color:#0F5C3A;">We found strong matches already. Continue to see your ranked list.</p>
+        </div>
+      </div>
+
+      <div class="onb-actions">
+        <button type="button" class="btn btn-ghost" id="btn-back" style="visibility:hidden;">← Back</button>
+        <button type="button" class="btn btn-primary" id="btn-next">Continue →</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  const steps = Array.from(document.querySelectorAll('.fieldset'));
+  const railSteps = Array.from(document.querySelectorAll('.rail-step'));
+  const btnBack = document.getElementById('btn-back');
+  const btnNext = document.getElementById('btn-next');
+  const mobileProgress = document.getElementById('mobile-progress');
+  const stepNames = ['Academics','Background','Achievements','Target','Review'];
+  let current = 0;
+
+  function render(){
+    steps.forEach((s,i) => s.classList.toggle('active', i === current));
+    railSteps.forEach((r,i) => {
+      r.classList.toggle('active', i === current);
+      r.classList.toggle('done', i < current);
+    });
+    btnBack.style.visibility = current === 0 ? 'hidden' : 'visible';
+    btnNext.textContent = current === steps.length - 1 ? 'See my matches →' : 'Continue →';
+    mobileProgress.textContent = `Step ${current+1} of ${steps.length} — ${stepNames[current]}`;
+    if (current === steps.length - 1) buildReview();
+    window.scrollTo({ top: 0, behavior:'smooth' });
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (current < steps.length - 1){ current++; render(); }
+    else { window.location.href = 'matches.html'; }
+  });
+  btnBack.addEventListener('click', () => { if (current > 0){ current--; render(); } });
+
+  // chip selection (single-select per group, except financial situation acts single too)
+  document.querySelectorAll('.chip-group').forEach(group => {
+    group.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
+      chip.classList.add('sel');
+    });
+  });
+  document.getElementById('gpa-scale').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('#gpa-scale .chip').forEach(c => c.classList.remove('sel'));
+    chip.classList.add('sel');
+    const scale = chip.dataset.scale;
+    const range = document.getElementById('gpa-range');
+    range.max = scale === '100' ? 100 : scale === '5.0' ? 5 : 4;
+    range.step = scale === '100' ? 1 : 0.05;
+    range.value = scale === '100' ? 90 : scale === '5.0' ? 4.5 : 3.6;
+    updateGpaVal();
+  });
+  function updateGpaVal(){
+    const range = document.getElementById('gpa-range');
+    document.getElementById('gpa-val').textContent = parseFloat(range.value).toFixed(range.step == 1 ? 0 : 2);
+  }
+  document.getElementById('gpa-range').addEventListener('input', updateGpaVal);
+
+  function val(id){ return document.getElementById(id) ? document.getElementById(id).value : ''; }
+  function selChip(groupEl){ const s = groupEl.querySelector('.chip.sel'); return s ? s.textContent : '—'; }
+
+  function buildReview(){
+    const grid = document.getElementById('review-grid');
+    const items = [
+      ['Degree', val('degree')],
+      ['Major', val('major') || '—'],
+      ['University', val('university') || '—'],
+      ['GPA', document.getElementById('gpa-val').textContent],
+      ['Nationality', val('nationality') || '—'],
+      ['Financial situation', selChip(document.getElementById('financial-chips'))],
+      ['Target country', val('target-country') || '—'],
+      ['Target university', val('target-university') || 'Open'],
+    ];
+    grid.innerHTML = items.map(([l,v]) => `<div class="review-item"><div class="rl">${l}</div><div class="rv">${v}</div></div>`).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
