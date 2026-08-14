@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy, terms &amp; trust — Veya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  .trust-layout{ display:grid; grid-template-columns:240px 1fr; gap:48px; padding:52px 0 110px; }
+  @media (max-width:860px){ .trust-layout{ grid-template-columns:1fr; } }
+  .trust-nav{ position:sticky; top:88px; display:flex; flex-direction:column; gap:2px; }
+  @media (max-width:860px){ .trust-nav{ position:static; flex-direction:row; flex-wrap:wrap; gap:10px; margin-bottom:10px; } }
+  .trust-nav a{ font-size:13.5px; color:var(--ink-faint); padding:9px 10px; border-radius:8px; font-weight:500; }
+  .trust-nav a:hover{ background:var(--surface-sunken); color:var(--ink); }
+
+  .trust-hero{ padding:48px 0 8px; }
+  .trust-hero .eyebrow{ display:block; margin-bottom:12px; }
+  .trust-hero h1{ font-family:var(--font-display); font-size:clamp(28px,3.6vw,38px); font-weight:600; margin:0 0 12px; letter-spacing:-0.01em; }
+  .trust-hero p{ color:var(--ink-faint); font-size:15.5px; max-width:600px; line-height:1.6; margin:0; }
+
+  .trust-section{ padding-top:52px; scroll-margin-top:88px; border-top:1px solid var(--border); }
+  .trust-section:first-of-type{ border-top:none; padding-top:20px; }
+  .trust-section h2{ font-family:var(--font-display); font-size:22px; font-weight:600; margin:0 0 16px; letter-spacing:-0.01em; }
+  .trust-section h3{ font-size:15px; font-weight:600; margin:24px 0 10px; }
+  .trust-section p{ font-size:14.5px; line-height:1.75; color:var(--ink-soft); margin:0 0 14px; }
+  .trust-section ul{ margin:0 0 14px; padding-left:20px; }
+  .trust-section li{ font-size:14.5px; line-height:1.75; color:var(--ink-soft); margin-bottom:6px; }
+
+  .callout{
+    background:var(--gold-tint); border:1px solid rgba(196,135,12,0.25); border-radius:14px;
+    padding:16px 20px; font-size:13.5px; color:#5B4610; line-height:1.65; margin:18px 0;
+  }
+  .callout strong{ color:#4A3407; }
+  .callout.blue{ background:var(--brand-tint); border-color:rgba(42,62,219,0.18); color:var(--brand-ink); }
+  .callout.blue strong{ color:var(--brand-ink); }
+
+  .meta-note{ font-family:var(--font-mono); font-size:12px; color:var(--ink-ghost); margin-bottom:6px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
+    <div class="nav-links">
+      <a href="index.html">How it works</a>
+      <a href="matches.html">Scholarship matches</a>
+      <a href="application.html">Application coach</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="onboarding.html" class="btn btn-primary btn-sm">Start for free</a>
+    </div>
+  </div>
+</nav>
+
+<header class="trust-hero">
+  <div class="container">
+    <span class="eyebrow">TRUST &amp; SAFETY</span>
+    <h1>You're handing us your academic life. Here's exactly what we do with it.</h1>
+    <p>This page is written in plain language on purpose. It's a summary of our approach, not a substitute for legal advice — if you need the formal legal terms, they're in the Terms of Use section below.</p>
+  </div>
+</header>
+
+<main class="container trust-layout">
+  <nav class="trust-nav">
+    <a href="#data">How we handle your documents</a>
+    <a href="#ai">AI-generated suggestions</a>
+    <a href="#outcomes">No guaranteed outcomes</a>
+    <a href="#privacy">Privacy policy</a>
+    <a href="#terms">Terms of use</a>
+  </nav>
+
+  <div>
+    <section class="trust-section" id="data">
+      <h2>How we handle your documents</h2>
+      <p>When you upload a transcript, essay, CV, or recommendation letter, here's the lifecycle:</p>
+      <ul>
+        <li>Files are encrypted in transit and at rest.</li>
+        <li>They're used <strong>only</strong> to generate your matches and your application analysis — never sold, and never used to train third-party AI models.</li>
+        <li>You can delete any uploaded document, or your entire account, at any time from your dashboard settings. Deletion removes the underlying files, typically within 30 days, from our backups.</li>
+        <li>A small internal team can access documents only to fix a reported bug or respond to a support request you've raised — not to browse.</li>
+      </ul>
+      <div class="callout blue">
+        <strong>In short:</strong> your documents exist to help you get funded, not to build a dataset. If we ever change that, we'll ask first.
+      </div>
+    </section>
+
+    <section class="trust-section" id="ai">
+      <h2>AI-generated suggestions</h2>
+      <p>The scoring, match percentages, and essay feedback you see throughout Veya are generated by AI models, not human reviewers. That means two things worth being direct about:</p>
+      <ul>
+        <li>AI feedback can be wrong, miss context, or misjudge tone — treat every score and suggestion as a second opinion, not a verdict.</li>
+        <li>You are always the author. Veya is built to diagnose and coach, not to write or rewrite your essays for you — anything AI-generated is a starting point for your own judgment, not a final answer.</li>
+      </ul>
+      <p>We'd rather you double-check a suggestion and find it unnecessary than trust it blindly and regret it in a submitted application.</p>
+    </section>
+
+    <section class="trust-section" id="outcomes">
+      <h2>We don't guarantee outcomes</h2>
+      <p>Veya improves the odds that you find scholarships you're genuinely eligible for and that your applications are stronger when you submit them. It cannot and does not guarantee:</p>
+      <ul>
+        <li>That you will win any specific scholarship</li>
+        <li>That a "match %" reflects an actual selection committee's decision</li>
+        <li>That an application-strength score corresponds directly to admission or funding odds</li>
+      </ul>
+      <p>Match scores and strength scores are estimates based on the eligibility criteria and rubric signals we can observe — they are directional, not promises.</p>
+    </section>
+
+    <section class="trust-section" id="privacy">
+      <h2>Privacy policy (summary)</h2>
+      <div class="meta-note">Last updated · August 2026 — plain-language summary, not legal advice</div>
+
+      <h3>What we collect</h3>
+      <p>Profile information you provide (academic, financial, and background details), documents you upload, and basic usage data (pages visited, features used) to keep the product working and improve it.</p>
+
+      <h3>What we don't do</h3>
+      <ul>
+        <li>We don't sell your personal data or documents to third parties.</li>
+        <li>We don't share your financial-situation details with scholarship providers without your explicit action (e.g., submitting an application through us).</li>
+        <li>We don't use your uploaded essays or documents to train AI models outside of generating your own results.</li>
+      </ul>
+
+      <h3>Your controls</h3>
+      <ul>
+        <li>Export or delete your profile and documents at any time from account settings.</li>
+        <li>Opt out of non-essential emails at any time.</li>
+        <li>Request a full account deletion, which removes your data from active systems and, within 30 days, from backups.</li>
+      </ul>
+
+      <h3>Third parties we rely on</h3>
+      <p>We use infrastructure and AI providers (for hosting, database, and language-model scoring) under contracts that prohibit them from using your data for their own purposes. A full vendor list is available on request.</p>
+    </section>
+
+    <section class="trust-section" id="terms">
+      <h2>Terms of use (summary)</h2>
+      <div class="meta-note">Last updated · August 2026 — plain-language summary, not legal advice</div>
+
+      <h3>What Veya is</h3>
+      <p>A scholarship discovery and application-coaching tool. It is not a financial advisor, admissions consultant, immigration service, or guarantee of any funding or academic outcome.</p>
+
+      <h3>Your responsibilities</h3>
+      <ul>
+        <li>Information you provide about your GPA, achievements, and situation should be accurate — scholarship providers may independently verify anything you submit through Veya.</li>
+        <li>You're responsible for reviewing any AI-generated suggestion before acting on it, and for the content of any application you ultimately submit.</li>
+        <li>You must be eligible (by age or guardian consent, depending on your local rules) to create an account and submit applications on your own behalf.</li>
+      </ul>
+
+      <h3>Subscription terms</h3>
+      <p>Free and Pro plans are described on the <a href="pricing.html">pricing page</a>. Pro subscriptions renew automatically until cancelled and can be cancelled anytime from account settings; no refunds for partial billing periods except where required by law.</p>
+
+      <h3>Limitation of liability</h3>
+      <p>Veya is provided "as is." We work hard to keep matching and scoring accurate and useful, but we're not liable for scholarship decisions made by third parties, missed deadlines, or outcomes based on your use of AI-generated suggestions.</p>
+    </section>
+
+    <div class="callout" style="margin-top:16px;">
+      Questions about any of this? Reach out and a real person will answer — not a bot.
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 Veya.</span>
+      <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

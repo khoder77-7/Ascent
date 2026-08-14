@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your matches — Ascent</title>
+<title>Your matches — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
@@ -88,12 +88,13 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark"><span class="dot"></span>Ascent</a>
+    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html" class="active">Scholarship matches</a>
       <a href="application.html">Application coach</a>
       <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
     </div>
     <div class="nav-cta">
       <a href="onboarding.html" class="btn btn-ghost btn-sm">Edit profile</a>
@@ -140,7 +141,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-bottom" style="border-top:none; padding-top:0;">
-      <span>© 2026 Ascent.</span>
+      <span>© 2026 Veya.</span>
       <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
     </div>
   </div>
@@ -167,7 +168,7 @@
     const urgent = days <= 21;
     return `
     <div class="match-card2 ${rank === 1 ? 'featured' : ''}" data-match="${s.match}" data-deadline="${s.deadline}" data-amount="${s.amount}" data-need="${s.need}">
-      ${rank === 1 ? '<div class="featured-tag">🔥 STRONGEST OPPORTUNITY</div>' : ''}
+      ${rank === 1 ? '<div class="featured-tag">TOP PICK</div>' : ''}
       <div class="mc2-top">
         <div class="mc2-rank">#${rank}</div>
         <div class="mc2-ring"><div class="ring-holder" data-ring="${s.match}" data-color="${ringColor(s.match)}"></div><div class="pct">${s.match}%</div></div>
@@ -181,12 +182,12 @@
         </div>
         <div class="mc2-right">
           <div class="mc2-amount">$${s.amount.toLocaleString()}</div>
-          <div class="mc2-deadline ${urgent ? 'urgent' : ''}">⏰ Deadline ${s.deadline} · ${days}d left</div>
+          <div class="mc2-deadline ${urgent ? 'urgent' : ''}">Deadline ${s.deadline} · ${days}d left</div>
         </div>
       </div>
       <div class="mc2-details">
         <div class="mc2-why">
-          <div class="why-head">🧠 Why this matches</div>
+          <div class="why-head"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7.8" cy="7.8" r="4.8" stroke="currentColor" stroke-width="1.5"/><path d="M11.3 11.3L15.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Why this matches</div>
           <ul>${s.why.map(w => `<li>${w}</li>`).join('')}</ul>
         </div>
         <div class="mc2-actions">

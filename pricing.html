@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Veya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  .pricing-head{ padding:64px 0 48px; text-align:center; }
+  .pricing-head .eyebrow{ display:block; margin-bottom:14px; }
+  .pricing-head h1{ font-family:var(--font-display); font-size:clamp(30px,4vw,42px); font-weight:600; margin:0 0 14px; letter-spacing:-0.01em; }
+  .pricing-head p{ color:var(--ink-faint); font-size:16px; max-width:520px; margin:0 auto; line-height:1.6; }
+
+  .billing-toggle{ display:inline-flex; gap:4px; background:var(--surface-sunken); padding:4px; border-radius:var(--r-pill); margin-top:26px; }
+  .billing-toggle .opt{ padding:8px 18px; border-radius:var(--r-pill); font-size:13.5px; font-weight:600; cursor:pointer; color:var(--ink-faint); }
+  .billing-toggle .opt.sel{ background:#fff; color:var(--ink); box-shadow:var(--shadow-sm); }
+  .save-tag{ font-size:11px; color:var(--match); font-weight:700; margin-left:6px; }
+
+  .plans-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; padding-bottom:70px; max-width:880px; margin:0 auto; }
+  @media (max-width:760px){ .plans-row{ grid-template-columns:1fr; } }
+  .plan-card{
+    background:var(--surface); border:1.5px solid var(--border); border-radius:22px; padding:34px 32px;
+    display:flex; flex-direction:column;
+  }
+  .plan-card.pro{
+    border-color:var(--ink); background:linear-gradient(165deg, #fff, var(--brand-tint) 220%);
+    box-shadow:var(--shadow-lg); position:relative;
+  }
+  .pro-tag{
+    position:absolute; top:-13px; right:28px; background:var(--ink); color:#fff;
+    font-size:11px; font-weight:700; padding:5px 13px; border-radius:var(--r-pill); font-family:var(--font-mono);
+  }
+  .plan-name{ font-family:var(--font-display); font-size:20px; font-weight:600; margin-bottom:6px; }
+  .plan-desc{ font-size:13.5px; color:var(--ink-faint); margin-bottom:22px; }
+  .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:26px; }
+  .plan-price .n{ font-family:var(--font-mono); font-size:38px; font-weight:700; }
+  .plan-price .p{ font-size:14px; color:var(--ink-ghost); }
+  .plan-feats{ display:flex; flex-direction:column; gap:13px; margin-bottom:28px; flex:1; }
+  .plan-feat{ display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink-soft); }
+  .plan-feat svg{ flex:none; margin-top:2px; color:var(--match); }
+  .plan-feat.dim{ color:var(--ink-ghost); }
+  .plan-feat.dim svg{ color:var(--ink-ghost); }
+
+  .compare-note{ text-align:center; font-size:13px; color:var(--ink-ghost); padding-bottom:60px; }
+  .compare-note a{ color:var(--brand); font-weight:600; }
+
+  .faq-section{ max-width:720px; margin:0 auto; padding-bottom:100px; }
+  .faq-item{ border-bottom:1px solid var(--border); padding:20px 0; }
+  .faq-item h4{ font-size:15px; font-weight:600; margin:0 0 8px; }
+  .faq-item p{ font-size:13.5px; color:var(--ink-faint); margin:0; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
+    <div class="nav-links">
+      <a href="index.html">How it works</a>
+      <a href="matches.html">Scholarship matches</a>
+      <a href="application.html">Application coach</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html" class="active">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="onboarding.html" class="btn btn-primary btn-sm">Start for free</a>
+    </div>
+  </div>
+</nav>
+
+<header class="pricing-head">
+  <div class="container">
+    <span class="eyebrow">PRICING</span>
+    <h1>Find scholarships free. Pay when you want a real edge.</h1>
+    <p>Veya isn't just a search tool — it's what makes each application stronger. Start free, upgrade when deadlines start stacking up.</p>
+    <div class="billing-toggle" id="billing-toggle">
+      <span class="opt sel" data-billing="monthly">Monthly</span>
+      <span class="opt" data-billing="annual">Annual <span class="save-tag">Save 20%</span></span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="plans-row">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-desc">See what's out there and try the coach once.</div>
+      <div class="plan-price"><span class="n">$0</span><span class="p">/ forever</span></div>
+      <div class="plan-feats">
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>5 scholarship matches</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 essay analysis</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic application score</div>
+        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>CV optimization</div>
+        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Deadline tracking</div>
+        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>AI interview prep</div>
+      </div>
+      <a href="onboarding.html" class="btn btn-ghost btn-block">Start for free</a>
+    </div>
+
+    <div class="plan-card pro">
+      <div class="pro-tag">MOST STUDENTS PICK THIS</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-desc">For anyone applying to more than one or two scholarships this season.</div>
+      <div class="plan-price"><span class="n" id="pro-price">$19</span><span class="p">/ month</span></div>
+      <div class="plan-feats">
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited scholarship matching</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited essay coaching</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>CV optimization</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full application scoring</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Personalized scholarship strategy</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deadline tracking</div>
+        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>AI interview preparation</div>
+      </div>
+      <a href="onboarding.html" class="btn btn-primary btn-block">Start 7-day free trial</a>
+    </div>
+  </div>
+
+  <p class="compare-note">Need Pro for your whole class or program? <a href="#">Ask about group pricing →</a></p>
+
+  <div class="faq-section">
+    <div class="faq-item">
+      <h4>Can I cancel anytime?</h4>
+      <p>Yes — Pro is month-to-month (or annual if you choose that billing), and you can cancel from your dashboard with no retention calls or hoops.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Does Pro guarantee I'll win a scholarship?</h4>
+      <p>No. Veya improves your odds by matching you accurately and strengthening your applications — it can't guarantee outcomes, and we'll never tell you it can.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What happens to my essays and documents?</h4>
+      <p>They're used only to generate your analysis and are never sold or used to train third-party models. Full detail on our <a href="trust.html">privacy &amp; terms page</a>.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What's "AI interview preparation"?</h4>
+      <p>Practice responses to the kinds of questions scholarship interview panels actually ask, with feedback on clarity and specificity — same coaching philosophy as the essay analyzer.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 Veya. Scholarship outcomes are never guaranteed.</span>
+      <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('billing-toggle').addEventListener('click', (e) => {
+    const opt = e.target.closest('.opt');
+    if (!opt) return;
+    document.querySelectorAll('#billing-toggle .opt').forEach(o => o.classList.remove('sel'));
+    opt.classList.add('sel');
+    const price = document.getElementById('pro-price');
+    const parent = price.nextElementSibling;
+    if (opt.dataset.billing === 'annual'){
+      price.textContent = '$15';
+      parent.textContent = '/ month, billed annually';
+    } else {
+      price.textContent = '$19';
+      parent.textContent = '/ month';
+    }
+  });
+</script>
+</body>
+</html>

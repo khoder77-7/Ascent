@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Ascent</title>
+<title>Dashboard — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
@@ -19,14 +19,36 @@
   }
   .season-badge .dot2{ width:7px; height:7px; border-radius:50%; background:var(--gold-bright); box-shadow:0 0 0 4px rgba(232,169,59,0.25); }
 
-  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:30px 0; }
-  @media (max-width:860px){ .stat-row{ grid-template-columns:1fr 1fr; } }
-  .stat-card{ background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:20px 22px; }
-  .stat-card .icon{ font-size:18px; margin-bottom:10px; }
-  .stat-card .v{ font-family:var(--font-mono); font-weight:700; font-size:25px; }
-  .stat-card .l{ font-size:12.5px; color:var(--ink-ghost); margin-top:4px; }
-  .stat-card.accent-gold{ border-color:rgba(196,135,12,0.3); background:linear-gradient(160deg,#fff, var(--gold-tint)); }
-  .stat-card.accent-urgent .v{ color:var(--urgent); }
+  .stat-row{ display:grid; grid-template-columns:340px repeat(5,1fr); gap:16px; padding:30px 0; }
+  @media (max-width:1180px){ .stat-row{ grid-template-columns:1fr; } }
+  @media (min-width:761px) and (max-width:1180px){ .stat-row{ grid-template-columns:repeat(3,1fr); } }
+
+  .score-card{
+    grid-row: span 1;
+    background:linear-gradient(150deg, var(--ink-900), var(--ink-800));
+    color:#fff; border-radius:18px; padding:24px 24px;
+    display:flex; align-items:center; gap:18px; position:relative; overflow:hidden;
+  }
+  @media (max-width:1180px){ .score-card{ grid-column: 1 / -1; } }
+  .score-card::after{ content:''; position:absolute; inset:0; background:radial-gradient(260px 160px at 100% 0%, rgba(232,169,59,0.25), transparent 65%); }
+  .score-ring-holder{ position:relative; width:88px; height:88px; flex:none; z-index:1; }
+  .score-ring-holder .val{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:700; font-size:22px; }
+  .score-card-text{ position:relative; z-index:1; }
+  .score-card-text .eb{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:6px; }
+  .score-card-text .ti{ font-family:var(--font-display); font-size:17px; font-weight:600; margin-bottom:4px; }
+  .score-card-text .sub{ font-size:12px; color:var(--on-dark-soft); }
+
+  .module-tile{
+    background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:18px 18px;
+    display:flex; flex-direction:column; justify-content:space-between; transition:all .15s var(--ease);
+  }
+  .module-tile:hover{ border-color:var(--border-strong); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .module-tile .mi{ margin-bottom:14px; color:var(--ink-faint); }
+  .module-tile .mi .ico{ width:20px; height:20px; }
+  .module-tile.urgent-tile .mi{ color:var(--urgent); }
+  .module-tile .mv{ font-family:var(--font-mono); font-weight:700; font-size:21px; }
+  .module-tile .ml{ font-size:11.5px; color:var(--ink-ghost); margin-top:3px; }
+  .module-tile.urgent-tile .mv{ color:var(--urgent); }
 
   .dash-grid{ display:grid; grid-template-columns:1fr 360px; gap:22px; padding-bottom:100px; align-items:start; }
   @media (max-width:980px){ .dash-grid{ grid-template-columns:1fr; } }
@@ -100,12 +122,13 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark"><span class="dot"></span>Ascent</a>
+    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html">Scholarship matches</a>
       <a href="application.html">Application coach</a>
       <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
     </div>
     <div class="nav-cta">
       <a href="onboarding.html" class="btn btn-ghost btn-sm">Edit profile</a>
@@ -121,7 +144,7 @@
         <h1>Scholarship Season</h1>
         <p>Computer Science · Bachelor's · Lebanon → United States</p>
       </div>
-      <div class="season-badge"><span class="dot2"></span>61 days into this cycle</div>
+      <div class="season-badge"><span class="dot2"></span>$37,500 potential funding · 61 days into this cycle</div>
     </div>
   </div>
 </header>
@@ -129,35 +152,43 @@
 <main class="container">
 
   <div class="stat-row reveal">
-    <div class="stat-card accent-gold">
-      <div class="icon">💰</div>
-      <div class="v" data-count-to="37500" data-prefix="$">$0</div>
-      <div class="l">Potential funding</div>
+    <div class="score-card">
+      <div class="score-ring-holder"><div id="veya-score-ring"></div><div class="val">78</div></div>
+      <div class="score-card-text">
+        <div class="eb">Your Veya Score</div>
+        <div class="ti">78 / 100</div>
+        <div class="sub">Application readiness · ↑ 6 this month</div>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="icon">🎯</div>
-      <div class="v" data-count-to="12">0</div>
-      <div class="l">Strong matches</div>
-    </div>
-    <div class="stat-card">
-      <div class="icon">📝</div>
-      <div class="v" data-count-to="4">0</div>
-      <div class="l">Applications active</div>
-    </div>
-    <div class="stat-card accent-urgent">
-      <div class="icon">⏰</div>
-      <div class="v" data-count-to="2">0</div>
-      <div class="l">Deadlines this week</div>
-    </div>
+    <a href="matches.html" class="module-tile">
+      <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L16 7.3L9 10.6L2 7.3L9 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.2 9V12.4C5.2 13.4 6.9 14.3 9 14.3C11.1 14.3 12.8 13.4 12.8 12.4V9" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 7.3V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div><div class="mv">12</div><div class="ml">Scholarships · strong matches</div></div>
+    </a>
+    <a href="application.html" class="module-tile">
+      <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2.5H10.5L13.5 5.5V15.5H5V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 2.5V5.5H13.4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 9H11.3M7 11.4H11.3M7 6.8H8.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+      <div><div class="mv">72<span style="font-size:13px; color:var(--ink-ghost);">/100</span></div><div class="ml">Essay score</div></div>
+    </a>
+    <a href="application.html" class="module-tile">
+      <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2.5H10.5L13.5 5.5V15.5H5V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 2.5V5.5H13.4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 9H11.3M7 11.4H11.3M7 6.8H8.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+      <div><div class="mv">84<span style="font-size:13px; color:var(--ink-ghost);">/100</span></div><div class="ml">CV score</div></div>
+    </a>
+    <a href="matches.html" class="module-tile">
+      <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.5V12.5M11 7.1C10.7 6.4 9.95 6 9 6C7.9 6 7 6.55 7 7.4C7 8.25 7.75 8.55 9 8.85C10.25 9.15 11 9.55 11 10.4C11 11.25 10.1 11.85 9 11.85C8.05 11.85 7.3 11.4 7 10.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="mv">6</div><div class="ml">Financial aid opportunities</div></div>
+    </a>
+    <a href="#deadlines" class="module-tile urgent-tile">
+      <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.2V9L11.6 10.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="mv">3</div><div class="ml">Deadlines approaching</div></div>
+    </a>
   </div>
 
   <div class="dash-grid">
     <div class="dash-col">
 
       <div class="nbm-card reveal">
-        <div class="nbm-eyebrow">🧭 Your next best move</div>
+        <div class="nbm-eyebrow">Your next best move</div>
         <div class="nbm-title">Finish the Global STEM Scholarship essay.</div>
-        <div class="nbm-meta"><span>⏰ Deadline in <strong>6 days</strong></span><span>🎯 Profile match: <strong>94%</strong></span><span>💰 <strong>$10,000</strong> at stake</span></div>
+        <div class="nbm-meta"><span>Deadline in <strong>6 days</strong></span><span>Profile match: <strong>94%</strong></span><span><strong>$10,000</strong> at stake</span></div>
         <a href="application.html" class="btn btn-gold btn-sm">Open the essay workspace →</a>
       </div>
 
@@ -211,7 +242,7 @@
         <p style="font-size:12.5px; color:var(--ink-faint); margin:16px 0 0; line-height:1.6;">Averaged across your 4 active applications. Leadership is your ceiling right now — strengthening it lifts every application at once.</p>
       </div>
 
-      <div class="card card-pad reveal">
+      <div class="card card-pad reveal" id="deadlines">
         <div class="panel-title"><h3>Deadlines this week</h3></div>
         <div class="deadline-row">
           <div class="dl-date soon"><span class="day">18</span><span class="mon">Aug</span></div>
@@ -220,6 +251,10 @@
         <div class="deadline-row">
           <div class="dl-date soon"><span class="day">20</span><span class="mon">Aug</span></div>
           <div class="dl-body"><div class="dl-title">Portfolio link submission</div><div class="dl-sub">Women in Data Science Grant</div></div>
+        </div>
+        <div class="deadline-row">
+          <div class="dl-date"><span class="day">01</span><span class="mon">Sep</span></div>
+          <div class="dl-body"><div class="dl-title">Draft essay review checkpoint</div><div class="dl-sub">Global STEM Futures Scholarship</div></div>
         </div>
       </div>
 
@@ -236,7 +271,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-bottom" style="border-top:none; padding-top:0;">
-      <span>© 2026 Ascent.</span>
+      <span>© 2026 Veya.</span>
       <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
     </div>
   </div>
@@ -244,6 +279,7 @@
 
 <script src="js/app.js"></script>
 <script>
+  renderRing(document.getElementById('veya-score-ring'), 78, { size:88, stroke:8, color:'var(--gold-bright)' });
   renderRing(document.getElementById('strength-ring'), 78, { size:108, stroke:11, color:'var(--brand)' });
   document.querySelectorAll('.ring-holder').forEach(el => {
     renderRing(el, parseFloat(el.dataset.ring), { size:52, stroke:5, color: el.dataset.color });

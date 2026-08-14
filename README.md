@@ -1,4 +1,4 @@
-# Ascent — AI-powered scholarship application coach
+# Veya — AI-powered scholarship application coach
 
 A working front-end prototype of the product you described: profile → ranked
 matches → per-scholarship application workspace with AI essay diagnosis →
@@ -27,7 +27,7 @@ This is a zero-config static site, so the fastest path:
 
 ```bash
 npm i -g vercel   # if you don't already have it
-cd ascent
+cd veya
 vercel            # follow the prompts, link to your Vercel account
 vercel --prod     # ship it
 ```
@@ -75,8 +75,16 @@ Palette is a ledger-navy + achievement-gold + match-emerald system (see
 "black + acid green" AI-site defaults. Display type is Newsreader (editorial,
 a little warmth for a topic that's stressful for students), UI type is Inter,
 and data/scores are set in Space Mono to make numbers feel measured rather
-than decorative. The signature visual is the radar/spoke diagnostic chart
-(`renderRadar()`) — it exists because the product's own data (leadership,
-academic fit, personal story, alignment) is naturally multi-axis, echoing the
-Oura/WHOOP "diagnosis" reference without borrowing their literal ring UI for
-everything.
+than decorative.
+
+Deliberately avoided the tells that make a site read as AI-generated:
+emoji-as-UI-icons (replaced with a small hand-drawn-in-code line-icon set,
+see the `.ico` elements inline in each page), a generic dot-and-wordmark
+logo (the wordmark is just typography — italic "veya" with a single gold
+full stop), and perfectly symmetric grids (the audience cards and hero
+match-cards carry slight rotation/offset rather than sitting dead-center).
+The signature visual is the radar/spoke diagnostic chart and colored status
+dots (`renderRadar()` / `.dot-status` in `css/components.css`) — they exist
+because the product's own data is naturally multi-axis and tiered, not as
+decoration.
+

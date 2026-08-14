@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global STEM Futures Scholarship — Application workspace — Ascent</title>
+<title>Global STEM Futures Scholarship — Application workspace — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
@@ -97,12 +97,13 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark"><span class="dot"></span>Ascent</a>
+    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html">Scholarship matches</a>
       <a href="application.html" class="active">Application coach</a>
       <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
     </div>
     <div class="nav-cta">
       <a href="dashboard.html" class="btn btn-primary btn-sm">Back to dashboard</a>
@@ -118,8 +119,8 @@
         <h1>Global STEM Futures Scholarship</h1>
         <div class="app-meta">
           <span class="pill pill-match">96% profile match</span>
-          <span>💰 $10,000 award</span>
-          <span>⏰ Deadline Oct 14 · 61 days left</span>
+          <span>$10,000 award</span>
+          <span>Deadline Oct 14 · 61 days left</span>
         </div>
       </div>
       <a href="matches.html" class="btn btn-ghost btn-sm">← All matches</a>
@@ -172,10 +173,10 @@
     <div class="card card-pad">
       <div class="panel-title">
         <h3>Essay analysis</h3>
-        <span class="pill pill-brand">🧠 AI diagnosis</span>
+        <span class="pill pill-brand">AI diagnosis</span>
       </div>
       <p style="font-size:13.5px; color:var(--ink-faint); margin:-6px 0 16px; line-height:1.6;">
-        Paste your draft essay for this scholarship. Ascent scores it against this scholarship's actual criteria and tells you exactly what to fix — it never rewrites it for you.
+        Paste your draft essay for this scholarship. Veya scores it against this scholarship's actual criteria and tells you exactly what to fix — it never rewrites it for you.
       </p>
       <textarea id="essay-input" placeholder="Paste or write your essay draft here...">Growing up in Tripoli, I spent most weekends helping my father fix radios and small appliances, which is where my curiosity about how things work really began. That curiosity carried into university, where I declared Computer Science and quickly gravitated toward robotics. I joined the university's robotics team in my second year and worked with a group of six students to build an autonomous navigation system for our National Robotics Olympiad entry, which placed first. My coursework has been strong across algorithms, systems, and applied mathematics, and I maintain a 3.8 GPA while also publishing a short research note on pathfinding efficiency with one of my professors. I want to pursue graduate study in the US so I can work on robotics systems that are actually deployed in the field, not just demoed in a lab.</textarea>
       <div class="essay-toolbar">
@@ -189,7 +190,7 @@
     <!-- results -->
     <div class="card card-pad" id="analysis-results">
       <div class="panel-title">
-        <h3>Application strength</h3>
+        <h3>Current application strength</h3>
         <span class="mono" style="font-size:12px; color:var(--ink-ghost);">Scored against Global STEM Futures criteria</span>
       </div>
 
@@ -217,6 +218,10 @@
       </div>
 
       <div class="suggest-list" id="suggest-list"><!-- filled by JS --></div>
+
+      <p style="font-size:12px; color:var(--ink-ghost); margin:18px 0 0; line-height:1.6;">
+        This is AI-generated feedback, not a guarantee of admission or funding — treat it as a second opinion and review every suggestion yourself before you submit. See our <a href="trust.html" style="color:var(--ink-faint); text-decoration:underline;">approach to AI &amp; your data</a>.
+      </p>
     </div>
 
   </div>
@@ -264,28 +269,34 @@
 
     const countMatches = (patterns) => patterns.reduce((sum, p) => sum + (t.match(p) || []).length, 0);
 
-    const leadershipHits = countMatches([/\bi led\b/g, /\bi decided\b/g, /\bi chose\b/g, /\bi initiated\b/g, /\bi organized\b/g, /\bfounder\b/g, /\bpresident\b/g, /\bcaptain\b/g, /\bi built\b/g]);
-    const academicHits = countMatches([/\bgpa\b/g, /\bresearch\b/g, /\bpublish/g, /\bdean'?s list\b/g, /\bolympiad\b/g, /\bcoursework\b/g, /\balgorithm/g]);
-    const storyHits = countMatches([/\bi grew up\b/g, /\bgrowing up\b/g, /\bmy father\b/g, /\bmy mother\b/g, /\bcurios/g, /\bi realized\b/g, /\bi remember\b/g]);
-    const alignHits = countMatches([/\bstem\b/g, /\brobotics\b/g, /\btechnology\b/g, /\bengineering\b/g, /\binnovat/g, /\bdeploy/g, /\bfield\b/g]);
+    const storyHits = countMatches([/\bi grew up\b/g, /\bgrowing up\b/g, /\bmy father\b/g, /\bmy mother\b/g, /\bcurios/g, /\bi realized\b/g, /\bi remember\b/g, /\bmatter(ed)? to me\b/g, /\bi felt\b/g, /\bi learned\b/g]);
+    const specificityHits = countMatches([/\d+/g, /\bspecific/g, /\bfor example\b/g, /\bnamely\b/g, /\bin particular\b/g]) + Math.min(6, (text.match(/[A-Z][a-z]+ [A-Z][a-z]+/g) || []).length);
+    const whyThisHits = countMatches([/\bthis scholarship\b/g, /\byour mission\b/g, /\byour program\b/g, /\byour foundation\b/g, /\bi am applying\b/g, /\bi'm applying\b/g, /\bbecause this\b/g]);
+    const structureHits = countMatches([/\bfirst,?\b/g, /\bfinally,?\b/g, /\bin conclusion\b/g, /\btherefore\b/g, /\bhowever\b/g]) + Math.min(4, (text.match(/\n\n/g) || []).length);
 
-    const base = Math.min(20, Math.round(wc / 12));
-    const clamp = (n) => Math.max(28, Math.min(98, n));
+    const base = Math.min(18, Math.round(wc / 14));
+    const clamp = (n) => Math.max(24, Math.min(97, n));
 
-    const leadership = clamp(base + leadershipHits * 11);
-    const academic = clamp(base + 25 + academicHits * 9);
-    const story = clamp(base + 15 + storyHits * 10);
-    const alignment = clamp(base + 8 + alignHits * 8);
+    const story = clamp(base + 22 + storyHits * 9);
+    const specificity = clamp(base + 10 + specificityHits * 7);
+    const whyThis = clamp(base + specificityHits > 0 ? base : base - 4) + whyThisHits * 14;
+    const whyThisFinal = clamp(whyThis);
+    const structure = clamp(base + 30 + structureHits * 6);
 
-    const overall = Math.round(leadership*0.28 + academic*0.28 + story*0.22 + alignment*0.22);
+    const overall = Math.round(story*0.28 + specificity*0.24 + whyThisFinal*0.26 + structure*0.22);
 
-    return { leadership, academic, story, alignment, overall, wc };
+    return { story, specificity, whyThis: whyThisFinal, structure, overall, wc };
   }
 
   function ringColorFor(v){
-    if (v >= 85) return 'var(--match)';
-    if (v >= 65) return 'var(--brand)';
-    return 'var(--gold)';
+    if (v >= 80) return 'var(--match)';
+    if (v >= 60) return 'var(--gold)';
+    return 'var(--urgent)';
+  }
+  function dotFor(v){
+    if (v >= 80) return '<span class="dot-status good"></span>';
+    if (v >= 60) return '<span class="dot-status warn"></span>';
+    return '<span class="dot-status bad"></span>';
   }
 
   function render(scores){
@@ -296,16 +307,16 @@
     renderRing(document.getElementById('overall-ring'), scores.overall, { size:132, stroke:12, color: ringColorFor(scores.overall) });
 
     const axes = [
-      { key:'leadership', label:'Leadership', value: scores.leadership },
-      { key:'academic', label:'Academic fit', value: scores.academic },
       { key:'story', label:'Personal story', value: scores.story },
-      { key:'alignment', label:'Scholarship alignment', value: scores.alignment },
+      { key:'specificity', label:'Specificity', value: scores.specificity },
+      { key:'whyThis', label:'Why this scholarship', value: scores.whyThis },
+      { key:'structure', label:'Structure', value: scores.structure },
     ];
 
     const list = document.getElementById('subscore-list');
     list.innerHTML = axes.map(a => `
       <div class="subscore-row">
-        <div class="sr-top"><span class="name">${a.label}</span><span class="n" style="color:${ringColorFor(a.value)}">${a.value}/100</span></div>
+        <div class="sr-top"><span class="name">${dotFor(a.value)}${a.label}</span><span class="n" style="color:${ringColorFor(a.value)}">${a.value}/100</span></div>
         <div class="bar-track"><div class="bar-fill" data-value="${a.value}" style="background:${ringColorFor(a.value)}; transform:scaleX(0);"></div></div>
       </div>`).join('');
     // trigger the bar animation now that they're in the DOM
@@ -317,28 +328,28 @@
 
     const weakest = axes.reduce((min, a) => a.value < min.value ? a : min, axes[0]);
     const messages = {
-      leadership: {
-        title: "Your biggest weakness: You haven't demonstrated enough leadership.",
-        body: "Right now the essay describes what your team accomplished, not what you specifically decided or owned. Name one moment where you made a call — reviewers weight individual initiative heavily."
-      },
-      academic: {
-        title: "Your biggest weakness: Academic substance is thin for a STEM-focused fund.",
-        body: "This scholarship weighs technical depth heavily. Add a specific result, metric, or concept from your coursework or research rather than describing interest in general terms."
-      },
       story: {
-        title: "Your biggest weakness: The personal throughline gets lost.",
-        body: "The essay reads as a list of accomplishments rather than one connected story. Anchor it to a single moment or realization and let the achievements support that, not replace it."
+        title: "Your biggest weakness: You explain what you accomplished but not why it mattered to you.",
+        body: "The essay lists outcomes without the internal moment behind them. Add one sentence on what you felt or realized when it happened — that's what reviewers remember, not the accomplishment itself."
       },
-      alignment: {
-        title: "Your biggest weakness: Weak alignment with this scholarship's stated mission.",
-        body: "This fund explicitly looks for language around applied, deployed impact. Reference their mission directly — right now the essay could be submitted to almost any STEM scholarship unchanged."
+      specificity: {
+        title: "Your biggest weakness: It's too general to feel like it happened to you.",
+        body: "Right now this could describe a lot of students. Swap vague phrasing for one exact detail — a number, a name, a place, a moment — that only your story has."
+      },
+      whyThis: {
+        title: "Your biggest weakness: You haven't said why this scholarship, specifically.",
+        body: "The essay reads like it could go to almost any scholarship unchanged. Name this fund's mission directly and connect it to what you're trying to do next."
+      },
+      structure: {
+        title: "Your biggest weakness: The essay doesn't build toward a clear point.",
+        body: "Ideas arrive without a throughline connecting them. Try a single arc — moment, meaning, motivation — instead of a list of separate accomplishments."
       }
     };
     const m = messages[weakest.key];
     document.getElementById('weakness-title').textContent = m.title;
     document.getElementById('weakness-body').textContent = m.body;
 
-    const headline = scores.overall >= 85 ? 'Strong across the board' : scores.overall >= 65 ? 'Solid foundation, one clear gap' : 'Early draft — a few gaps to close';
+    const headline = scores.overall >= 80 ? 'Strong across the board' : scores.overall >= 60 ? 'Solid foundation, one clear gap' : 'Early draft — a few gaps to close';
     document.getElementById('overall-headline').textContent = headline;
     document.getElementById('overall-sub').textContent = `Your ${axes.reduce((max,a)=>a.value>max.value?a:max,axes[0]).label.toLowerCase()} is your strongest signal. ${m.title.replace('Your biggest weakness: ', '')}`;
 
