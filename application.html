@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icon-512.svg">
 <title>Global STEM Futures Scholarship — Application workspace — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -40,18 +42,30 @@
   .essay-toolbar{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
   .word-count{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-ghost); }
 
+  /* annotated / highlighted essay */
+  .legend-row{ display:flex; gap:16px; font-size:12px; color:var(--ink-faint); }
+  .legend-row span{ display:flex; align-items:center; gap:5px; }
+  .annotated-essay{
+    font-family:var(--font-display); font-size:16px; line-height:1.85; color:var(--ink-soft);
+    background:var(--surface-sunken); border-radius:8px; padding:22px 24px; margin-top:14px;
+  }
+  .hl{ border-radius:3px; padding:1px 3px; }
+  .hl.good{ background:var(--match-tint); color:var(--ink); box-shadow:inset 0 -2px 0 var(--match-bright); }
+  .hl.warn{ background:var(--gold-tint); color:var(--ink); box-shadow:inset 0 -2px 0 var(--gold-bright); }
+  .hl.bad{ background:var(--ember-tint); color:var(--ink); box-shadow:inset 0 -2px 0 var(--ember); }
+
   /* analysis results */
   #analysis-results{ display:none; }
   #analysis-results.show{ display:block; animation:fadeUp .5s var(--ease-out); }
   @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
 
-  .overall-score-row{ display:flex; align-items:center; gap:24px; margin-bottom:26px; flex-wrap:wrap; }
-  .overall-ring-holder{ flex:none; position:relative; width:132px; height:132px; }
+  .overall-score-row{ display:flex; align-items:center; gap:32px; margin-bottom:26px; flex-wrap:wrap; padding-bottom:26px; border-bottom:1px solid var(--border); }
+  .overall-ring-holder{ flex:none; position:relative; width:190px; height:190px; }
   .overall-ring-holder .val{
     position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   }
-  .overall-ring-holder .val .n{ font-family:var(--font-mono); font-size:30px; font-weight:700; line-height:1; }
-  .overall-ring-holder .val .d{ font-size:10.5px; color:var(--ink-ghost); margin-top:4px; letter-spacing:.03em; }
+  .overall-ring-holder .val .n{ font-family:var(--font-mono); font-size:52px; font-weight:700; line-height:1; }
+  .overall-ring-holder .val .d{ font-size:11.5px; color:var(--ink-ghost); margin-top:6px; letter-spacing:.03em; }
   .overall-text h4{ font-family:var(--font-display); font-size:19px; margin:0 0 6px; font-weight:600; }
   .overall-text p{ margin:0; font-size:14px; color:var(--ink-faint); max-width:360px; line-height:1.55; }
 
@@ -97,7 +111,7 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></span></svg>veya</a>
+    <div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a><span class="demo-badge" title="This is a product demo with example data — not a live service or real user accounts.">Demo</span></div>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html">Scholarship matches</a>
@@ -187,6 +201,19 @@
       </div>
     </div>
 
+    <!-- annotated / highlighted essay view -->
+    <div class="card card-pad" id="annotated-card" style="display:none;">
+      <div class="panel-title">
+        <h3>How Veya reads this essay</h3>
+        <div class="legend-row">
+          <span><span class="dot-status good"></span>Strong</span>
+          <span><span class="dot-status warn"></span>Needs specifics</span>
+          <span><span class="dot-status bad"></span>Weak signal</span>
+        </div>
+      </div>
+      <div class="annotated-essay" id="annotated-essay"></div>
+    </div>
+
     <!-- results -->
     <div class="card card-pad" id="analysis-results">
       <div class="panel-title">
@@ -262,6 +289,13 @@
   updateWordCount();
 
   // ---- lightweight heuristic "analysis" so the demo is responsive to real input ----
+  const PATTERNS = {
+    story: [/\bi grew up\b/gi, /\bgrowing up\b/gi, /\bmy father\b/gi, /\bmy mother\b/gi, /\bcurios\w*/gi, /\bi realized\b/gi, /\bi remember\b/gi, /\bmatter(ed)? to me\b/gi, /\bi felt\b/gi, /\bi learned\b/gi],
+    specificity: [/\b\d[\d,]*\b/g, /\bspecific\w*/gi, /\bfor example\b/gi, /\bnamely\b/gi, /\bin particular\b/gi, /[A-Z][a-z]+ [A-Z][a-z]+/g],
+    whyThis: [/\bthis scholarship\b/gi, /\byour mission\b/gi, /\byour program\b/gi, /\byour foundation\b/gi, /\bi am applying\b/gi, /\bi'm applying\b/gi, /\bbecause this\b/gi],
+    structure: [/\bfirst,?\b/gi, /\bfinally,?\b/gi, /\bin conclusion\b/gi, /\btherefore\b/gi, /\bhowever\b/gi]
+  };
+
   function analyzeEssay(text){
     const t = text.toLowerCase();
     const words = text.trim().split(/\s+/).filter(Boolean);
@@ -269,10 +303,10 @@
 
     const countMatches = (patterns) => patterns.reduce((sum, p) => sum + (t.match(p) || []).length, 0);
 
-    const storyHits = countMatches([/\bi grew up\b/g, /\bgrowing up\b/g, /\bmy father\b/g, /\bmy mother\b/g, /\bcurios/g, /\bi realized\b/g, /\bi remember\b/g, /\bmatter(ed)? to me\b/g, /\bi felt\b/g, /\bi learned\b/g]);
-    const specificityHits = countMatches([/\d+/g, /\bspecific/g, /\bfor example\b/g, /\bnamely\b/g, /\bin particular\b/g]) + Math.min(6, (text.match(/[A-Z][a-z]+ [A-Z][a-z]+/g) || []).length);
-    const whyThisHits = countMatches([/\bthis scholarship\b/g, /\byour mission\b/g, /\byour program\b/g, /\byour foundation\b/g, /\bi am applying\b/g, /\bi'm applying\b/g, /\bbecause this\b/g]);
-    const structureHits = countMatches([/\bfirst,?\b/g, /\bfinally,?\b/g, /\bin conclusion\b/g, /\btherefore\b/g, /\bhowever\b/g]) + Math.min(4, (text.match(/\n\n/g) || []).length);
+    const storyHits = countMatches(PATTERNS.story);
+    const specificityHits = countMatches(PATTERNS.specificity.slice(0,5)) + Math.min(6, (text.match(/[A-Z][a-z]+ [A-Z][a-z]+/g) || []).length);
+    const whyThisHits = countMatches(PATTERNS.whyThis);
+    const structureHits = countMatches(PATTERNS.structure) + Math.min(4, (text.match(/\n\n/g) || []).length);
 
     const base = Math.min(18, Math.round(wc / 14));
     const clamp = (n) => Math.max(24, Math.min(97, n));
@@ -288,6 +322,48 @@
     return { story, specificity, whyThis: whyThisFinal, structure, overall, wc };
   }
 
+  // ---- builds a read-only annotated view marking up the essay the way Veya "reads" it ----
+  function escapeHTML(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function buildAnnotated(text, scores){
+    // collect all match ranges across categories, then merge into one pass so tags never overlap
+    const ranges = [];
+    const collect = (patterns, cls) => {
+      patterns.forEach(p => {
+        const re = new RegExp(p.source, p.flags.includes('g') ? p.flags : p.flags + 'g');
+        let m;
+        while ((m = re.exec(text)) !== null){
+          ranges.push({ start:m.index, end:m.index + m[0].length, cls });
+          if (m[0].length === 0) re.lastIndex++;
+        }
+      });
+    };
+    collect(PATTERNS.story, 'good');
+    collect(PATTERNS.specificity.slice(0,5), 'warn');
+    if (scores.whyThis < 60){
+      // flag a goal/motivation sentence as the "why this scholarship" gap, since the gap is an absence, not a phrase
+      const goalMatch = text.match(/[^.!?]*\b(i want to|i hope to|i plan to|i aim to)\b[^.!?]*[.!?]/i);
+      if (goalMatch) ranges.push({ start:goalMatch.index, end:goalMatch.index + goalMatch[0].length, cls:'bad' });
+    }
+    ranges.sort((a,b) => a.start - b.start || b.end - a.end);
+    // drop overlaps, keep first (highest priority already collected first: story > specificity > whyThis)
+    const clean = [];
+    let cursor = 0;
+    ranges.forEach(r => {
+      if (r.start >= cursor){ clean.push(r); cursor = r.end; }
+    });
+    let out = '';
+    let pos = 0;
+    clean.forEach(r => {
+      out += escapeHTML(text.slice(pos, r.start));
+      out += `<span class="hl ${r.cls}">${escapeHTML(text.slice(r.start, r.end))}</span>`;
+      pos = r.end;
+    });
+    out += escapeHTML(text.slice(pos));
+    return out.replace(/\n/g, '<br><br>');
+  }
+
   function ringColorFor(v){
     if (v >= 80) return 'var(--match)';
     if (v >= 60) return 'var(--gold)';
@@ -299,12 +375,16 @@
     return '<span class="dot-status bad"></span>';
   }
 
-  function render(scores){
+  function render(scores, text){
     const panel = document.getElementById('analysis-results');
     panel.classList.add('show');
 
+    const annCard = document.getElementById('annotated-card');
+    annCard.style.display = 'block';
+    document.getElementById('annotated-essay').innerHTML = buildAnnotated(text, scores);
+
     document.getElementById('overall-n').textContent = scores.overall;
-    renderRing(document.getElementById('overall-ring'), scores.overall, { size:132, stroke:12, color: ringColorFor(scores.overall) });
+    renderRing(document.getElementById('overall-ring'), scores.overall, { size:190, stroke:15, color: ringColorFor(scores.overall) });
 
     const axes = [
       { key:'story', label:'Personal story', value: scores.story },
@@ -371,7 +451,7 @@
     btn.disabled = true;
     setTimeout(() => {
       const scores = analyzeEssay(textarea.value);
-      render(scores);
+      render(scores, textarea.value);
       btn.textContent = 'Re-analyze →';
       btn.disabled = false;
     }, 900);

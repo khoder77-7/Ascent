@@ -14,7 +14,8 @@ const SCHOLARSHIPS = [
       'Your 3.8 GPA clears their 3.5 minimum with room to spare',
       'CS majors headed to the US are explicitly prioritized this cycle',
       'Your robotics award directly matches their "technical impact" criterion'
-    ]
+    ],
+    weakness: 'Essay diagnosis currently at 72/100 — "why this scholarship" is your weakest scored area.'
   },
   {
     id: 'first-gen-eng',
@@ -30,7 +31,8 @@ const SCHOLARSHIPS = [
       'Designed specifically for first-generation university students',
       'Your stated financial need matches their funding priority tier',
       'No recommendation letter required — one less blocker for you'
-    ]
+    ],
+    weakness: 'Recommendation letter is still marked "requested" — this fund weighs it moderately.'
   },
   {
     id: 'women-data',
@@ -46,7 +48,8 @@ const SCHOLARSHIPS = [
       'Open to adjacent majors — your CS background qualifies',
       'Portfolio-based, which plays to your published research',
       'Smaller applicant pool than similarly funded awards'
-    ]
+    ],
+    weakness: 'No portfolio link on file yet — this is a required field, not optional, for this fund.'
   },
   {
     id: 'diaspora-merit',
@@ -62,7 +65,8 @@ const SCHOLARSHIPS = [
       'Restricted to Lebanese nationals studying abroad — direct match',
       'Merit threshold (3.3 GPA) comfortably cleared',
       'Essay prompt overlaps closely with your leadership material'
-    ]
+    ],
+    weakness: 'Essay not started yet — this fund\'s prompt differs enough to need its own draft.'
   },
   {
     id: 'intl-excellence',
@@ -78,7 +82,8 @@ const SCHOLARSHIPS = [
       'University of Toronto is a strong signal match for your target school',
       'STEM-wide eligibility broadens your odds vs. major-specific funds',
       'Two recommendation letters required — start requesting early'
-    ]
+    ],
+    weakness: 'Two recommendation letters needed, not one — plan for extra lead time here.'
   },
   {
     id: 'future-builders',
@@ -94,6 +99,7 @@ const SCHOLARSHIPS = [
       'Rewards shipped projects over GPA — favors your portfolio',
       'Slightly competitive: average winner has 1+ published project',
       'Long runway to strengthen your submission before the deadline'
-    ]
+    ],
+    weakness: 'Your project portfolio is thinner than typical winners\' — one more shipped project would help.'
   }
 ];

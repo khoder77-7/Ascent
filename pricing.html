@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icon-512.svg">
 <title>Pricing — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -26,23 +28,35 @@
     display:flex; flex-direction:column;
   }
   .plan-card.pro{
-    border-color:var(--ink); background:linear-gradient(165deg, #fff, var(--brand-tint) 220%);
-    box-shadow:var(--shadow-lg); position:relative;
+    border-color:var(--ember); background:linear-gradient(165deg, #fff, var(--ember-tint) 260%);
+    box-shadow:var(--shadow-lg); position:relative; overflow:hidden;
+  }
+  .plan-card.pro::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:3px;
+    background:linear-gradient(90deg, var(--ember), var(--violet) 45%, var(--gold-bright) 75%, var(--match-bright));
   }
   .pro-tag{
-    position:absolute; top:-13px; right:28px; background:var(--ink); color:#fff;
+    position:absolute; top:-13px; right:28px; background:var(--ember); color:#fff;
     font-size:11px; font-weight:700; padding:5px 13px; border-radius:var(--r-pill); font-family:var(--font-mono);
   }
   .plan-name{ font-family:var(--font-display); font-size:20px; font-weight:600; margin-bottom:6px; }
   .plan-desc{ font-size:13.5px; color:var(--ink-faint); margin-bottom:22px; }
-  .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:26px; }
+  .plan-price{ display:flex; align-items:baseline; gap:6px; margin-bottom:20px; }
   .plan-price .n{ font-family:var(--font-mono); font-size:38px; font-weight:700; }
   .plan-price .p{ font-size:14px; color:var(--ink-ghost); }
+
+  /* plan-path: ties each tier directly to the 6-stage Veya Path, instead of a generic feature list alone */
+  .plan-path{ margin-bottom:24px; }
+  .plan-path .pp-track{ display:flex; gap:5px; margin-bottom:8px; }
+  .plan-path .pp-dot{ flex:1; height:5px; border-radius:3px; background:var(--surface-sunken); }
+  .plan-path .pp-dot.on{ background:var(--ember); }
+  .plan-path .pp-label{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.04em; color:var(--ink-ghost); text-transform:uppercase; }
+
   .plan-feats{ display:flex; flex-direction:column; gap:13px; margin-bottom:28px; flex:1; }
   .plan-feat{ display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink-soft); }
-  .plan-feat svg{ flex:none; margin-top:2px; color:var(--match); }
+  .plan-feat .dot-status{ margin-top:6px; }
   .plan-feat.dim{ color:var(--ink-ghost); }
-  .plan-feat.dim svg{ color:var(--ink-ghost); }
+  .plan-feat.dim .dot-status{ background:var(--border-strong); }
 
   .compare-note{ text-align:center; font-size:13px; color:var(--ink-ghost); padding-bottom:60px; }
   .compare-note a{ color:var(--brand); font-weight:600; }
@@ -57,7 +71,7 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></span></svg>veya</a>
+    <div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a><span class="demo-badge" title="This is a product demo with example data — not a live service or real user accounts.">Demo</span></div>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html">Scholarship matches</a>
@@ -66,7 +80,7 @@
       <a href="pricing.html" class="active">Pricing</a>
     </div>
     <div class="nav-cta">
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
       <a href="onboarding.html" class="btn btn-primary btn-sm">Start for free</a>
     </div>
   </div>
@@ -90,13 +104,20 @@
       <div class="plan-name">Free</div>
       <div class="plan-desc">See what's out there and try the coach once.</div>
       <div class="plan-price"><span class="n">$0</span><span class="p">/ forever</span></div>
+      <div class="plan-path">
+        <div class="pp-track">
+          <div class="pp-dot on"></div><div class="pp-dot on"></div><div class="pp-dot"></div>
+          <div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div>
+        </div>
+        <div class="pp-label">Covers Discover + Match</div>
+      </div>
       <div class="plan-feats">
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>5 scholarship matches</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 essay analysis</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic application score</div>
-        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>CV optimization</div>
-        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Deadline tracking</div>
-        <div class="plan-feat dim"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L13 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>AI interview prep</div>
+        <div class="plan-feat"><span class="dot-status good"></span>5 scholarship matches</div>
+        <div class="plan-feat"><span class="dot-status good"></span>1 essay analysis</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Basic application score</div>
+        <div class="plan-feat dim"><span class="dot-status"></span>CV optimization</div>
+        <div class="plan-feat dim"><span class="dot-status"></span>Deadline tracking</div>
+        <div class="plan-feat dim"><span class="dot-status"></span>AI interview prep</div>
       </div>
       <a href="onboarding.html" class="btn btn-ghost btn-block">Start for free</a>
     </div>
@@ -106,14 +127,21 @@
       <div class="plan-name">Pro</div>
       <div class="plan-desc">For anyone applying to more than one or two scholarships this season.</div>
       <div class="plan-price"><span class="n" id="pro-price">$19</span><span class="p">/ month</span></div>
+      <div class="plan-path">
+        <div class="pp-track">
+          <div class="pp-dot on"></div><div class="pp-dot on"></div><div class="pp-dot on"></div>
+          <div class="pp-dot on"></div><div class="pp-dot on"></div><div class="pp-dot on"></div>
+        </div>
+        <div class="pp-label">Covers the full Veya Path</div>
+      </div>
       <div class="plan-feats">
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited scholarship matching</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited essay coaching</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>CV optimization</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full application scoring</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Personalized scholarship strategy</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deadline tracking</div>
-        <div class="plan-feat"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>AI interview preparation</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Unlimited scholarship matching</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Unlimited essay coaching</div>
+        <div class="plan-feat"><span class="dot-status good"></span>CV optimization</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Full application scoring</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Personalized scholarship strategy</div>
+        <div class="plan-feat"><span class="dot-status good"></span>Deadline tracking</div>
+        <div class="plan-feat"><span class="dot-status good"></span>AI interview preparation</div>
       </div>
       <a href="onboarding.html" class="btn btn-primary btn-block">Start 7-day free trial</a>
     </div>

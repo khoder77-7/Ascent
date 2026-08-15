@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icon-512.svg">
+<title>Log in — Veya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  body{ min-height:100vh; }
+  .auth-wrap{ display:grid; grid-template-columns:1fr 1fr; min-height:100vh; }
+  @media (max-width:900px){ .auth-wrap{ grid-template-columns:1fr; } }
+
+  /* ---------- left: brand panel ---------- */
+  .auth-brand{
+    background:linear-gradient(170deg, var(--ink-900) 14%, var(--ink-850) 65%, var(--ink-800));
+    color:#fff; padding:48px; display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+  }
+  .auth-brand::before{
+    content:'';
+    position:absolute; inset:0; opacity:0.4; pointer-events:none; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+  @media (max-width:900px){ .auth-brand{ display:none; } }
+  .auth-brand-top{ position:relative; }
+  .auth-brand .brand-mark{ color:#fff; font-size:23px; }
+  .auth-brand-quote{ position:relative; max-width:420px; }
+  .auth-brand-quote .eyebrow{ color:var(--on-dark-soft); display:block; margin-bottom:16px; }
+  .auth-brand-quote h2{
+    font-family:var(--font-display); font-style:italic; font-weight:500; font-size:26px;
+    line-height:1.4; margin:0; color:#fff;
+  }
+  .auth-brand-preview{
+    position:relative; margin-top:36px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+    border-radius:8px; padding:18px 20px;
+  }
+  .auth-brand-preview .row{ display:flex; justify-content:space-between; font-size:12.5px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
+  .auth-brand-preview .row:last-child{ border-bottom:none; }
+  .auth-brand-preview .row span:first-child{ color:var(--on-dark-soft); }
+  .auth-brand-preview .row span:last-child{ font-family:var(--font-mono); font-weight:700; color:#fff; }
+
+  /* ---------- right: form panel ---------- */
+  .auth-form-side{ display:flex; align-items:center; justify-content:center; padding:48px 32px; }
+  .auth-form-card{ width:100%; max-width:380px; }
+  .auth-form-card .top-brand{ display:none; margin-bottom:32px; }
+  @media (max-width:900px){ .auth-form-card .top-brand{ display:flex; } }
+  .auth-form-card h1{ font-family:var(--font-display); font-size:27px; font-weight:600; margin:0 0 8px; letter-spacing:-0.01em; }
+  .auth-form-card .sub{ font-size:14px; color:var(--ink-faint); margin:0 0 28px; }
+
+  .oauth-btn{
+    display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+    padding:12px 18px; border-radius:8px; border:1.5px solid var(--border-strong);
+    background:#fff; font-size:14px; font-weight:600; color:var(--ink); cursor:pointer;
+    transition:background .15s, box-shadow .15s;
+  }
+  .oauth-btn:hover{ background:var(--surface-sunken); }
+
+  .auth-divider{ display:flex; align-items:center; gap:12px; margin:22px 0; color:var(--ink-ghost); font-size:12px; }
+  .auth-divider::before, .auth-divider::after{ content:''; flex:1; height:1px; background:var(--border); }
+
+  .field{ margin-bottom:16px; }
+  .field label{ display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:7px; color:var(--ink-soft); }
+  .field label a{ font-weight:500; color:var(--ember); }
+  .field input{
+    width:100%; padding:12px 14px; border-radius:8px; border:1.5px solid var(--border);
+    font-family:var(--font-ui); font-size:14.5px; color:var(--ink); background:#fff;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus{ outline:none; border-color:var(--ember); box-shadow:0 0 0 4px var(--ember-tint); }
+
+  .auth-submit{ margin-top:6px; }
+  .auth-foot{ text-align:center; font-size:13.5px; color:var(--ink-faint); margin-top:24px; }
+  .auth-foot a{ color:var(--ember); font-weight:600; }
+
+  .auth-legal{ font-size:11.5px; color:var(--ink-ghost); text-align:center; margin-top:20px; line-height:1.6; }
+  .auth-legal a{ text-decoration:underline; }
+
+  .form-note{
+    display:flex; gap:8px; align-items:flex-start; background:var(--gold-tint); border:1px solid rgba(180,121,10,0.25);
+    border-radius:8px; padding:10px 12px; font-size:12px; color:#5B4610; margin-bottom:20px; line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+
+  <div class="auth-brand">
+    <div class="auth-brand-top">
+      <div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a><span class="demo-badge" title="This is a product demo with example data — not a live service or real user accounts.">Demo</span></div>
+    </div>
+    <div class="auth-brand-quote">
+      <span class="eyebrow">WHY STUDENTS COME BACK</span>
+      <h2>"Not another list of scholarships — an actual read on why my essay wasn't working."</h2>
+      <div class="auth-brand-preview">
+        <div class="row"><span>Veya Score</span><span>78 / 100</span></div>
+        <div class="row"><span>Strong matches</span><span>12</span></div>
+        <div class="row"><span>Potential funding</span><span>$37,500</span></div>
+      </div>
+    </div>
+    <div style="position:relative; font-size:12px; color:var(--on-dark-soft);">Example account preview — demo product, not a real student.</div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-form-card">
+      <div class="top-brand"><div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a></div></div>
+
+      <h1>Welcome back</h1>
+      <p class="sub">Log in to your Veya dashboard.</p>
+
+      <div class="form-note">This is a UI demo — the buttons below link to the sample dashboard rather than a real authentication system.</div>
+
+      <button class="oauth-btn" id="google-btn" type="button">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.57 2.7-3.88 2.7-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.94v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.94A9 9 0 0 0 0 9c0 1.45.35 2.83.94 4.03l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .94 4.97l3.01 2.33C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="auth-divider">or</div>
+
+      <form id="login-form">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@school.edu" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="password">Password <a href="#" id="forgot-link">Forgot password?</a></label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block auth-submit">Log in</button>
+      </form>
+
+      <p class="auth-foot">New to Veya? <a href="onboarding.html">Create a free account</a></p>
+      <p class="auth-legal">By continuing, you agree to Veya's <a href="trust.html#terms">Terms of use</a> and <a href="trust.html#privacy">Privacy policy</a>.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    window.location.href = 'dashboard.html';
+  });
+  document.getElementById('google-btn').addEventListener('click', () => {
+    window.location.href = 'dashboard.html';
+  });
+  document.getElementById('forgot-link').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('This demo doesn\'t send real emails — in production this would trigger a password reset link.');
+  });
+</script>
+</body>
+</html>

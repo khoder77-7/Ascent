@@ -10,11 +10,16 @@ developer to wire up to real data.
 
 | Page | What it does |
 |---|---|
-| `index.html` | Landing page — the pitch, how it works, proof points |
+| `index.html` | Landing page — Match Engine hero, Veya Path journey (6 stages), "Veya analyzing an application" showcase, big stats, methodology strip |
+| `login.html` | Branded login — Google button, email/password, forgot password (all wired to the demo dashboard, not real auth) |
 | `onboarding.html` | Multi-step profile builder (GPA, nationality, degree, major, university, financial situation, achievements, extracurriculars, target country/university) |
-| `matches.html` | Ranked scholarship matches with match %, deadlines, "why this matches" reasoning, sort/filter |
-| `application.html` | Per-scholarship workspace: requirements checklist + essay upload with AI scoring (leadership / academic fit / personal story / alignment), biggest-weakness callout, concrete suggestions |
-| `dashboard.html` | "Scholarship Season" overview: potential funding, active applications, deadlines, next best move, application strength trend |
+| `matches.html` | Ranked scholarship matches — large match %, funding, deadline, why-you-match, and a per-scholarship weakness callout |
+| `application.html` | Per-scholarship workspace: requirements checklist, essay editor with a dominant score ring, subscore breakdown (personal story / specificity / why-this-scholarship / structure), and a highlighted "how Veya reads this essay" annotated view |
+| `dashboard.html` | Command center: "Next best move" as a full-width hero, large Veya Score ring, funding donut chart, deadline timeline, score trend chart |
+| `pricing.html` | Free vs Pro, each tier visualized against the 6-stage Veya Path instead of a generic feature list |
+| `trust.html` | Plain-language privacy, terms, document handling, AI disclaimers |
+
+Every page carries a small "Demo" badge next to the logo — this is a UI prototype with illustrative data, not a live service, and that's stated explicitly rather than implied.
 
 Shared design system lives in `css/tokens.css` (colors/type/shadow variables)
 and `css/components.css` (nav, buttons, cards, checklist, radar/ring charts).
