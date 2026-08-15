@@ -5,7 +5,7 @@
 /* ---------- top nav ---------- */
 .nav{
   position:sticky; top:0; z-index:50;
-  background:rgba(246,247,250,0.82);
+  background:rgba(247,246,243,0.86);
   backdrop-filter:blur(14px) saturate(1.4);
   -webkit-backdrop-filter:blur(14px) saturate(1.4);
   border-bottom:1px solid var(--border);
@@ -15,18 +15,19 @@
   height:68px;
 }
 .brand-mark{
-  display:flex; align-items:baseline; gap:1px;
+  display:flex; align-items:center; gap:9px;
   font-family:var(--font-display);
   font-style:italic;
   font-size:21px; font-weight:600;
   color:var(--ink);
   letter-spacing:-0.01em;
 }
+.brand-mark .veya-symbol{ flex:none; }
 .brand-mark .mark{
-  color:var(--gold);
+  color:var(--ember);
   font-style:normal;
 }
-.site-footer .brand-mark .mark{ color:var(--gold-bright); }
+.site-footer .brand-mark .mark{ color:var(--ember); }
 .nav-links{
   display:flex; align-items:center; gap:34px;
   font-size:14.5px; color:var(--ink-soft); font-weight:500;
@@ -44,7 +45,7 @@
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   font-family:var(--font-ui); font-weight:600; font-size:14.5px;
-  padding:11px 20px; border-radius:11px; border:1px solid transparent;
+  padding:11px 20px; border-radius:8px; border:1px solid transparent;
   cursor:pointer; transition:transform .15s var(--ease), box-shadow .15s var(--ease), background .15s var(--ease), border-color .15s var(--ease);
   white-space:nowrap;
 }
@@ -53,16 +54,16 @@
   background:var(--ink); color:#fff;
   box-shadow:var(--shadow-sm);
 }
-.btn-primary:hover{ background:var(--brand-ink); box-shadow:var(--shadow-md); }
+.btn-primary:hover{ background:#2A2620; box-shadow:var(--shadow-md); }
 .btn-gold{
-  background:var(--gold-bright); color:#231602;
+  background:var(--ember); color:#fff;
 }
-.btn-gold:hover{ box-shadow:var(--shadow-glow-gold); }
+.btn-gold:hover{ background:var(--ember-deep); box-shadow:var(--shadow-glow-ember); }
 .btn-ghost{
   background:transparent; border-color:var(--border-strong); color:var(--ink);
 }
 .btn-ghost:hover{ background:var(--surface-sunken); }
-.btn-sm{ padding:8px 14px; font-size:13.5px; border-radius:9px; }
+.btn-sm{ padding:8px 14px; font-size:13.5px; border-radius:6px; }
 .btn-block{ width:100%; }
 .btn-on-dark{
   background:rgba(255,255,255,0.08); color:#fff; border-color:rgba(255,255,255,0.16);
@@ -148,7 +149,9 @@ section{ position:relative; }
 }
 .bar-fill.gold{ background:linear-gradient(90deg, var(--gold-bright), var(--gold)); }
 .bar-fill.match{ background:linear-gradient(90deg, var(--match-bright), var(--match)); }
-.bar-fill.urgent{ background:linear-gradient(90deg, #E2733E, var(--urgent)); }
+.bar-fill.urgent{ background:linear-gradient(90deg, #D6573A, var(--urgent)); }
+.bar-fill.violet{ background:linear-gradient(90deg, var(--violet), var(--violet-deep)); }
+.bar-fill.ember{ background:linear-gradient(90deg, var(--ember), var(--ember-deep)); }
 
 /* ---------- checklist ---------- */
 .checklist{ display:flex; flex-direction:column; gap:2px; }
@@ -186,7 +189,7 @@ section{ position:relative; }
 
 /* ---------- kicker divider with dot ---------- */
 .dotline{ display:flex; align-items:center; gap:10px; color:var(--ink-ghost); font-size:12.5px; }
-.dotline::before{ content:''; width:5px; height:5px; border-radius:50%; background:var(--gold-bright); }
+.dotline::before{ content:''; width:5px; height:5px; border-radius:50%; background:var(--ember); }
 
 /* generic scrollbar tidy */
 ::-webkit-scrollbar{ width:10px; height:10px; }

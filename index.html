@@ -13,9 +13,7 @@
 
   /* ===== HERO ===== */
   .hero{
-    background:
-      radial-gradient(760px 560px at 88% -14%, rgba(232,169,59,0.13), transparent 58%),
-      linear-gradient(174deg, var(--ink-900) 18%, var(--ink-850) 66%, var(--ink-800));
+    background: linear-gradient(175deg, var(--ink-900) 14%, var(--ink-850) 62%, var(--ink-800));
     color:#fff;
     padding:88px 0 0;
     overflow:hidden;
@@ -23,19 +21,19 @@
   }
   .hero::before{
     content:'';
-    position:absolute; inset:0; opacity:0.5; pointer-events:none; mix-blend-mode:overlay;
+    position:absolute; inset:0; opacity:0.45; pointer-events:none; mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   }
   .hero .container{
-    display:grid; grid-template-columns:1.05fr 0.95fr; gap:36px; align-items:center;
+    display:grid; grid-template-columns:0.86fr 1.14fr; gap:20px; align-items:center;
     padding-bottom:64px;
   }
   .hero-eyebrow{
     display:inline-flex; align-items:center; gap:8px;
     font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--gold-bright); background:rgba(232,169,59,0.12);
-    border:1px solid rgba(232,169,59,0.28);
-    padding:7px 13px; border-radius:var(--r-pill); margin-bottom:26px;
+    color:var(--ember); background:rgba(226,67,19,0.14);
+    border:1px solid rgba(226,67,19,0.32);
+    padding:7px 13px; border-radius:3px; margin-bottom:26px;
   }
   .hero h1{
     font-family:var(--font-display);
@@ -44,7 +42,7 @@
     line-height:1.06;
     margin:0 0 22px;
   }
-  .hero h1 em{ font-style:italic; color:var(--gold-bright); font-weight:500; }
+  .hero h1 em{ font-style:italic; color:var(--ember); font-weight:500; text-decoration:underline; text-decoration-color:rgba(226,67,19,0.4); text-underline-offset:6px; }
   .hero p.lead{
     font-size:18px; line-height:1.65; color:var(--on-dark-soft);
     max-width:480px; margin:0 0 34px;
@@ -59,55 +57,86 @@
   }
   .hero-proof div span{ font-size:12.5px; color:var(--on-dark-soft); }
 
-  /* hero mock widget */
-  .hero-visual{ position:relative; height:460px; }
-  .match-card{
-    position:absolute; width:314px;
-    background:rgba(255,255,255,0.98);
-    border-radius:16px; box-shadow:0 30px 70px rgba(0,0,0,0.4);
-    padding:20px 22px; color:var(--ink);
-    animation:float 8s ease-in-out infinite;
+  /* ===== MATCH ENGINE (hero visual) ===== */
+  .match-engine{ position:relative; width:100%; max-width:560px; height:460px; margin-left:auto; }
+  .engine-lines{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .engine-lines .in-line{
+    fill:none; stroke:var(--ember); stroke-width:1.3; stroke-opacity:0.38;
+    stroke-dasharray:3 5; animation:flowDash 2.6s linear infinite;
   }
-  .match-card.c1{ top:26px; left:2px; z-index:3; animation-delay:0s; transform:rotate(-1.4deg); }
-  .match-card.c2{ top:274px; left:98px; z-index:2; animation-delay:1.6s; opacity:0.97; transform:rotate(1.1deg); }
-  @keyframes float{
-    0%,100%{ transform:translateY(0px) rotate(var(--rot,0deg)); }
-    50%{ transform:translateY(-8px) rotate(var(--rot,0deg)); }
+  .engine-lines .out-line{
+    fill:none; stroke:var(--ember); stroke-width:1.6; stroke-opacity:0.7;
+    stroke-dasharray:4 4; animation:flowDash 1.8s linear infinite;
   }
-  .match-card.c1{ --rot:-1.4deg; }
-  .match-card.c2{ --rot:1.1deg; }
+  @keyframes flowDash{ to{ stroke-dashoffset:-40; } }
 
-  .hero-annotation{
-    position:absolute; top:-2px; right:-6px; z-index:4;
-    font-family:var(--font-mono); font-size:12px; color:var(--gold-bright);
-    transform:rotate(3deg); text-align:right; width:150px;
-    line-height:1.4;
+  .engine-node{
+    position:absolute; left:270px; top:104px; width:64px; height:64px;
+    display:flex; align-items:center; justify-content:center; z-index:3;
   }
-  .hero-annotation svg{ display:block; margin-left:auto; margin-top:4px; opacity:0.85; }
-  @media (max-width:900px){ .hero-annotation{ display:none; } }
+  .engine-node .ring{
+    position:absolute; inset:0; border-radius:50%;
+    border:1px solid rgba(226,67,19,0.5);
+  }
+  .engine-node .ring2{
+    position:absolute; inset:-9px; border-radius:50%;
+    border:1px dashed rgba(226,67,19,0.28);
+    animation:spin 18s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .engine-node .core{
+    width:9px; height:9px; border-radius:50%; background:var(--ember);
+    box-shadow:0 0 0 6px rgba(226,67,19,0.18);
+  }
+  .engine-node-label{
+    position:absolute; left:222px; top:174px; width:160px;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--on-dark-soft); text-align:center;
+  }
 
-  .mc-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
-  .mc-amount{ font-family:var(--font-display); font-size:23px; font-weight:600; }
-  .mc-match{
-    font-family:var(--font-mono); font-size:12px; font-weight:700;
-    background:var(--match-tint); color:var(--match); padding:4px 9px; border-radius:var(--r-pill);
+  .engine-chip{
+    position:absolute; z-index:2; width:168px;
+    background:rgba(255,255,255,0.045); border:1px solid rgba(255,255,255,0.13);
+    border-radius:5px; padding:8px 12px;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--on-dark-soft);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .mc-name{ font-size:13.5px; color:var(--ink-soft); margin-bottom:12px; font-weight:500; }
-  .mc-deadline{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-ghost); font-family:var(--font-mono); }
-  .mc-deadline .ico{ color:var(--ink-ghost); width:13px; height:13px; }
-  .mc-flag{ color:var(--gold); font-weight:700; }
-  .mc-deadline .warn{ color:var(--urgent); }
+  .engine-chip .k{ color:var(--on-dark); }
+
+  .engine-inputs-label, .engine-output-label{
+    position:absolute; font-family:var(--font-mono); font-size:10px; letter-spacing:.09em;
+    text-transform:uppercase; color:rgba(255,255,255,0.32);
+  }
+  .engine-inputs-label{ left:0; top:-18px; }
+  .engine-output-label{ left:352px; top:-18px; }
+
+  .engine-output{
+    position:absolute; left:352px; z-index:3; width:204px;
+    background:rgba(255,255,255,0.97); border-radius:8px; padding:16px 17px;
+    color:var(--ink); box-shadow:0 20px 44px rgba(0,0,0,0.35);
+  }
+  .engine-output.o1{ top:6px; }
+  .engine-output.o2{ top:222px; }
+  .eo-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:9px; }
+  .eo-rank{
+    font-family:var(--font-mono); font-size:10.5px; font-weight:700; color:var(--ink-ghost);
+    letter-spacing:.05em;
+  }
+  .eo-match{ font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--match); }
+  .eo-amount{ font-family:var(--font-display); font-size:22px; font-weight:600; margin-bottom:4px; }
+  .eo-name{ font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; font-weight:500; line-height:1.35; }
+  .eo-bar-track{ height:4px; border-radius:2px; background:var(--surface-sunken); overflow:hidden; }
+  .eo-bar-fill{ height:100%; background:var(--match); border-radius:2px; }
+
+  @media (max-width:900px){
+    .hero .container{ grid-template-columns:1fr; }
+    .match-engine{ display:none; }
+    .hero-copy{ padding-bottom:56px; }
+  }
 
   .hero-bottom-fade{
     height:90px;
     background:linear-gradient(180deg, transparent, var(--bg));
-  }
-
-  @media (max-width:900px){
-    .hero .container{ grid-template-columns:1fr; }
-    .hero-visual{ height:400px; margin-top:20px; }
-    .match-card{ width:78vw; max-width:314px; }
-    .match-card.c2{ left:14vw; }
   }
 
   /* ===== PROBLEM BAND ===== */
@@ -116,7 +145,45 @@
     display:flex; align-items:center; gap:18px; font-size:15px;
     flex-wrap:wrap;
   }
-  .problem-band strong{ color:var(--gold-bright); font-weight:600; }
+  .problem-band strong{ color:var(--ember); font-weight:600; }
+
+  /* ===== VEYA PATH (journey diagram) ===== */
+  .veya-path{ position:relative; padding:34px 0 10px; }
+  .vp-line{
+    position:absolute; left:75px; right:75px; top:41px; height:2px; z-index:0;
+    background:linear-gradient(90deg, var(--ink-ghost), var(--ember) 20%, var(--violet) 45%, var(--gold-bright) 70%, var(--match-bright) 92%);
+    opacity:0.55;
+  }
+  .vp-stations{ display:flex; justify-content:space-between; position:relative; z-index:1; }
+  .vp-station{ display:flex; flex-direction:column; align-items:center; text-align:center; width:150px; }
+  .vp-dot{
+    width:14px; height:14px; border-radius:50%; background:var(--sc);
+    border:3px solid var(--bg); box-shadow:0 0 0 1px var(--border-strong);
+    margin-bottom:14px; position:relative; z-index:2;
+  }
+  .vp-label{ font-family:var(--font-display); font-weight:600; font-size:15.5px; margin-bottom:5px; color:var(--ink); }
+  .vp-desc{ font-size:11.5px; color:var(--ink-ghost); line-height:1.45; }
+  @media (max-width:760px){
+    .vp-line{ display:none; }
+    .vp-stations{ flex-direction:column; align-items:flex-start; gap:22px; }
+    .vp-station{ width:auto; flex-direction:row; align-items:center; text-align:left; gap:14px; }
+    .vp-dot{ margin-bottom:0; flex:none; }
+  }
+
+  /* ===== BIG STATS ===== */
+  .big-stats{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:40px;
+    padding-top:60px; margin-top:56px; border-top:1px solid var(--border);
+  }
+  @media (max-width:820px){ .big-stats{ grid-template-columns:1fr; gap:34px; } }
+  .bs-num{
+    font-family:var(--font-mono); font-weight:700; font-size:clamp(40px,5vw,62px);
+    line-height:1; margin-bottom:12px; letter-spacing:-0.01em;
+  }
+  .big-stat:nth-child(1) .bs-num{ color:var(--ember); }
+  .big-stat:nth-child(2) .bs-num{ color:var(--violet); }
+  .big-stat:nth-child(3) .bs-num{ color:var(--gold); }
+  .bs-label{ font-size:13.5px; color:var(--ink-faint); line-height:1.55; max-width:250px; }
 
   /* ===== WHO IT'S FOR / WHAT YOU GET ===== */
   .audience-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:56px; }
@@ -126,7 +193,7 @@
   }
   .audience-card:nth-child(2){ margin-top:22px; }
   @media (max-width:820px){ .audience-card:nth-child(2){ margin-top:0; } }
-  .ac-icon{ margin-bottom:14px; color:var(--gold); }
+  .ac-icon{ margin-bottom:14px; color:var(--ember); }
   .ac-icon .ico{ width:22px; height:22px; }
   .audience-card h4{ font-family:var(--font-display); font-size:17px; margin:0 0 8px; font-weight:600; }
   .audience-card p{ font-size:13.5px; color:var(--ink-faint); line-height:1.6; margin:0; }
@@ -193,7 +260,7 @@
   @keyframes radarIn{ from{ opacity:0; transform:scale(0.7); transform-origin:center; } to{ opacity:1; transform:scale(1); } }
   .weakness-callout{
     display:flex; gap:12px; align-items:flex-start;
-    background:var(--gold-tint); border:1px solid rgba(196,135,12,0.25);
+    background:var(--gold-tint); border:1px solid rgba(180,121,10,0.28);
     border-radius:14px; padding:16px 18px; margin-top:18px;
   }
   .weakness-callout svg{ flex:none; color:var(--gold); margin-top:2px; }
@@ -225,14 +292,18 @@
 
   /* ===== CTA BAND ===== */
   .cta-band{
-    background:linear-gradient(128deg, var(--ink-900) 30%, var(--brand-ink) 145%);
-    color:#fff; border-radius:24px; padding:64px 56px;
+    background:var(--ink-900);
+    color:#fff; border-radius:10px; padding:64px 56px;
     display:flex; justify-content:space-between; align-items:center; gap:40px;
     position:relative; overflow:hidden;
   }
+  .cta-band::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:3px;
+    background:linear-gradient(90deg, var(--ember), var(--violet) 45%, var(--gold-bright) 75%, var(--match-bright));
+  }
   .cta-band::after{
-    content:''; position:absolute; inset:0;
-    background:radial-gradient(420px 260px at 94% -6%, rgba(232,169,59,0.2), transparent 62%);
+    content:''; position:absolute; right:-40px; top:-40px; width:220px; height:220px;
+    border:1px solid rgba(226,67,19,0.22); border-radius:50%;
   }
   .cta-band-copy{ position:relative; max-width:520px; }
   .cta-band h3{ font-family:var(--font-display); font-size:clamp(24px,3vw,34px); margin:0 0 12px; font-weight:600; }
@@ -247,7 +318,7 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
+    <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></span></svg>veya</a>
     <div class="nav-links">
       <a href="index.html" class="active">How it works</a>
       <a href="matches.html">Scholarship matches</a>
@@ -279,19 +350,45 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-annotation">
-        the moment a match<br>actually feels worth it
-        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M2 2C20 4 38 14 52 30" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="1 5"/><path d="M45 24L52 30L47 33" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="match-card c1">
-        <div class="mc-top"><span class="mc-amount">$10,000</span><span class="mc-match">96% match</span></div>
-        <div class="mc-name">Global STEM Futures Scholarship</div>
-        <div class="mc-deadline"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.2V9L11.6 10.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Deadline Oct 14 <span class="mc-flag">— your strongest opportunity</span></div>
-      </div>
-      <div class="match-card c2">
-        <div class="mc-top"><span class="mc-amount">$5,000</span><span class="mc-match">91% match</span></div>
-        <div class="mc-name">First-Gen Engineering Award</div>
-        <div class="mc-deadline"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.2V9L11.6 10.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Deadline Nov 2</div>
+      <div class="match-engine">
+        <span class="engine-inputs-label">Your profile</span>
+        <span class="engine-output-label">Ranked output</span>
+
+        <svg class="engine-lines" viewBox="0 0 560 420" preserveAspectRatio="none">
+          <path class="in-line" d="M160,15 C220,15 240,74 300,126"/>
+          <path class="in-line" d="M198,63 C240,63 260,94 300,126"/>
+          <path class="in-line" d="M166,111 C220,111 260,119 300,126"/>
+          <path class="in-line" d="M204,159 C240,159 260,139 300,126"/>
+          <path class="in-line" d="M170,207 C220,207 250,164 300,126"/>
+          <path class="out-line" d="M300,126 C336,112 344,92 352,86"/>
+          <path class="out-line" d="M300,126 C336,146 344,236 352,258"/>
+        </svg>
+
+        <div class="engine-chip" style="top:6px; left:0px;">GPA <span class="k">3.8</span></div>
+        <div class="engine-chip" style="top:54px; left:38px;">Major <span class="k">Computer Science</span></div>
+        <div class="engine-chip" style="top:102px; left:6px;">Origin <span class="k">Lebanon → US</span></div>
+        <div class="engine-chip" style="top:150px; left:44px;">Aid need <span class="k">High</span></div>
+        <div class="engine-chip" style="top:198px; left:10px;">Honor <span class="k">Robotics, 1st</span></div>
+
+        <div class="engine-node">
+          <div class="ring2"></div>
+          <div class="ring"></div>
+          <div class="core"></div>
+        </div>
+        <div class="engine-node-label">matching against 6,200 funds</div>
+
+        <div class="engine-output o1">
+          <div class="eo-top"><span class="eo-rank">#1</span><span class="eo-match">96% match</span></div>
+          <div class="eo-amount">$10,000</div>
+          <div class="eo-name">Global STEM Futures Scholarship</div>
+          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:96%;"></div></div>
+        </div>
+        <div class="engine-output o2">
+          <div class="eo-top"><span class="eo-rank">#2</span><span class="eo-match">91% match</span></div>
+          <div class="eo-amount">$5,000</div>
+          <div class="eo-name">First-Gen Engineering Award</div>
+          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:91%;"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -306,6 +403,63 @@
 </div>
 
 <main id="how-it-works">
+
+  <!-- VEYA PATH + BIG STATS -->
+  <section class="section-pad" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">THE VEYA PATH</span>
+        <h2>From profile to funded, mapped end to end.</h2>
+        <p>Five stages, one continuous thread — the same path every student on Veya follows, in the order the product actually works.</p>
+      </div>
+
+      <div class="veya-path reveal">
+        <div class="vp-line"></div>
+        <div class="vp-stations">
+          <div class="vp-station" style="--sc:var(--ink-ghost)">
+            <div class="vp-dot"></div>
+            <div class="vp-label">Profile</div>
+            <div class="vp-desc">GPA, major, need, achievements</div>
+          </div>
+          <div class="vp-station" style="--sc:var(--ember)">
+            <div class="vp-dot"></div>
+            <div class="vp-label">Match</div>
+            <div class="vp-desc">Ranked against 6,200 funds</div>
+          </div>
+          <div class="vp-station" style="--sc:var(--violet)">
+            <div class="vp-dot"></div>
+            <div class="vp-label">Diagnose</div>
+            <div class="vp-desc">Essay scored per scholarship</div>
+          </div>
+          <div class="vp-station" style="--sc:var(--gold-bright)">
+            <div class="vp-dot"></div>
+            <div class="vp-label">Strengthen</div>
+            <div class="vp-desc">Fix the one weakest signal</div>
+          </div>
+          <div class="vp-station" style="--sc:var(--match-bright)">
+            <div class="vp-dot"></div>
+            <div class="vp-label">Submit</div>
+            <div class="vp-desc">Tracked to the deadline</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="big-stats reveal">
+        <div class="big-stat">
+          <div class="bs-num" data-count-to="118" data-prefix="$" data-suffix="M">$0M</div>
+          <div class="bs-label">in matched funding surfaced to students this year</div>
+        </div>
+        <div class="big-stat">
+          <div class="bs-num" data-count-to="96" data-suffix="%">0%</div>
+          <div class="bs-label">average match precision against stated eligibility</div>
+        </div>
+        <div class="big-stat">
+          <div class="bs-num" data-count-to="21" data-prefix="+" data-suffix=" pts">+0 pts</div>
+          <div class="bs-label">average essay score lift after one revision round</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- WHO IT'S FOR / WHAT YOU GET -->
   <section class="section-pad" style="padding-bottom:80px;">
@@ -490,7 +644,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
+        <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></span></svg>veya</a>
         <p style="font-size:13.5px; line-height:1.6; max-width:260px; margin-top:14px;">An application coach for scholarship season — matching, diagnosis, and momentum in one place.</p>
       </div>
       <div>

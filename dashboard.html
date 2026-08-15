@@ -30,7 +30,10 @@
     display:flex; align-items:center; gap:18px; position:relative; overflow:hidden;
   }
   @media (max-width:1180px){ .score-card{ grid-column: 1 / -1; } }
-  .score-card::after{ content:''; position:absolute; inset:0; background:radial-gradient(260px 160px at 100% 0%, rgba(232,169,59,0.25), transparent 65%); }
+  .score-card::after{
+    content:''; position:absolute; top:0; right:0; bottom:0; width:5px;
+    background:linear-gradient(180deg, var(--ember), var(--gold-bright));
+  }
   .score-ring-holder{ position:relative; width:88px; height:88px; flex:none; z-index:1; }
   .score-ring-holder .val{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:700; font-size:22px; }
   .score-card-text{ position:relative; z-index:1; }
@@ -65,7 +68,11 @@
     background:linear-gradient(135deg, var(--ink-900), var(--brand-ink) 150%);
     color:#fff; border-radius:20px; padding:26px 26px; position:relative; overflow:hidden;
   }
-  .nbm-card::after{ content:''; position:absolute; inset:0; background:radial-gradient(340px 200px at 100% 0%, rgba(232,169,59,0.3), transparent 65%); }
+  .nbm-card::after{
+    content:''; position:absolute; top:0; right:0; bottom:0; width:60%;
+    background:linear-gradient(100deg, transparent, rgba(226,67,19,0.14) 60%, rgba(226,67,19,0.22));
+    clip-path:polygon(40% 0, 100% 0, 100% 100%, 10% 100%);
+  }
   .nbm-eyebrow{ position:relative; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:10px; }
   .nbm-title{ position:relative; font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 10px; line-height:1.3; }
   .nbm-meta{ position:relative; display:flex; gap:14px; font-size:12.5px; color:var(--on-dark-soft); margin-bottom:18px; flex-wrap:wrap; }
@@ -114,6 +121,17 @@
   .mini-match{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); font-size:13px; }
   .mini-match:last-child{ border-bottom:none; }
   .mini-match .mm-pct{ font-family:var(--font-mono); font-weight:700; color:var(--match); flex:none; }
+
+  /* ---------- trend chart ---------- */
+  .trend-chart{ width:100%; height:auto; display:block; }
+  .tc-grid{ stroke:var(--border); stroke-width:1; }
+  .tc-area{ }
+  .tc-line{ fill:none; stroke:var(--ember); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+  .tc-dot{ fill:var(--surface); stroke:var(--ember); stroke-width:2.5; }
+  .tc-dot.end{ fill:var(--ember); stroke:var(--surface); stroke-width:2; }
+  .tc-label{ font-family:var(--font-mono); font-size:11px; fill:var(--ink-ghost); }
+  .tc-label.strong{ fill:var(--ember); font-weight:700; }
+  .trend-axis{ display:flex; justify-content:space-between; font-size:11px; color:var(--ink-ghost); font-family:var(--font-mono); margin-top:6px; padding:0 2px; }
   .mini-match .mm-name{ flex:1; font-weight:500; }
   .mini-match .mm-amt{ font-family:var(--font-mono); color:var(--ink-ghost); flex:none; }
 </style>
@@ -122,7 +140,7 @@
 
 <nav class="nav">
   <div class="container">
-    <a href="index.html" class="brand-mark">veya<span class="mark">.</span></a>
+    <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></span></svg>veya</a>
     <div class="nav-links">
       <a href="index.html">How it works</a>
       <a href="matches.html">Scholarship matches</a>
@@ -217,6 +235,33 @@
       </div>
 
       <div class="card card-pad reveal">
+        <div class="panel-title">
+          <h3>Score trend</h3>
+          <span class="pill pill-match">+20 pts since week 1</span>
+        </div>
+        <svg viewBox="0 0 620 190" class="trend-chart" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--ember)" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="var(--ember)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="30" x2="620" y2="30" class="tc-grid"/>
+          <line x1="0" y1="80" x2="620" y2="80" class="tc-grid"/>
+          <line x1="0" y1="130" x2="620" y2="130" class="tc-grid"/>
+          <path class="tc-area" d="M10,132 C60,124 90,120 130,114 C170,108 190,100 230,96 C270,92 300,98 340,88 C380,78 400,72 440,62 C480,52 500,48 540,38 C570,31 590,28 610,24 L610,180 L10,180 Z" fill="url(#trendFill)"/>
+          <path class="tc-line" d="M10,132 C60,124 90,120 130,114 C170,108 190,100 230,96 C270,92 300,98 340,88 C380,78 400,72 440,62 C480,52 500,48 540,38 C570,31 590,28 610,24"/>
+          <circle cx="10" cy="132" r="4" class="tc-dot"/>
+          <circle cx="610" cy="24" r="5" class="tc-dot end"/>
+          <text x="10" y="152" class="tc-label">W1 · 58</text>
+          <text x="610" y="14" text-anchor="end" class="tc-label strong">W8 · 78</text>
+        </svg>
+        <div class="trend-axis">
+          <span>6 weeks ago</span><span>4 weeks ago</span><span>2 weeks ago</span><span>Today</span>
+        </div>
+      </div>
+
+      <div class="card card-pad reveal">
         <div class="panel-title"><h3>New matches this week</h3><a href="matches.html">See why they matched →</a></div>
         <div class="mini-match"><span class="mm-pct">79%</span><span class="mm-name">International Excellence Award — Toronto</span><span class="mm-amt">$8,000</span></div>
         <div class="mini-match"><span class="mm-pct">74%</span><span class="mm-name">Future Builders Innovation Scholarship</span><span class="mm-amt">$6,000</span></div>
@@ -234,12 +279,12 @@
             <div class="val"><span class="n">78</span><span class="d">OVERALL</span></div>
           </div>
           <div class="strength-breakdown">
-            <div class="sb-row"><div class="t"><span>Leadership</span><span>58</span></div><div class="bar-track"><div class="bar-fill gold" data-value="58"></div></div></div>
-            <div class="sb-row"><div class="t"><span>Academic fit</span><span>91</span></div><div class="bar-track"><div class="bar-fill match" data-value="91"></div></div></div>
-            <div class="sb-row"><div class="t"><span>Personal story</span><span>78</span></div><div class="bar-track"><div class="bar-fill" data-value="78"></div></div></div>
+            <div class="sb-row"><div class="t"><span>Personal story</span><span>78</span></div><div class="bar-track"><div class="bar-fill match" data-value="78"></div></div></div>
+            <div class="sb-row"><div class="t"><span>Specificity</span><span>68</span></div><div class="bar-track"><div class="bar-fill gold" data-value="68"></div></div></div>
+            <div class="sb-row"><div class="t"><span>Why this scholarship</span><span>58</span></div><div class="bar-track"><div class="bar-fill urgent" data-value="58"></div></div></div>
           </div>
         </div>
-        <p style="font-size:12.5px; color:var(--ink-faint); margin:16px 0 0; line-height:1.6;">Averaged across your 4 active applications. Leadership is your ceiling right now — strengthening it lifts every application at once.</p>
+        <p style="font-size:12.5px; color:var(--ink-faint); margin:16px 0 0; line-height:1.6;">Averaged across your 4 active applications. "Why this scholarship" is your ceiling right now — strengthening it lifts every application at once.</p>
       </div>
 
       <div class="card card-pad reveal" id="deadlines">
@@ -279,7 +324,7 @@
 
 <script src="js/app.js"></script>
 <script>
-  renderRing(document.getElementById('veya-score-ring'), 78, { size:88, stroke:8, color:'var(--gold-bright)' });
+  renderRing(document.getElementById('veya-score-ring'), 78, { size:88, stroke:8, color:'var(--ember)' });
   renderRing(document.getElementById('strength-ring'), 78, { size:108, stroke:11, color:'var(--brand)' });
   document.querySelectorAll('.ring-holder').forEach(el => {
     renderRing(el, parseFloat(el.dataset.ring), { size:52, stroke:5, color: el.dataset.color });
