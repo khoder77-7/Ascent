@@ -42,7 +42,12 @@
 .nav-links a{ transition:color .15s var(--ease); position:relative; }
 .nav-links a:hover{ color:var(--ink); }
 .nav-links a.active{ color:var(--ink); }
-.nav-cta{ display:flex; align-items:center; gap:12px; }
+.nav-cta{ display:flex; align-items:center; gap:16px; }
+.nav-login-link{
+  font-size:14px; font-weight:500; color:var(--ink-faint);
+  padding:6px 2px; transition:color .15s var(--ease);
+}
+.nav-login-link:hover{ color:var(--ink); }
 
 @media (max-width: 860px){
   .nav-links{ display:none; }

@@ -63,9 +63,10 @@
 
   .score-card{
     grid-row: span 1;
-    background:linear-gradient(150deg, var(--ink-900), var(--ink-800));
-    color:#fff; border-radius:18px; padding:24px 24px;
+    background:var(--surface); border:1.5px solid var(--border);
+    color:var(--ink); border-radius:18px; padding:24px 24px;
     display:flex; align-items:center; gap:18px; position:relative; overflow:hidden;
+    box-shadow:var(--shadow-sm);
   }
   @media (max-width:1180px){ .score-card{ grid-column: 1 / -1; } }
   .score-card::after{
@@ -73,11 +74,11 @@
     background:linear-gradient(180deg, var(--ember), var(--gold-bright));
   }
   .score-ring-holder{ position:relative; width:104px; height:104px; flex:none; z-index:1; }
-  .score-ring-holder .val{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:700; font-size:25px; }
+  .score-ring-holder .val{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:700; font-size:25px; color:var(--ink); }
   .score-card-text{ position:relative; z-index:1; }
-  .score-card-text .eb{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:6px; }
-  .score-card-text .ti{ font-family:var(--font-display); font-size:17px; font-weight:600; margin-bottom:4px; }
-  .score-card-text .sub{ font-size:12px; color:var(--on-dark-soft); }
+  .score-card-text .eb{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; color:var(--ember); text-transform:uppercase; margin-bottom:6px; font-weight:700; }
+  .score-card-text .ti{ font-family:var(--font-display); font-size:17px; font-weight:600; margin-bottom:4px; color:var(--ink); }
+  .score-card-text .sub{ font-size:12px; color:var(--ink-faint); }
 
   .module-tile{
     background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:18px 18px;
@@ -102,15 +103,6 @@
   .panel-title a{ font-size:13px; color:var(--brand); font-weight:600; }
 
   /* next best move */
-  .nbm-card{
-    background:linear-gradient(135deg, var(--ink-900), var(--brand-ink) 150%);
-    color:#fff; border-radius:20px; padding:26px 26px; position:relative; overflow:hidden;
-  }
-  .nbm-card::after{
-    content:''; position:absolute; top:0; right:0; bottom:0; width:60%;
-    background:linear-gradient(100deg, transparent, rgba(226,67,19,0.14) 60%, rgba(226,67,19,0.22));
-    clip-path:polygon(40% 0, 100% 0, 100% 100%, 10% 100%);
-  }
   .nbm-eyebrow{ position:relative; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.08em; color:var(--gold-bright); text-transform:uppercase; margin-bottom:10px; }
   .nbm-title{ position:relative; font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 10px; line-height:1.3; }
   .nbm-meta{ position:relative; display:flex; gap:14px; font-size:12.5px; color:var(--on-dark-soft); margin-bottom:18px; flex-wrap:wrap; }

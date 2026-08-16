@@ -27,48 +27,62 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   }
   .hero .container{
-    display:grid; grid-template-columns:0.72fr 1.28fr; gap:24px; align-items:center;
-    padding-bottom:64px; max-width:1260px;
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:32px; align-items:center;
+    padding-bottom:72px; padding-top:26px; max-width:1220px;
   }
+  .hero-copy{ padding-right:8px; }
   .hero-eyebrow{
     display:inline-flex; align-items:center; gap:8px;
     font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
     color:var(--ember); background:rgba(226,67,19,0.14);
     border:1px solid rgba(226,67,19,0.32);
-    padding:7px 13px; border-radius:3px; margin-bottom:26px;
+    padding:7px 13px; border-radius:3px; margin-bottom:34px;
   }
   .hero h1{
     font-family:var(--font-display);
     font-weight:600; letter-spacing:-0.02em;
-    font-size:clamp(38px, 4.6vw, 60px);
-    line-height:1.06;
-    margin:0 0 22px;
+    font-size:clamp(38px, 4.4vw, 58px);
+    line-height:1.1;
+    margin:0 0 28px;
   }
   .hero h1 em{ font-style:italic; color:var(--ember); font-weight:500; text-decoration:underline; text-decoration-color:rgba(226,67,19,0.4); text-underline-offset:6px; }
   .hero p.lead{
-    font-size:18px; line-height:1.65; color:var(--on-dark-soft);
-    max-width:480px; margin:0 0 34px;
+    font-size:18px; line-height:1.7; color:var(--on-dark-soft);
+    max-width:460px; margin:0 0 40px;
   }
-  .hero-actions{ display:flex; gap:14px; align-items:center; margin-bottom:44px; flex-wrap:wrap; }
+  .hero-actions{ display:flex; gap:26px; align-items:center; margin-bottom:56px; flex-wrap:wrap; }
+  .hero-see-link{
+    font-family:var(--font-ui); font-size:14.5px; font-weight:600; color:var(--on-dark-soft);
+    display:inline-flex; align-items:center; gap:6px; border-bottom:1px solid transparent;
+    transition:color .15s var(--ease), border-color .15s var(--ease); padding-bottom:2px;
+  }
+  .hero-see-link:hover{ color:#fff; border-color:rgba(255,255,255,0.4); }
   .hero-note{ font-size:13.5px; color:var(--on-dark-soft); }
   .hero-proof{
-    display:flex; gap:34px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1);
+    display:flex; gap:34px; padding-top:26px; border-top:1px solid rgba(255,255,255,0.09);
+    max-width:480px;
   }
   .hero-proof div strong{
-    display:block; font-family:var(--font-mono); font-size:22px; color:#fff; margin-bottom:2px;
+    display:block; font-family:var(--font-mono); font-size:20px; color:#fff; margin-bottom:3px; font-weight:700;
   }
-  .hero-proof div span{ font-size:12.5px; color:var(--on-dark-soft); }
+  .hero-proof div span{ font-size:12px; color:var(--on-dark-soft); line-height:1.4; }
 
   /* ===== MATCH ENGINE (hero visual) ===== */
-  .match-engine{ position:relative; width:100%; max-width:640px; height:540px; margin-left:auto; }
+  .hero-visual{ display:flex; justify-content:flex-end; }
+  .match-engine{
+    position:relative; width:640px; height:540px; flex:none;
+    opacity:0.94;
+    transform:scale(0.84); transform-origin:top right;
+    margin-bottom:-84px; /* compensate for scale so surrounding layout doesn't leave a gap */
+  }
   .engine-lines{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
   .engine-lines .in-line{
-    fill:none; stroke:var(--ember); stroke-width:1.4; stroke-opacity:0.4;
-    stroke-dasharray:3 5; animation:flowDash 2.6s linear infinite;
+    fill:none; stroke:var(--ember); stroke-width:1.2; stroke-opacity:0.28;
+    stroke-dasharray:3 5; animation:flowDash 7s linear infinite;
   }
   .engine-lines .out-line{
-    fill:none; stroke:var(--ember); stroke-width:1.8; stroke-opacity:0.72;
-    stroke-dasharray:4 4; animation:flowDash 1.8s linear infinite;
+    fill:none; stroke:var(--ember); stroke-width:1.6; stroke-opacity:0.55;
+    stroke-dasharray:4 4; animation:flowDash 5s linear infinite;
   }
   @keyframes flowDash{ to{ stroke-dashoffset:-40; } }
 
@@ -143,9 +157,9 @@
   }
 
   /* ===== PROBLEM BAND ===== */
-  .problem-band{ background:var(--ink); color:var(--on-dark); padding:26px 0; }
+  .problem-band{ background:var(--surface-sunken); border-bottom:1px solid var(--border); padding:22px 0; }
   .problem-band .container{
-    display:flex; align-items:center; gap:18px; font-size:15px;
+    display:flex; align-items:center; gap:18px; font-size:15px; color:var(--ink-soft);
     flex-wrap:wrap;
   }
   .problem-band strong{ color:var(--ember); font-weight:600; }
@@ -308,12 +322,12 @@
 
   /* ===== LOGO / TRUST STRIP ===== */
   /* ===== VEYA ANALYZING AN APPLICATION ===== */
-  .analyzing-section{ background:var(--ink-900); padding:88px 0; }
-  .analyze-grid{ display:grid; grid-template-columns:1.3fr 0.9fr; gap:40px; align-items:start; }
+  .analyzing-section{ background:var(--bg); padding:88px 0; }
+  .analyze-grid{ display:grid; grid-template-columns:1.3fr 0.9fr; gap:28px; align-items:start; }
   @media (max-width:860px){ .analyze-grid{ grid-template-columns:1fr; } }
   .analyze-essay{
-    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1);
-    border-radius:8px; padding:32px;
+    background:var(--ink-900); border:1px solid var(--ink-800);
+    border-radius:8px; padding:32px; box-shadow:var(--shadow-lg);
   }
   .analyze-essay p{
     font-family:var(--font-display); font-size:18px; line-height:1.85; color:var(--on-dark-soft);
@@ -332,8 +346,8 @@
   .hl-tag.bad{ background:var(--ember); color:#2c0e02; }
 
   .analyze-panel{
-    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1);
-    border-radius:8px; padding:26px;
+    background:var(--ink-900); border:1px solid var(--ink-800);
+    border-radius:8px; padding:26px; box-shadow:var(--shadow-lg);
   }
   .ap-row{ display:flex; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
   .ap-row .dot-status{ margin-top:6px; }
@@ -416,7 +430,7 @@
       <a href="pricing.html">Pricing</a>
     </div>
     <div class="nav-cta">
-      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="login.html" class="nav-login-link">Log in</a>
       <a href="onboarding.html" class="btn btn-primary btn-sm">Start for free</a>
     </div>
   </div>
@@ -430,7 +444,7 @@
       <p class="lead">Veya isn't another scholarship search engine. It builds your profile once, ranks every scholarship by how likely you are to actually win it, and coaches each application until it's ready to submit.</p>
       <div class="hero-actions">
         <a href="onboarding.html" class="btn btn-gold">Start for free</a>
-        <a href="#how-it-works" class="btn btn-on-dark">See how it works</a>
+        <a href="#how-it-works" class="hero-see-link">See how it works ↓</a>
       </div>
       <div class="hero-proof">
         <div><strong>$37,500</strong><span>potential funding — this example profile</span></div>
@@ -743,10 +757,10 @@
   <!-- VEYA ANALYZING AN APPLICATION -->
   <section class="analyzing-section">
     <div class="container">
-      <div class="section-head reveal" style="color:#fff;">
-        <span class="eyebrow" style="color:var(--on-dark-soft);">DEMO · EXAMPLE ESSAY, NOT A REAL APPLICANT</span>
-        <h2 style="color:#fff;">This is what Veya actually reads.</h2>
-        <p style="color:var(--on-dark-soft);">Not a black box. Every sentence gets weighed against the scholarship's own criteria — here's the same paragraph the diagnosis above is scoring, marked up the way Veya reads it.</p>
+      <div class="section-head reveal">
+        <span class="eyebrow">DEMO · EXAMPLE ESSAY, NOT A REAL APPLICANT</span>
+        <h2>This is what Veya actually reads.</h2>
+        <p>Not a black box. Every sentence gets weighed against the scholarship's own criteria — here's the same paragraph the diagnosis above is scoring, marked up the way Veya reads it.</p>
       </div>
 
       <div class="analyze-grid reveal">

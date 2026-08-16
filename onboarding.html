@@ -18,31 +18,32 @@
   @media (max-width:860px){ .onb-wrap{ grid-template-columns:1fr; } .onb-rail{ display:none; } }
 
   .onb-rail{
-    background:var(--ink-900); color:var(--on-dark);
+    background:var(--surface-sunken); color:var(--ink);
     padding:48px 36px; position:sticky; top:69px; height:calc(100vh - 69px);
+    border-right:1px solid var(--border);
   }
-  .onb-rail h2{ font-family:var(--font-display); font-size:22px; margin:0 0 8px; font-weight:600; }
-  .onb-rail p{ font-size:13.5px; color:var(--on-dark-soft); line-height:1.6; margin:0 0 40px; }
+  .onb-rail h2{ font-family:var(--font-display); font-size:22px; margin:0 0 8px; font-weight:600; color:var(--ink); }
+  .onb-rail p{ font-size:13.5px; color:var(--ink-faint); line-height:1.6; margin:0 0 40px; }
   .rail-steps{ display:flex; flex-direction:column; gap:0; }
   .rail-step{ display:flex; gap:14px; padding:14px 0; position:relative; }
   .rail-step .num{
     width:26px; height:26px; border-radius:50%; flex:none;
     display:flex; align-items:center; justify-content:center;
     font-family:var(--font-mono); font-size:12px; font-weight:700;
-    background:rgba(255,255,255,0.08); color:var(--on-dark-soft);
-    border:1px solid rgba(255,255,255,0.14);
+    background:var(--surface); color:var(--ink-ghost);
+    border:1px solid var(--border-strong);
     transition:all .2s var(--ease);
   }
   .rail-step .connector{
     position:absolute; left:13px; top:38px; width:1px; height:calc(100% - 12px);
-    background:rgba(255,255,255,0.12);
+    background:var(--border-strong);
   }
   .rail-step:last-child .connector{ display:none; }
   .rail-step .txt{ padding-top:3px; }
-  .rail-step .txt .t{ font-size:14px; font-weight:600; color:var(--on-dark-soft); transition:color .2s; }
-  .rail-step .txt .d{ font-size:12px; color:rgba(238,240,247,0.35); margin-top:2px; }
-  .rail-step.active .num{ background:var(--gold-bright); color:#241703; border-color:var(--gold-bright); }
-  .rail-step.active .txt .t{ color:#fff; }
+  .rail-step .txt .t{ font-size:14px; font-weight:600; color:var(--ink-faint); transition:color .2s; }
+  .rail-step .txt .d{ font-size:12px; color:var(--ink-ghost); margin-top:2px; }
+  .rail-step.active .num{ background:var(--ember); color:#fff; border-color:var(--ember); }
+  .rail-step.active .txt .t{ color:var(--ink); }
   .rail-step.done .num{ background:var(--match); color:#fff; border-color:var(--match); }
 
   .onb-main{ padding:56px 48px 100px; max-width:640px; }
