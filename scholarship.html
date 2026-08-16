@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icon-512.svg">
+<title>Scholarship details — Veya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+  .sd-head{ padding:36px 0 28px; border-bottom:1px solid var(--border); }
+  .sd-back{ font-size:13px; color:var(--ink-faint); margin-bottom:14px; display:inline-block; }
+  .sd-head-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; }
+  .sd-head h1{ font-family:var(--font-display); font-size:clamp(24px,3vw,32px); font-weight:600; margin:6px 0; letter-spacing:-0.01em; max-width:680px; }
+  .sd-provider{ font-size:14.5px; color:var(--ink-faint); margin-bottom:14px; }
+  .sd-meta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .sd-score-box{ text-align:right; flex:none; }
+  .sd-score-box .n{ font-family:var(--font-mono); font-weight:700; font-size:36px; }
+  .sd-score-box .l{ font-size:12px; color:var(--ink-ghost); }
+
+  .sd-layout{ display:grid; grid-template-columns:1.4fr 0.9fr; gap:28px; padding:36px 0 100px; align-items:start; }
+  @media (max-width:900px){ .sd-layout{ grid-template-columns:1fr; } }
+
+  .sd-section{ margin-bottom:26px; }
+  .sd-section h2{ font-family:var(--font-display); font-size:19px; font-weight:600; margin:0 0 12px; }
+  .sd-section p{ font-size:14.5px; line-height:1.7; color:var(--ink-soft); margin:0 0 10px; }
+
+  .check-line{ display:flex; gap:9px; align-items:flex-start; padding:7px 0; font-size:13.5px; border-bottom:1px solid var(--border); }
+  .check-line:last-child{ border-bottom:none; }
+  .check-line .glyph{ flex:none; width:16px; text-align:center; font-family:var(--font-mono); font-weight:700; margin-top:1px; }
+  .check-line.pass .glyph{ color:var(--match); }
+  .check-line.unknown .glyph{ color:var(--gold); }
+  .check-line.fail .glyph{ color:var(--urgent); }
+  .check-line.info .glyph{ color:var(--ink-ghost); }
+  .check-line .lbl{ font-weight:600; color:var(--ink); display:block; }
+  .check-line .note{ display:block; color:var(--ink-faint); font-size:12.5px; margin-top:2px; line-height:1.55; }
+
+  .req-list{ margin:0; padding-left:20px; }
+  .req-list li{ font-size:14px; color:var(--ink-soft); line-height:1.9; }
+
+  .side-card{ margin-bottom:18px; }
+  .amount-display{ font-family:var(--font-mono); font-weight:700; font-size:30px; margin-bottom:2px; }
+  .amount-note{ font-size:12px; color:var(--ink-ghost); line-height:1.5; margin-bottom:16px; }
+  .side-row{ display:flex; justify-content:space-between; font-size:13px; padding:9px 0; border-bottom:1px solid var(--border); gap:12px; }
+  .side-row:last-child{ border-bottom:none; }
+  .side-row .l{ color:var(--ink-ghost); flex:none; }
+  .side-row .v{ font-weight:600; text-align:right; }
+
+  .verify-box{ font-size:12px; color:var(--ink-ghost); line-height:1.7; }
+  .verify-box a{ text-decoration:underline; display:block; }
+  .needs-verification{
+    display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--gold); background:var(--gold-tint); padding:2px 7px; border-radius:3px; margin-left:6px; vertical-align:1px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a><span class="demo-badge" title="This is a product demo with example data — not a live service or real user accounts.">Demo</span></div>
+    <div class="nav-links">
+      <a href="index.html">How it works</a>
+      <a href="matches.html" class="active">Scholarship matches</a>
+      <a href="application.html">Application coach</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="dashboard.html" class="btn btn-primary btn-sm">Dashboard</a>
+    </div>
+  </div>
+</nav>
+
+<header class="sd-head">
+  <div class="container">
+    <a href="matches.html" class="sd-back">← Back to matches</a>
+    <div class="sd-head-row">
+      <div>
+        <span class="eyebrow" id="sd-bucket">MATCH STATUS</span>
+        <h1 id="sd-name">Loading…</h1>
+        <div class="sd-provider" id="sd-provider"></div>
+        <div class="sd-meta-row" id="sd-tags"></div>
+      </div>
+      <div class="sd-score-box">
+        <div class="n" id="sd-score">—</div>
+        <div class="l">match score</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container sd-layout">
+  <div class="sd-main">
+
+    <div class="sd-section">
+      <h2>What is it?</h2>
+      <p id="sd-what"></p>
+    </div>
+
+    <div class="sd-section">
+      <h2>Why do I qualify?</h2>
+      <div id="sd-qualify"><!-- pass checks --></div>
+    </div>
+
+    <div class="sd-section">
+      <h2>What could prevent me from qualifying?</h2>
+      <div id="sd-blockers"><!-- fail/unknown checks --></div>
+    </div>
+
+    <div class="sd-section">
+      <h2>What do I need to submit?</h2>
+      <ul class="req-list" id="sd-requirements"></ul>
+    </div>
+
+    <div class="sd-section">
+      <h2>Where do I apply?</h2>
+      <p>Apply directly on the official program page — Veya never collects your application on its behalf.</p>
+      <a id="sd-apply-btn" href="#" target="_blank" rel="noopener" class="btn btn-gold">Go to official application ↗</a>
+    </div>
+
+  </div>
+
+  <aside class="sd-side">
+    <div class="card card-pad side-card">
+      <span class="eyebrow">AWARD</span>
+      <div class="amount-display" id="sd-amount"></div>
+      <div class="amount-note" id="sd-amount-note"></div>
+      <div class="side-row"><span class="l">Deadline</span><span class="v" id="sd-deadline"></span></div>
+      <div class="side-row"><span class="l">Study level</span><span class="v" id="sd-level"></span></div>
+      <div class="side-row"><span class="l">Field</span><span class="v" id="sd-field"></span></div>
+      <div class="side-row"><span class="l">Citizenship</span><span class="v" id="sd-citizenship"></span></div>
+    </div>
+
+    <div class="card card-pad side-card verify-box">
+      <span class="eyebrow" style="margin-bottom:8px; display:block;">DATA SOURCES</span>
+      <div id="sd-sources"></div>
+      <div style="margin-top:10px;">Last checked: <strong id="sd-checked"></strong>. Deadlines and amounts change — always confirm on the official page before relying on any figure here.</div>
+    </div>
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 Veya.</span>
+      <a href="index.html" style="color:var(--on-dark-soft);">Back to home →</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/scholarships-data.js"></script>
+<script src="js/matching.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const s = SCHOLARSHIPS.find(x => x.id === id) || SCHOLARSHIPS[0];
+  const matcherFn = MATCHERS[s.id];
+  const checks = matcherFn ? matcherFn(STUDENT_PROFILE) : [];
+  const { bucket, score } = scoreChecks(checks);
+  const meta = BUCKET_META[bucket];
+
+  document.title = s.name + ' — Veya';
+  document.getElementById('sd-name').textContent = s.name;
+  document.getElementById('sd-provider').textContent = s.provider;
+  document.getElementById('sd-bucket').textContent = meta.label.toUpperCase();
+  document.getElementById('sd-bucket').style.color = meta.color;
+  document.getElementById('sd-score').textContent = score !== null ? score + '%' : '—';
+  document.getElementById('sd-score').style.color = meta.color;
+
+  document.getElementById('sd-tags').innerHTML = `
+    <span class="pill" style="background:${meta.color}22; color:${meta.color};">${meta.label}</span>
+    ${s.needBased ? '<span class="pill pill-neutral">Need-based</span>' : ''}
+    ${s.meritBased ? '<span class="pill pill-neutral">Merit-based</span>' : ''}
+    ${s.deadlineStatus === 'closed_for_cycle' ? '<span class="pill pill-urgent">Closed for this cycle</span>' : ''}
+  `;
+
+  document.getElementById('sd-what').textContent =
+    `${s.name} is offered by ${s.provider}. ${s.why} ` +
+    (s.locationNote ? s.locationNote : '');
+
+  const passChecks = checks.filter(c => c.status === 'pass');
+  const blockerChecks = checks.filter(c => c.status === 'fail' || c.status === 'unknown');
+
+  function line(c){
+    const glyphs = { pass: '✓', unknown: '⚠', fail: '✗', info: 'i' };
+    return `<div class="check-line ${c.status}"><span class="glyph">${glyphs[c.status]}</span><span><span class="lbl">${c.label}</span><span class="note">${c.note || ''}</span></span></div>`;
+  }
+  document.getElementById('sd-qualify').innerHTML = passChecks.length
+    ? passChecks.map(line).join('')
+    : '<p style="font-size:13.5px; color:var(--ink-ghost);">No confirmed matches yet — see the blockers below.</p>';
+  document.getElementById('sd-blockers').innerHTML = blockerChecks.length
+    ? blockerChecks.map(line).join('')
+    : '<p style="font-size:13.5px; color:var(--ink-ghost);">Nothing on file that would block you.</p>';
+
+  document.getElementById('sd-requirements').innerHTML = s.requirements.map(r => `<li>${r}</li>`).join('');
+  document.getElementById('sd-apply-btn').href = s.applyUrl;
+
+  document.getElementById('sd-amount').innerHTML = s.amount ? `$${s.amount.toLocaleString()}` : s.amountDisplay;
+  document.getElementById('sd-amount-note').textContent = s.amountNote || '';
+  document.getElementById('sd-deadline').textContent = s.deadline + (s.deadlineVerified === false ? '' : '');
+  document.getElementById('sd-level').textContent = Array.isArray(s.level) ? s.level.join(', ') : s.level;
+  document.getElementById('sd-field').textContent = s.field;
+  document.getElementById('sd-citizenship').textContent = Array.isArray(s.citizenship) ? s.citizenship[0] : s.citizenship;
+
+  const sources = s.sourceUrls || [s.sourceUrl];
+  document.getElementById('sd-sources').innerHTML = sources.map(u => `<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//,'')}</a>`).join('');
+  document.getElementById('sd-checked').textContent = s.lastChecked;
+</script>
+</body>
+</html>

@@ -140,7 +140,7 @@
     letter-spacing:.05em;
   }
   .eo-match{ font-family:var(--font-mono); font-size:13px; font-weight:700; color:var(--match); }
-  .eo-amount{ font-family:var(--font-display); font-size:25px; font-weight:600; margin-bottom:5px; }
+  .eo-amount{ font-family:var(--font-display); font-size:21px; font-weight:600; margin-bottom:5px; line-height:1.2; }
   .eo-name{ font-size:13px; color:var(--ink-soft); margin-bottom:11px; font-weight:500; line-height:1.35; }
   .eo-bar-track{ height:4px; border-radius:2px; background:var(--surface-sunken); overflow:hidden; }
   .eo-bar-fill{ height:100%; background:var(--match); border-radius:2px; }
@@ -385,6 +385,18 @@
   }
   .method-seg span b{ font-size:13px; }
   @media (max-width:700px){ .method-seg span{ font-size:9.5px; } .method-seg span b{ font-size:10.5px; } }
+  .method-checks{ display:flex; flex-direction:column; gap:2px; margin-bottom:14px; }
+  .method-check{
+    display:flex; align-items:center; gap:9px; padding:9px 0; font-size:13.5px; color:var(--ink-soft);
+    border-bottom:1px solid var(--border);
+  }
+  .method-check:last-child{ border-bottom:none; }
+  .method-check .glyph{ font-family:var(--font-mono); font-weight:700; width:16px; text-align:center; }
+  .method-check.pass .glyph{ color:var(--match); }
+  .method-check.unknown .glyph{ color:var(--gold); }
+  .method-check b{ font-weight:600; color:var(--ink-faint); margin-left:2px; }
+  .method-formula{ font-size:13px; color:var(--ink-faint); line-height:1.6; max-width:680px; margin:0; }
+  .method-formula strong{ color:var(--ink); }
 
   /* ===== CTA BAND ===== */
   .cta-band{
@@ -447,9 +459,9 @@
         <a href="#how-it-works" class="hero-see-link">See how it works ↓</a>
       </div>
       <div class="hero-proof">
-        <div><strong>$37,500</strong><span>potential funding — this example profile</span></div>
-        <div><strong>12</strong><span>strong matches found</span></div>
-        <div><strong>6,200+</strong><span>scholarships checked against</span></div>
+        <div><strong>$130,000</strong><span>fixed-amount total — this example profile</span></div>
+        <div><strong>8</strong><span>eligible or likely matches found</span></div>
+        <div><strong>10</strong><span>real, verified scholarships checked against</span></div>
       </div>
     </div>
     <div class="hero-visual">
@@ -470,7 +482,7 @@
 
         <div class="engine-chip" style="top:10px; left:0px;">GPA <span class="k">3.8</span></div>
         <div class="engine-chip" style="top:66px; left:46px;">Major <span class="k">Computer Science</span></div>
-        <div class="engine-chip" style="top:122px; left:8px;">Origin <span class="k">Lebanon → US</span></div>
+        <div class="engine-chip" style="top:122px; left:8px;">Citizenship <span class="k">U.S.</span></div>
         <div class="engine-chip" style="top:178px; left:52px;">Aid need <span class="k">High</span></div>
         <div class="engine-chip" style="top:234px; left:14px;">Honor <span class="k">Robotics, 1st</span></div>
 
@@ -479,25 +491,25 @@
           <div class="ring"></div>
           <div class="core"></div>
         </div>
-        <div class="engine-node-label">matching against 6,200 funds</div>
+        <div class="engine-node-label">matching against verified scholarships</div>
 
         <div class="engine-output o1">
-          <div class="eo-top"><span class="eo-rank">#1</span><span class="eo-match">96% match</span></div>
-          <div class="eo-amount">$10,000</div>
-          <div class="eo-name">Global STEM Futures Scholarship</div>
-          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:96%;"></div></div>
+          <div class="eo-top"><span class="eo-rank">#1</span><span class="eo-match">100% eligible</span></div>
+          <div class="eo-amount">$20,000</div>
+          <div class="eo-name">Coca-Cola Scholars Program</div>
+          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:100%;"></div></div>
         </div>
         <div class="engine-output o2">
-          <div class="eo-top"><span class="eo-rank">#2</span><span class="eo-match">91% match</span></div>
-          <div class="eo-amount">$5,000</div>
-          <div class="eo-name">First-Gen Engineering Award</div>
-          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:91%;"></div></div>
+          <div class="eo-top"><span class="eo-rank">#2</span><span class="eo-match">100% eligible</span></div>
+          <div class="eo-amount">Up to $30,000</div>
+          <div class="eo-name">Elks "Most Valuable Student"</div>
+          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:100%;"></div></div>
         </div>
         <div class="engine-output o3">
-          <div class="eo-top"><span class="eo-rank">#3</span><span class="eo-match">87% match</span></div>
-          <div class="eo-amount">$2,500</div>
-          <div class="eo-name">Women in Data Science Grant</div>
-          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:87%;"></div></div>
+          <div class="eo-top"><span class="eo-rank">#3</span><span class="eo-match">88% likely match</span></div>
+          <div class="eo-amount">Up to $55,000/yr</div>
+          <div class="eo-name">Cooke College Scholarship</div>
+          <div class="eo-bar-track"><div class="eo-bar-fill" style="width:88%;"></div></div>
         </div>
       </div>
     </div>
@@ -534,7 +546,7 @@
           <div class="vp-station" style="--sc:var(--ember)">
             <div class="vp-dot"></div>
             <div class="vp-label">Match</div>
-            <div class="vp-desc">Ranked against 6,200 funds</div>
+            <div class="vp-desc">Ranked against real, verified funds</div>
           </div>
           <div class="vp-station" style="--sc:var(--violet)">
             <div class="vp-dot"></div>
@@ -561,8 +573,8 @@
 
       <div class="big-stats reveal">
         <div class="big-stat">
-          <div class="bs-num" data-count-to="6200" data-suffix="+">0</div>
-          <div class="bs-label">scholarships continuously scanned and re-matched as new funds open</div>
+          <div class="bs-num" data-count-to="10" data-suffix="">0</div>
+          <div class="bs-label">real scholarships in Veya's dataset today, each individually verified from official sources</div>
         </div>
         <div class="big-stat">
           <div class="bs-num" data-count-to="5" data-suffix="">0</div>
@@ -646,23 +658,23 @@
               <div class="rank-list">
                 <div class="rank-item top">
                   <div class="rank-badge">#1</div>
-                  <div class="rank-body"><div class="rank-title">Global STEM Futures Scholarship</div><div class="rank-sub">Deadline Oct 14 · Strongest opportunity</div></div>
-                  <div><div class="rank-amount">$10,000</div><div class="rank-pct">96% match</div></div>
+                  <div class="rank-body"><div class="rank-title">Coca-Cola Scholars Program</div><div class="rank-sub">Deadline Sep 30 · Eligible now</div></div>
+                  <div><div class="rank-amount">$20,000</div><div class="rank-pct">100% eligible</div></div>
                 </div>
                 <div class="rank-item">
                   <div class="rank-badge">#2</div>
-                  <div class="rank-body"><div class="rank-title">First-Gen Engineering Award</div><div class="rank-sub">Deadline Nov 2</div></div>
-                  <div><div class="rank-amount">$5,000</div><div class="rank-pct">91% match</div></div>
+                  <div class="rank-body"><div class="rank-title">QuestBridge National College Match</div><div class="rank-sub">Deadline Oct 1</div></div>
+                  <div><div class="rank-amount">Full scholarship</div><div class="rank-pct">100% eligible</div></div>
                 </div>
                 <div class="rank-item">
                   <div class="rank-badge">#3</div>
-                  <div class="rank-body"><div class="rank-title">Women in Data Science Grant</div><div class="rank-sub">Deadline Nov 18</div></div>
-                  <div><div class="rank-amount">$2,500</div><div class="rank-pct">87% match</div></div>
+                  <div class="rank-body"><div class="rank-title">The Gates Scholarship</div><div class="rank-sub">Deadline Sep 15</div></div>
+                  <div><div class="rank-amount">Full ride</div><div class="rank-pct">90% likely</div></div>
                 </div>
                 <div class="rank-item">
                   <div class="rank-badge">#4</div>
-                  <div class="rank-body"><div class="rank-title">Lebanon Diaspora Merit Fund</div><div class="rank-sub">Deadline Dec 1</div></div>
-                  <div><div class="rank-amount">$3,000</div><div class="rank-pct">82% match</div></div>
+                  <div class="rank-body"><div class="rank-title">Cooke College Scholarship</div><div class="rank-sub">Opens Aug 19</div></div>
+                  <div><div class="rank-amount">Up to $55,000/yr</div><div class="rank-pct">88% likely</div></div>
                 </div>
               </div>
             </div>
@@ -690,7 +702,7 @@
           <div class="ui-frame">
             <div class="ui-frame-bar"><span class="dots"><span></span><span></span><span></span></span><span class="url">veya.app/application</span></div>
             <div class="ui-frame-body diag-card">
-            <div class="dotline" style="margin-bottom:6px;">GLOBAL STEM FUTURES SCHOLARSHIP · ESSAY DIAGNOSIS</div>
+            <div class="dotline" style="margin-bottom:6px;">THE GATES SCHOLARSHIP · ESSAY DIAGNOSIS</div>
             <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:10px;">
               <span style="font-family:var(--font-mono); font-size:30px; font-weight:700;">72</span>
               <span style="font-size:13px; color:var(--ink-ghost);">/ 100 application strength</span>
@@ -737,14 +749,14 @@
               <div class="dash-mini">
                 <div class="dash-mini-head"><h4>Scholarship Season</h4><span class="pill pill-gold">Active</span></div>
                 <div class="dash-mini-grid">
-                  <div class="dash-mini-stat"><div class="lbl">Potential funding</div><div class="val">$37,500</div></div>
-                  <div class="dash-mini-stat"><div class="lbl">Strong matches</div><div class="val">12</div></div>
-                  <div class="dash-mini-stat"><div class="lbl">Applications active</div><div class="val">4</div></div>
-                  <div class="dash-mini-stat"><div class="lbl">Deadlines this week</div><div class="val">2</div></div>
+                  <div class="dash-mini-stat"><div class="lbl">Fixed-amount total</div><div class="val">$130,000</div></div>
+                  <div class="dash-mini-stat"><div class="lbl">Real matches</div><div class="val">8</div></div>
+                  <div class="dash-mini-stat"><div class="lbl">Open right now</div><div class="val">5</div></div>
+                  <div class="dash-mini-stat"><div class="lbl">Deadlines within 45 days</div><div class="val">3</div></div>
                 </div>
                 <div class="dash-mini-next">
                   <strong>Your next best move</strong>
-                  Finish the Global STEM Scholarship essay. Deadline in 6 days. Profile match: 94%.
+                  Start the Gates Scholarship. Deadline in 30 days. Likely match: 90%.
                 </div>
               </div>
             </div>
@@ -766,13 +778,13 @@
       <div class="analyze-grid reveal">
         <div class="analyze-essay">
           <p>
-            <span class="hl good">Growing up in Tripoli, I spent most weekends helping my father fix radios and small appliances</span><span class="hl-tag good">personal story</span>, which is where my curiosity about how things work really began. That curiosity carried into university, where I declared Computer Science and gravitated toward robotics. I joined the university's robotics team in my second year and worked with a group of six students to build an autonomous navigation system for our <span class="hl warn">National Robotics Olympiad entry, which placed first</span><span class="hl-tag warn">specificity</span>. My coursework has been strong across algorithms and applied mathematics, and I maintain a 3.8 GPA while publishing a research note on pathfinding efficiency. <span class="hl bad">I want to pursue graduate study in the US so I can work on robotics systems that are actually deployed in the field</span><span class="hl-tag bad">why this scholarship — unnamed</span>, not just demoed in a lab.
+            <span class="hl good">Growing up, I spent most weekends helping my father fix radios and small appliances</span><span class="hl-tag good">personal story</span>, which is where my curiosity about how things work really began. That curiosity carried into high school, where I gravitated toward robotics and computer science. I joined my school's robotics team in tenth grade and worked with a group of six students to build an autonomous navigation system for our <span class="hl warn">National Robotics Olympiad entry, which placed first</span><span class="hl-tag warn">specificity</span>. My coursework has been strong across algorithms and applied mathematics, and I maintain a 3.8 GPA while working part-time to help support my family. <span class="hl bad">I want to study computer science in college so I can build systems that are actually deployed in the field</span><span class="hl-tag bad">why this scholarship — unnamed</span>, not just demoed in a classroom.
           </p>
         </div>
         <div class="analyze-panel">
           <div class="ap-row"><span class="dot-status good"></span><div><strong>Personal story — 85</strong><span>Specific, sensory, and clearly yours from the first line.</span></div></div>
           <div class="ap-row"><span class="dot-status warn"></span><div><strong>Specificity — 68</strong><span>The Olympiad result is concrete — most of the rest isn't yet.</span></div></div>
-          <div class="ap-row"><span class="dot-status bad"></span><div><strong>Why this scholarship — 51</strong><span>Names the goal, never names Veya's example fund or its mission.</span></div></div>
+          <div class="ap-row"><span class="dot-status bad"></span><div><strong>Why this scholarship — 51</strong><span>Names the goal, but never connects it to Gates Scholarship's own mission.</span></div></div>
           <div class="ap-divider"></div>
           <div class="ap-verdict">
             <div class="ap-verdict-num">72<span>/100</span></div>
@@ -788,14 +800,15 @@
     <div class="container">
       <div class="method-head">
         <span class="eyebrow">HOW A MATCH SCORE IS BUILT</span>
-        <span class="method-note">Demo weighting shown for the example profile above — real weighting adapts per scholarship.</span>
+        <span class="method-note">Real example: The Gates Scholarship, scored against the profile shown above.</span>
       </div>
-      <div class="method-bar">
-        <div class="method-seg" style="width:35%; background:var(--ember);"><span>Academic fit<b>35%</b></span></div>
-        <div class="method-seg" style="width:25%; background:var(--violet);"><span>Financial need<b>25%</b></span></div>
-        <div class="method-seg" style="width:22%; background:var(--gold-bright); color:#241703;"><span>Achievements<b>22%</b></span></div>
-        <div class="method-seg" style="width:18%; background:var(--match-bright);"><span>Origin &amp; target<b>18%</b></span></div>
+      <div class="method-checks">
+        <div class="method-check pass"><span class="glyph">✓</span>Study level matches <b>— full credit</b></div>
+        <div class="method-check pass"><span class="glyph">✓</span>Citizenship eligible <b>— full credit</b></div>
+        <div class="method-check pass"><span class="glyph">✓</span>GPA requirement met <b>— full credit</b></div>
+        <div class="method-check unknown"><span class="glyph">⚠</span>Ethnicity requirement <b>— unconfirmed, half credit</b></div>
       </div>
+      <p class="method-formula">3 full + 1 half, out of 4 checks → <strong>90%, "likely match."</strong> Any single hard-disqualifying answer (wrong citizenship, wrong study level) overrides the score entirely and moves a scholarship to "not eligible" — no partial credit for criteria you can't meet.</p>
     </div>
   </div>
 

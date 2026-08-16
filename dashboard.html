@@ -43,19 +43,15 @@
 
   /* ---------- funding visualization ---------- */
   .funding-row{ margin-top:20px; }
-  .funding-viz{ display:flex; align-items:center; gap:36px; flex-wrap:wrap; }
-  .funding-donut-wrap{ position:relative; width:160px; height:160px; flex:none; }
-  .funding-donut{ width:100%; height:100%; }
-  .funding-donut-center{
-    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  }
-  .funding-donut-center .n{ font-family:var(--font-mono); font-weight:700; font-size:20px; }
-  .funding-donut-center .d{ font-size:10.5px; color:var(--ink-ghost); margin-top:2px; }
-  .funding-legend{ flex:1; min-width:220px; display:flex; flex-direction:column; gap:12px; }
-  .fl-row{ display:flex; align-items:center; gap:10px; font-size:13.5px; }
-  .fl-dot{ width:9px; height:9px; border-radius:2px; flex:none; }
+  .funding-viz{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:700px){ .funding-viz{ grid-template-columns:1fr; } }
+  .funding-col h4{ font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-ghost); margin:0 0 12px; }
+  .funding-col .total{ font-family:var(--font-mono); font-weight:700; font-size:26px; margin-bottom:14px; }
+  .fl-row{ display:flex; align-items:center; gap:10px; font-size:13.5px; padding:7px 0; border-bottom:1px solid var(--border); }
+  .fl-row:last-child{ border-bottom:none; }
+  .fl-dot{ width:8px; height:8px; border-radius:2px; flex:none; }
   .fl-name{ flex:1; font-weight:500; color:var(--ink-soft); }
-  .fl-amt{ font-family:var(--font-mono); font-weight:700; }
+  .fl-amt{ font-family:var(--font-mono); font-weight:700; font-size:12.5px; }
 
   .stat-row{ display:grid; grid-template-columns:340px repeat(5,1fr); gap:16px; padding:30px 0; }
   @media (max-width:1180px){ .stat-row{ grid-template-columns:1fr; } }
@@ -196,26 +192,16 @@
       <div>
         <span class="eyebrow">WELCOME BACK</span>
         <h1>Scholarship Season</h1>
-        <p>Computer Science · Bachelor's · Lebanon → United States</p>
+        <p>Computer Science · Bachelor's · high school senior · U.S. citizen</p>
       </div>
-      <div class="season-badge"><span class="dot2"></span>$37,500 potential funding · 61 days into this cycle</div>
+      <div class="season-badge"><span class="dot2"></span><span id="season-badge-text">Loading real matches…</span></div>
     </div>
   </div>
 </header>
 
 <main class="container">
 
-  <div class="nbm-hero reveal">
-    <div class="nbm-hero-left">
-      <div class="nbm-eyebrow">Your next best move</div>
-      <div class="nbm-hero-title">Finish the Global STEM Scholarship essay.</div>
-      <div class="nbm-meta"><span>Deadline in <strong>6 days</strong></span><span>Profile match: <strong>94%</strong></span><span><strong>$10,000</strong> at stake</span></div>
-      <a href="application.html" class="btn btn-gold">Open the essay workspace →</a>
-    </div>
-    <div class="nbm-hero-right">
-      <div class="nbm-ring-holder"><div id="nbm-ring"></div><div class="val"><span class="n">94</span><span class="d">MATCH</span></div></div>
-    </div>
-  </div>
+  <div class="nbm-hero reveal" id="nbm-hero"><!-- filled by JS --></div>
 
   <div class="stat-row reveal">
     <div class="score-card">
@@ -223,16 +209,16 @@
       <div class="score-card-text">
         <div class="eb">Your Veya Score</div>
         <div class="ti">78 / 100</div>
-        <div class="sub">Application readiness · ↑ 6 this month</div>
+        <div class="sub">Application readiness · essay-quality demo, not tied to scholarship data</div>
       </div>
     </div>
     <a href="matches.html" class="module-tile">
       <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.3" y="10" width="3.1" height="5.6" rx="0.6" stroke="currentColor" stroke-width="1.4"/><rect x="7.4" y="6" width="3.1" height="9.6" rx="0.6" stroke="currentColor" stroke-width="1.4"/><rect x="12.5" y="2.4" width="3.1" height="13.2" rx="0.6" stroke="currentColor" stroke-width="1.4"/></svg></div>
-      <div><div class="mv">12</div><div class="ml">Scholarships · strong matches</div></div>
+      <div><div class="mv" id="tile-strong-matches">—</div><div class="ml">Real scholarships · eligible or likely</div></div>
     </a>
     <a href="application.html" class="module-tile">
       <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2.5H10.5L13.5 5.5V15.5H5V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 2.5V5.5H13.4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 9H11.3M7 11.4H11.3M7 6.8H8.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-      <div><div class="mv">72<span style="font-size:13px; color:var(--ink-ghost);">/100</span></div><div class="ml">Essay score</div></div>
+      <div><div class="mv">72<span style="font-size:13px; color:var(--ink-ghost);">/100</span></div><div class="ml">Essay score (Gates Scholarship)</div></div>
     </a>
     <a href="application.html" class="module-tile">
       <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 2.5H10.5L13.5 5.5V15.5H5V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 2.5V5.5H13.4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 9H11.3M7 11.4H11.3M7 6.8H8.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
@@ -240,35 +226,19 @@
     </a>
     <a href="matches.html" class="module-tile">
       <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.5V12.5M11 7.1C10.7 6.4 9.95 6 9 6C7.9 6 7 6.55 7 7.4C7 8.25 7.75 8.55 9 8.85C10.25 9.15 11 9.55 11 10.4C11 11.25 10.1 11.85 9 11.85C8.05 11.85 7.3 11.4 7 10.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-      <div><div class="mv">6</div><div class="ml">Financial aid opportunities</div></div>
+      <div><div class="mv" id="tile-need-based">—</div><div class="ml">Need-based opportunities</div></div>
     </a>
     <a href="#deadlines" class="module-tile urgent-tile">
       <div class="mi"><svg class="ico" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7.25" stroke="currentColor" stroke-width="1.5"/><path d="M9 5.2V9L11.6 10.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div><div class="mv">3</div><div class="ml">Deadlines approaching</div></div>
+      <div><div class="mv" id="tile-deadlines-soon">—</div><div class="ml">Open deadlines within 45 days</div></div>
     </a>
   </div>
 
   <div class="funding-row reveal">
     <div class="card card-pad funding-card">
-      <div class="panel-title"><h3>Funding across active applications</h3><span class="mono" style="font-size:12px; color:var(--ink-ghost);">$20,500 of $37,500 potential</span></div>
-      <div class="funding-viz">
-        <div class="funding-donut-wrap">
-          <svg viewBox="0 0 160 160" class="funding-donut">
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--surface-sunken)" stroke-width="16"/>
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--ember)" stroke-width="16" stroke-dasharray="214.5 439.8" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--violet)" stroke-width="16" stroke-dasharray="107.3 439.8" stroke-dashoffset="-214.5" transform="rotate(-90 80 80)"/>
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--gold-bright)" stroke-width="16" stroke-dasharray="53.6 439.8" stroke-dashoffset="-321.8" transform="rotate(-90 80 80)"/>
-            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--match-bright)" stroke-width="16" stroke-dasharray="64.4 439.8" stroke-dashoffset="-375.4" transform="rotate(-90 80 80)"/>
-          </svg>
-          <div class="funding-donut-center"><span class="n">$20.5K</span><span class="d">4 applications</span></div>
-        </div>
-        <div class="funding-legend">
-          <div class="fl-row"><span class="fl-dot" style="background:var(--ember);"></span><span class="fl-name">Global STEM Futures</span><span class="fl-amt">$10,000</span></div>
-          <div class="fl-row"><span class="fl-dot" style="background:var(--violet);"></span><span class="fl-name">First-Gen Engineering</span><span class="fl-amt">$5,000</span></div>
-          <div class="fl-row"><span class="fl-dot" style="background:var(--gold-bright);"></span><span class="fl-name">Lebanon Diaspora Merit</span><span class="fl-amt">$3,000</span></div>
-          <div class="fl-row"><span class="fl-dot" style="background:var(--match-bright);"></span><span class="fl-name">Women in Data Science</span><span class="fl-amt">$2,500</span></div>
-        </div>
-      </div>
+      <div class="panel-title"><h3>Funding across your real matches</h3><span class="mono" style="font-size:12px; color:var(--ink-ghost);" id="funding-caption">—</span></div>
+      <div class="funding-viz" id="funding-viz"><!-- filled by JS --></div>
+      <p style="font-size:12px; color:var(--ink-ghost); margin:14px 0 0; line-height:1.6;">Fixed-amount and "last-dollar"/full-ride awards are shown separately — a full-ride's real value depends on your specific cost of attendance, so it isn't added into one misleading total.</p>
     </div>
   </div>
 
@@ -276,27 +246,8 @@
     <div class="dash-col">
 
       <div class="card card-pad reveal">
-        <div class="panel-title"><h3>Active applications</h3><a href="matches.html">View all matches →</a></div>
-        <div class="active-app">
-          <div class="aa-ring"><div class="ring-holder" data-ring="94" data-color="var(--match)"></div><div class="pct">94%</div></div>
-          <div class="aa-body"><div class="aa-title">Global STEM Futures Scholarship</div><div class="aa-sub">Essay in progress · 2 of 5 requirements done</div></div>
-          <div class="aa-right"><div class="aa-amount">$10,000</div><div style="font-size:11.5px; color:var(--urgent); font-family:var(--font-mono);">6 days left</div></div>
-        </div>
-        <div class="active-app">
-          <div class="aa-ring"><div class="ring-holder" data-ring="91" data-color="var(--match)"></div><div class="pct">91%</div></div>
-          <div class="aa-body"><div class="aa-title">First-Gen Engineering Award</div><div class="aa-sub">Waiting on recommendation letter</div></div>
-          <div class="aa-right"><div class="aa-amount">$5,000</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">20 days left</div></div>
-        </div>
-        <div class="active-app">
-          <div class="aa-ring"><div class="ring-holder" data-ring="87" data-color="var(--brand)"></div><div class="pct">87%</div></div>
-          <div class="aa-body"><div class="aa-title">Women in Data Science Grant</div><div class="aa-sub">Not started · portfolio link needed</div></div>
-          <div class="aa-right"><div class="aa-amount">$2,500</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">36 days left</div></div>
-        </div>
-        <div class="active-app">
-          <div class="aa-ring"><div class="ring-holder" data-ring="82" data-color="var(--brand)"></div><div class="pct">82%</div></div>
-          <div class="aa-body"><div class="aa-title">Lebanon Diaspora Merit Fund</div><div class="aa-sub">Transcript uploaded · essay not started</div></div>
-          <div class="aa-right"><div class="aa-amount">$3,000</div><div style="font-size:11.5px; color:var(--ink-ghost); font-family:var(--font-mono);">49 days left</div></div>
-        </div>
+        <div class="panel-title"><h3>Your strongest real matches</h3><a href="matches.html">View all matches →</a></div>
+        <div id="strongest-matches-list"><!-- filled by JS --></div>
       </div>
 
       <div class="card card-pad reveal">
@@ -327,9 +278,8 @@
       </div>
 
       <div class="card card-pad reveal">
-        <div class="panel-title"><h3>New matches this week</h3><a href="matches.html">See why they matched →</a></div>
-        <div class="mini-match"><span class="mm-pct">79%</span><span class="mm-name">International Excellence Award — Toronto</span><span class="mm-amt">$8,000</span></div>
-        <div class="mini-match"><span class="mm-pct">74%</span><span class="mm-name">Future Builders Innovation Scholarship</span><span class="mm-amt">$6,000</span></div>
+        <div class="panel-title"><h3>Also worth planning for</h3><a href="matches.html">See why they matched →</a></div>
+        <div id="also-matches-list"><!-- filled by JS --></div>
       </div>
 
     </div>
@@ -353,24 +303,13 @@
       </div>
 
       <div class="card card-pad reveal" id="deadlines">
-        <div class="panel-title"><h3>Deadlines this week</h3></div>
-        <div class="deadline-row">
-          <div class="dl-date soon"><span class="day">18</span><span class="mon">Aug</span></div>
-          <div class="dl-body"><div class="dl-title">Recommendation letter due to Prof. Haddad</div><div class="dl-sub">First-Gen Engineering Award</div></div>
-        </div>
-        <div class="deadline-row">
-          <div class="dl-date soon"><span class="day">20</span><span class="mon">Aug</span></div>
-          <div class="dl-body"><div class="dl-title">Portfolio link submission</div><div class="dl-sub">Women in Data Science Grant</div></div>
-        </div>
-        <div class="deadline-row">
-          <div class="dl-date"><span class="day">01</span><span class="mon">Sep</span></div>
-          <div class="dl-body"><div class="dl-title">Draft essay review checkpoint</div><div class="dl-sub">Global STEM Futures Scholarship</div></div>
-        </div>
+        <div class="panel-title"><h3>Real deadlines ahead</h3></div>
+        <div id="deadlines-list"><!-- filled by JS --></div>
       </div>
 
       <div class="card card-pad tip-card">
         <span class="eyebrow">MOMENTUM</span>
-        <p style="font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;">You've completed <strong>9 of 20</strong> requirements across active applications this season — ahead of where most students are at the 60-day mark.</p>
+        <p style="font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;" id="momentum-text">Loading…</p>
       </div>
 
     </aside>
@@ -388,8 +327,121 @@
 </footer>
 
 <script src="js/app.js"></script>
+<script src="js/scholarships-data.js"></script>
+<script src="js/matching.js"></script>
 <script>
-  renderRing(document.getElementById('nbm-ring'), 94, { size:118, stroke:9, color:'var(--ember)' });
+  function daysUntil(dateStr){
+    const clean = dateStr.replace(/\s*\(.*?\)/, '').replace(/^Opens\s+/i, '');
+    const d = new Date(clean);
+    const now = new Date('2026-08-16');
+    if (isNaN(d)) return null;
+    return Math.ceil((d - now) / 86400000);
+  }
+  function isOpensOnly(s){
+    // "Opens Aug 19, 2026" describes when applications become available,
+    // not a due date — must never be treated as an urgent deadline.
+    return /^opens\s/i.test(s.deadline);
+  }
+
+  const allMatches = matchAll(SCHOLARSHIPS, STUDENT_PROFILE);
+  const openMatches = sortMatches(allMatches.filter(m => m.bucket !== 'not_eligible' && m.scholarship.deadlineStatus !== 'closed_for_cycle'));
+  const closedMatches = allMatches.filter(m => m.bucket !== 'not_eligible' && m.scholarship.deadlineStatus === 'closed_for_cycle');
+  const strongMatches = allMatches.filter(m => m.bucket === 'eligible' || m.bucket === 'likely');
+
+  // ---- season badge ----
+  document.getElementById('season-badge-text').textContent =
+    `${strongMatches.length} real scholarships eligible or likely · ${openMatches.length} open right now`;
+
+  // ---- next best move: soonest confirmed deadline among open matches, ranked by score as tiebreaker ----
+  const nbm = [...openMatches].filter(m => !isOpensOnly(m.scholarship)).sort((a,b) => {
+    const da = daysUntil(a.scholarship.deadline), db = daysUntil(b.scholarship.deadline);
+    if (da === null) return 1;
+    if (db === null) return -1;
+    return da - db;
+  })[0];
+  if (nbm){
+    const days = daysUntil(nbm.scholarship.deadline);
+    document.getElementById('nbm-hero').innerHTML = `
+      <div class="nbm-hero-left">
+        <div class="nbm-eyebrow">Your next best move</div>
+        <div class="nbm-hero-title">Start your ${nbm.scholarship.name}.</div>
+        <div class="nbm-meta"><span>Deadline in <strong>${days} days</strong> (${nbm.scholarship.deadline})</span><span>${nbm.meta.label}: <strong>${nbm.score}%</strong></span><span><strong>${nbm.scholarship.amount ? '$'+nbm.scholarship.amount.toLocaleString() : nbm.scholarship.amountDisplay}</strong></span></div>
+        <a href="scholarship.html?id=${nbm.scholarship.id}" class="btn btn-gold">View this scholarship →</a>
+      </div>
+      <div class="nbm-hero-right">
+        <div class="nbm-ring-holder"><div id="nbm-ring"></div><div class="val"><span class="n">${nbm.score}</span><span class="d">${nbm.meta.label.toUpperCase()}</span></div></div>
+      </div>`;
+    renderRing(document.getElementById('nbm-ring'), nbm.score, { size:118, stroke:9, color:'var(--ember)' });
+  }
+
+  // ---- module tiles ----
+  document.getElementById('tile-strong-matches').textContent = strongMatches.length;
+  document.getElementById('tile-need-based').textContent = SCHOLARSHIPS.filter(s => s.needBased).length;
+  document.getElementById('tile-deadlines-soon').textContent =
+    openMatches.filter(m => { if (isOpensOnly(m.scholarship)) return false; const d = daysUntil(m.scholarship.deadline); return d !== null && d <= 45 && d >= 0; }).length;
+
+  // ---- funding: fixed-amount vs variable, honestly separated ----
+  const fixedAmount = strongMatches.filter(m => m.scholarship.amount);
+  const variableAmount = strongMatches.filter(m => !m.scholarship.amount);
+  const fixedTotal = fixedAmount.reduce((sum, m) => sum + m.scholarship.amount, 0);
+  const palette = ['var(--ember)','var(--violet)','var(--gold-bright)','var(--match-bright)','var(--ink-ghost)'];
+  document.getElementById('funding-caption').textContent = `${fixedAmount.length} fixed-amount + ${variableAmount.length} full-ride/variable`;
+  document.getElementById('funding-viz').innerHTML = `
+    <div class="funding-col">
+      <h4>Fixed-amount matches</h4>
+      <div class="total">$${fixedTotal.toLocaleString()}</div>
+      ${fixedAmount.map((m,i) => `<div class="fl-row"><span class="fl-dot" style="background:${palette[i % palette.length]};"></span><span class="fl-name">${m.scholarship.name}</span><span class="fl-amt">$${m.scholarship.amount.toLocaleString()}</span></div>`).join('')}
+    </div>
+    <div class="funding-col">
+      <h4>Full-ride / variable matches</h4>
+      <div class="total" style="color:var(--ink-ghost);">Not summable</div>
+      ${variableAmount.map((m,i) => `<div class="fl-row"><span class="fl-dot" style="background:var(--border-strong);"></span><span class="fl-name">${m.scholarship.name}</span><span class="fl-amt" style="color:var(--ink-ghost); font-weight:600;">${m.scholarship.amountDisplay}</span></div>`).join('')}
+    </div>`;
+
+  // ---- strongest real matches list ----
+  function matchRowHTML(m){
+    const s = m.scholarship;
+    const days = isOpensOnly(s) ? null : daysUntil(s.deadline);
+    const rightLabel = days !== null ? days+' days left' : s.deadline;
+    return `
+    <div class="active-app">
+      <div class="aa-ring"><div class="ring-holder" data-ring="${m.score}" data-color="${m.meta.color}"></div><div class="pct">${m.score}%</div></div>
+      <div class="aa-body"><div class="aa-title">${s.name}</div><div class="aa-sub">${m.meta.label} · ${s.provider}</div></div>
+      <div class="aa-right"><div class="aa-amount">${s.amount ? '$'+s.amount.toLocaleString() : s.amountDisplay}</div><div style="font-size:11.5px; color:${days!==null && days<=21 ? 'var(--urgent)':'var(--ink-ghost)'}; font-family:var(--font-mono);">${rightLabel}</div></div>
+    </div>`;
+  }
+  const topStrongest = openMatches.slice(0, 4);
+  document.getElementById('strongest-matches-list').innerHTML = topStrongest.map(matchRowHTML).join('') || '<p style="font-size:13px; color:var(--ink-ghost);">No open real matches right now — check the closed-cycle list on Matches for next year.</p>';
+
+  const alsoWorth = [...openMatches.slice(4), ...closedMatches].slice(0, 2);
+  document.getElementById('also-matches-list').innerHTML = alsoWorth.map(m => {
+    const s = m.scholarship;
+    const closedTag = s.deadlineStatus === 'closed_for_cycle' ? ' · closed for this cycle' : '';
+    return `<div class="mini-match"><span class="mm-pct">${m.score}%</span><span class="mm-name">${s.name}${closedTag}</span><span class="mm-amt">${s.amount ? '$'+s.amount.toLocaleString() : s.amountDisplay}</span></div>`;
+  }).join('') || '<p style="font-size:13px; color:var(--ink-ghost);">Nothing else to show yet.</p>';
+
+  // ---- deadlines panel: real dates from open matches ----
+  const monthNames = { Jan:'Jan',Feb:'Feb',Mar:'Mar',Apr:'Apr',May:'May',Jun:'Jun',Jul:'Jul',Aug:'Aug',Sep:'Sep',Oct:'Oct',Nov:'Nov',Dec:'Dec' };
+  function deadlineRowHTML(m){
+    const s = m.scholarship;
+    const parts = s.deadline.match(/([A-Za-z]{3})\w*\s+(\d{1,2})/);
+    const mon = parts ? parts[1] : '—';
+    const day = parts ? parts[2].padStart(2,'0') : '—';
+    const days = daysUntil(s.deadline);
+    const soon = days !== null && days <= 30;
+    return `<div class="deadline-row">
+      <div class="dl-date ${soon ? 'soon' : ''}"><span class="day">${day}</span><span class="mon">${mon}</span></div>
+      <div class="dl-body"><div class="dl-title">${s.name}</div><div class="dl-sub">${s.provider} · ${m.meta.label}</div></div>
+    </div>`;
+  }
+  document.getElementById('deadlines-list').innerHTML = openMatches.filter(m => !isOpensOnly(m.scholarship)).slice(0,3).map(deadlineRowHTML).join('');
+
+  // ---- momentum tip: real, computed ----
+  const eligibleCount = allMatches.filter(m => m.bucket === 'eligible').length;
+  const likelyCount = allMatches.filter(m => m.bucket === 'likely').length;
+  document.getElementById('momentum-text').innerHTML =
+    `<strong>${eligibleCount}</strong> of your real matches are fully eligible right now, and <strong>${likelyCount}</strong> more are likely — start with ${nbm ? '<strong>'+nbm.scholarship.name+'</strong>' : 'your top match'}, since its deadline is closest.`;
+
   renderRing(document.getElementById('veya-score-ring'), 78, { size:104, stroke:9, color:'var(--ember)' });
   renderRing(document.getElementById('strength-ring'), 78, { size:108, stroke:11, color:'var(--brand)' });
   document.querySelectorAll('.ring-holder').forEach(el => {

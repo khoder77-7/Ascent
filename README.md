@@ -1,23 +1,43 @@
 # Veya — AI-powered scholarship application coach
 
-A working front-end prototype of the product you described: profile → ranked
-matches → per-scholarship application workspace with AI essay diagnosis →
-season dashboard. It's static HTML/CSS/JS (no build step, no dependencies),
-so it deploys to Vercel in about a minute and is easy to hand to a backend
-developer to wire up to real data.
+A working front-end prototype: profile → real, verified scholarship matches
+→ per-scholarship application workspace with essay diagnosis → season
+dashboard. Static HTML/CSS/JS (no build step, no dependencies), deploys to
+Vercel in about a minute.
+
+## Real scholarship data (important)
+
+As of this build, `js/scholarships-data.js` contains **10 real scholarships**,
+each individually researched from its official provider page and tagged with
+a `lastChecked` date and source URL(s). No scholarship name, amount,
+deadline, eligibility rule, or URL in that file is invented — where a detail
+couldn't be confirmed, it's explicitly marked `Verified: false` or flagged
+"needs verification" in the relevant field.
+
+`js/matching.js` computes match scores by comparing the real eligibility
+data against one example student profile (`STUDENT_PROFILE`) — every score
+is a percentage of an actual checklist (pass/unknown/fail per criterion),
+never an arbitrary number. See `trust.html#data` for the full methodology.
+
+**This is a small, honest starting set, not a finished database.** The
+product intentionally shows 10 verified scholarships rather than a larger
+list of unverified ones — see the "why the database is small" note in
+`trust.html`. Expanding it means repeating the same research-and-verify
+process per scholarship, not scaling up the fabrication.
 
 ## Pages
 
 | Page | What it does |
 |---|---|
-| `index.html` | Landing page — Match Engine hero, Veya Path journey (6 stages), "Veya analyzing an application" showcase, big stats, methodology strip |
-| `login.html` | Branded login — Google button, email/password, forgot password (all wired to the demo dashboard, not real auth) |
+| `index.html` | Landing page — Match Engine hero, Veya Path journey (6 stages), "Veya analyzing an application" showcase, honest big stats, real-data-driven methodology explainer |
+| `login.html` | Branded login — Google button, email/password, forgot-password flow (all wired to the demo dashboard, not real auth) |
 | `onboarding.html` | Multi-step profile builder (GPA, nationality, degree, major, university, financial situation, achievements, extracurriculars, target country/university) |
-| `matches.html` | Ranked scholarship matches — large match %, funding, deadline, why-you-match, and a per-scholarship weakness callout |
-| `application.html` | Per-scholarship workspace: requirements checklist, essay editor with a dominant score ring, subscore breakdown (personal story / specificity / why-this-scholarship / structure), and a highlighted "how Veya reads this essay" annotated view |
-| `dashboard.html` | Command center: "Next best move" as a full-width hero, large Veya Score ring, funding donut chart, deadline timeline, score trend chart |
-| `pricing.html` | Free vs Pro, each tier visualized against the 6-stage Veya Path instead of a generic feature list |
-| `trust.html` | Plain-language privacy, terms, document handling, AI disclaimers |
+| `matches.html` | Real scholarships ranked by an explainable match engine — Eligible / Likely match / Possible match / Missing information / Not eligible, each with a visible checklist, official apply link, and a collapsed "not eligible" section |
+| `scholarship.html?id=...` | Scholarship detail view: What is it? → Why do I qualify? → What could prevent me from qualifying? → What do I need to submit? → Where do I apply? — plus source links and last-checked date |
+| `application.html` | Essay workspace for a real scholarship (The Gates Scholarship): requirements checklist, essay editor with a dominant score ring, subscore breakdown, and a highlighted "how Veya reads this essay" annotated view |
+| `dashboard.html` | Command center driven by the same real matching engine: "Next best move," Veya Score ring, funding breakdown (fixed-amount vs. full-ride, kept honestly separate), real deadline timeline |
+| `pricing.html` | Free vs Pro, each tier visualized against the 6-stage Veya Path |
+| `trust.html` | How scholarship data is verified, document handling, AI disclaimers, privacy, terms |
 
 Every page carries a small "Demo" badge next to the logo — this is a UI prototype with illustrative data, not a live service, and that's stated explicitly rather than implied.
 
