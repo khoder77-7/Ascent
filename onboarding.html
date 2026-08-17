@@ -62,6 +62,13 @@
   .field{ margin-bottom:22px; }
   .field label{ display:block; font-size:13.5px; font-weight:600; margin-bottom:8px; color:var(--ink-soft); }
   .field .hint{ font-size:12.5px; color:var(--ink-ghost); margin-top:6px; }
+
+  .optional-unlock-box{
+    background:var(--surface-sunken); border:1px solid var(--border); border-radius:10px;
+    padding:18px 20px; margin-top:24px;
+  }
+  .oub-title{ font-weight:700; font-size:13.5px; margin-bottom:6px; color:var(--ink); }
+  .oub-sub{ font-size:12.5px; color:var(--ink-faint); line-height:1.6; margin:0 0 16px; }
   .field input[type=text], .field input[type=number], .field select, .field textarea{
     width:100%; padding:13px 14px; border-radius:11px; border:1.5px solid var(--border);
     font-family:var(--font-ui); font-size:14.5px; color:var(--ink); background:#fff;
@@ -104,7 +111,7 @@
 
 <nav class="onb-nav">
   <div class="container">
-    <div class="brand-group"><a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a><span class="demo-badge" title="This is a product demo with example data — not a live service or real user accounts.">Demo</span></div>
+    <a href="index.html" class="brand-mark"><svg class="veya-symbol" width="20" height="18" viewBox="0 0 26 22" fill="none" style="color:var(--ember);" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3L12.5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12.5 19L23.5 1.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.1" fill="currentColor"/></svg>veya</a>
     <a href="dashboard.html" class="btn btn-ghost btn-sm">Skip for now</a>
   </div>
 </nav>
@@ -190,6 +197,31 @@
           <textarea placeholder="e.g. First-generation university student, primary income earner for my family, refugee or displaced status, disability, religious or community affiliations tied to specific scholarships, etc."></textarea>
           <div class="hint">This is where niche eligibility criteria — the kind most search sites miss — actually get matched.</div>
         </div>
+
+        <div class="optional-unlock-box">
+          <div class="oub-title">A few optional details that unlock full eligibility checks</div>
+          <p class="oub-sub">These aren't required to see matches — but some scholarships (like need- or identity-based funds) can't confirm you're eligible without them. Leave any blank and we'll just flag it as unconfirmed instead of guessing.</p>
+          <div class="field-row">
+            <div class="field">
+              <label>Ethnicity / heritage <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+              <input type="text" id="ethnicity" placeholder="e.g. Hispanic, Asian American, prefer not to say">
+            </div>
+            <div class="field">
+              <label>Gender <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+              <input type="text" id="gender" placeholder="e.g. Woman, prefer not to say">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Approx. family income <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+              <input type="text" id="family-income" placeholder="e.g. under $95,000">
+            </div>
+            <div class="field">
+              <label>College-readiness / access program <span style="font-weight:400; color:var(--ink-ghost);">(optional)</span></label>
+              <input type="text" id="readiness-program" placeholder="e.g. AVID, QuestBridge Prep, none">
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- STEP 3: ACHIEVEMENTS -->
@@ -244,9 +276,9 @@
 
         <div class="review-grid" id="review-grid"><!-- filled by JS --></div>
 
-        <div class="card card-pad" style="background:var(--match-tint); border-color:rgba(20,127,82,0.2); margin-bottom:8px;">
-          <strong style="color:var(--match); font-size:14.5px;">✓ Profile complete</strong>
-          <p style="margin:6px 0 0; font-size:13.5px; color:#0F5C3A;">We found strong matches already. Continue to see your ranked list.</p>
+        <div class="card card-pad" id="completeness-card" style="margin-bottom:8px;">
+          <strong id="completeness-headline" style="font-size:14.5px;">—</strong>
+          <p id="completeness-body" style="margin:6px 0 0; font-size:13.5px;">—</p>
         </div>
       </div>
 
@@ -330,6 +362,31 @@
       ['Target university', val('target-university') || 'Open'],
     ];
     grid.innerHTML = items.map(([l,v]) => `<div class="review-item"><div class="rl">${l}</div><div class="rv">${v}</div></div>`).join('');
+
+    // ---- completeness: core fields always filled by this wizard; optional fields unlock specific eligibility checks ----
+    const optional = [
+      { id: 'ethnicity', label: 'Ethnicity / heritage', unlocks: 'Gates Scholarship, HSF Scholar' },
+      { id: 'gender', label: 'Gender', unlocks: 'SWE Society-Selected' },
+      { id: 'family-income', label: 'Approx. family income', unlocks: 'Cooke College Scholarship' },
+      { id: 'readiness-program', label: 'College-readiness program', unlocks: 'Dell Scholars' },
+    ];
+    const filled = optional.filter(f => val(f.id).trim().length > 0);
+    const missing = optional.filter(f => val(f.id).trim().length === 0);
+    const card = document.getElementById('completeness-card');
+    const headline = document.getElementById('completeness-headline');
+    const body = document.getElementById('completeness-body');
+
+    if (missing.length === 0){
+      card.style.background = 'var(--match-tint)'; card.style.borderColor = 'rgba(20,127,82,0.2)';
+      headline.style.color = 'var(--match)'; headline.textContent = 'Profile ready — every optional check unlocked';
+      body.style.color = '#0F5C3A';
+      body.textContent = `Every eligibility detail we can check for is filled in. Continue to see your ranked matches.`;
+    } else {
+      card.style.background = 'var(--gold-tint)'; card.style.borderColor = 'rgba(180,121,10,0.25)';
+      headline.style.color = 'var(--gold)'; headline.textContent = `${filled.length} of ${optional.length} optional details added`;
+      body.style.color = '#5B4610';
+      body.textContent = `Still missing: ${missing.map(f=>f.label).join(', ')} — without these, ${missing.length === 1 ? 'a scholarship' : 'some scholarships'} (${missing.map(f=>f.unlocks).join(', ')}) will show as "missing information" instead of a confirmed match. You can add these anytime — continuing now is fine too.`;
+    }
   }
 
   render();
