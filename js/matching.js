@@ -10,7 +10,7 @@
 // reports them as "missing information," never guesses.
 // ============================================================
 
-const STUDENT_PROFILE = {
+const DEFAULT_STUDENT_PROFILE = {
   citizenship: 'us_citizen',        // 'us_citizen' | 'us_permanent_resident' | 'international' | 'daca'
   levelNow: 'hs_senior',            // 'hs_senior' | 'undergrad' | 'grad' | 'bachelors_complete'
   gpa: 3.8,                         // unweighted, 4.0 scale
@@ -25,6 +25,15 @@ const STUDENT_PROFILE = {
   gender: null,                     // not disclosed
   familyIncome: null                // exact figure not disclosed
 };
+
+// If the person has completed onboarding, use their real saved answers —
+// merged over the defaults so any field onboarding doesn't collect still
+// has a sensible fallback. loadProfile() comes from profile-store.js,
+// which must be loaded before this file.
+const _savedProfile = (typeof loadProfile === 'function') ? loadProfile() : null;
+const STUDENT_PROFILE = _savedProfile
+  ? Object.assign({}, DEFAULT_STUDENT_PROFILE, _savedProfile)
+  : DEFAULT_STUDENT_PROFILE;
 
 function chk(id, label, status, note){
   // status: 'pass' | 'unknown' | 'fail' | 'info'
@@ -122,7 +131,7 @@ const MATCHERS = {
   'swe-society-selected'(p){
     return [
       chk('field', 'Field matches', /engineer|computer science|comp sci/i.test(p.major) ? 'pass' : 'fail', 'Restricted to ABET-accredited engineering, engineering technology, or computer science programs.'),
-      chk('gender', 'Gender eligibility', p.gender ? (p.gender === 'female' ? 'pass' : 'fail') : 'unknown', 'Open only to applicants who identify as female/woman — not in your profile yet.'),
+      chk('gender', 'Gender eligibility', p.gender ? (/^(female|woman)$/i.test(p.gender.trim()) ? 'pass' : 'fail') : 'unknown', 'Open only to applicants who identify as female/woman — not in your profile yet.'),
       chk('level', 'Study level matches', p.levelNow === 'hs_senior' ? 'pass' : 'fail', 'Emerging First Year track covers incoming first-year students, including current high school seniors.')
     ];
   }

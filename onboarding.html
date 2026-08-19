@@ -108,6 +108,11 @@
 </style>
 </head>
 <body>
+<script src="js/env.local.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/profile-store.js"></script>
+<script src="js/auth.js"></script>
+<script>veyaRequireAuth();</script>
 
 <nav class="onb-nav">
   <div class="container">
@@ -119,7 +124,7 @@
 <div class="onb-wrap">
   <aside class="onb-rail">
     <h2>Build your profile</h2>
-    <p>Five minutes now saves you from scrolling through thousands of scholarships you'd never qualify for.</p>
+    <p>Answer a few questions to unlock scholarships matched to your profile — five minutes now saves you from scrolling through thousands you'd never qualify for.</p>
     <div class="rail-steps" id="rail-steps">
       <div class="rail-step active" data-rail="0"><div class="num">1</div><div class="connector"></div><div class="txt"><div class="t">Academics</div><div class="d">Degree, major, GPA</div></div></div>
       <div class="rail-step" data-rail="1"><div class="num">2</div><div class="connector"></div><div class="txt"><div class="t">Background</div><div class="d">Nationality &amp; finances</div></div></div>
@@ -140,7 +145,17 @@
         <p class="sub">This is the backbone of most eligibility criteria — get it right and half your matches sharpen immediately.</p>
 
         <div class="field">
-          <label for="degree">Degree level</label>
+          <label for="current-status">Current status</label>
+          <select id="current-status">
+            <option value="hs_senior">High school senior (applying to college)</option>
+            <option value="undergrad">Current undergraduate</option>
+            <option value="grad">Graduate student</option>
+            <option value="bachelors_complete">Bachelor's degree completed</option>
+          </select>
+          <div class="hint">This decides which scholarships you're even eligible to apply to right now — it matters more than any other field.</div>
+        </div>
+        <div class="field">
+          <label for="degree">Degree you're pursuing</label>
           <select id="degree">
             <option>Bachelor's</option>
             <option>Master's</option>
@@ -184,12 +199,30 @@
           <input type="text" id="nationality" placeholder="e.g. Lebanese">
         </div>
         <div class="field">
+          <label for="citizenship-status">Citizenship / residency status</label>
+          <select id="citizenship-status">
+            <option value="us_citizen">U.S. citizen</option>
+            <option value="us_permanent_resident">U.S. permanent resident</option>
+            <option value="daca">DACA recipient</option>
+            <option value="international">International (other)</option>
+          </select>
+          <div class="hint">Many large scholarships restrict eligibility by citizenship — this alone changes which matches are possible.</div>
+        </div>
+        <div class="field">
           <label>Financial situation</label>
           <div class="chip-group" id="financial-chips">
             <span class="chip">High financial need</span>
             <span class="chip sel">Some financial need</span>
             <span class="chip">Limited need</span>
             <span class="chip">Prefer not to say</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pell Grant eligible? <span style="font-weight:400; color:var(--ink-ghost);">(or expect to be)</span></label>
+          <div class="chip-group" id="pell-chips">
+            <span class="chip sel">Yes</span>
+            <span class="chip">No</span>
+            <span class="chip">Not sure</span>
           </div>
         </div>
         <div class="field">
@@ -290,8 +323,41 @@
   </main>
 </div>
 
+<!-- analyzing transition, shown after the final step -->
+<div id="analyzing-overlay" class="analyzing-overlay">
+  <div class="analyzing-box">
+    <div class="analyzing-ring"></div>
+    <div class="analyzing-text" id="analyzing-text">Analyzing your profile…</div>
+  </div>
+</div>
+
+<style>
+  .analyzing-overlay{
+    display:none; position:fixed; inset:0; z-index:100; background:var(--ink-900);
+    align-items:center; justify-content:center; flex-direction:column;
+  }
+  .analyzing-overlay.show{ display:flex; }
+  .analyzing-box{ text-align:center; color:#fff; }
+  .analyzing-ring{
+    width:52px; height:52px; border-radius:50%; margin:0 auto 24px;
+    border:3px solid rgba(255,255,255,0.15); border-top-color:var(--ember);
+    animation:analyzeSpin 0.9s linear infinite;
+  }
+  @keyframes analyzeSpin{ to{ transform:rotate(360deg); } }
+  .analyzing-text{ font-family:var(--font-display); font-size:19px; font-weight:500; }
+</style>
+
 <script src="js/app.js"></script>
 <script>
+  const params = new URLSearchParams(window.location.search);
+  const isEditMode = params.get('edit') === '1';
+
+  // returning users shouldn't be forced back through onboarding —
+  // unless they explicitly came here to edit their profile
+  if (!isEditMode && hasCompletedOnboarding()){
+    window.location.href = 'dashboard.html';
+  }
+
   const steps = Array.from(document.querySelectorAll('.fieldset'));
   const railSteps = Array.from(document.querySelectorAll('.rail-step'));
   const btnBack = document.getElementById('btn-back');
@@ -313,11 +379,115 @@
     window.scrollTo({ top: 0, behavior:'smooth' });
   }
 
+  // ---- field helpers ----
+  function val(id){ return document.getElementById(id) ? document.getElementById(id).value : ''; }
+  function setVal(id, v){ const el = document.getElementById(id); if (el && v !== undefined && v !== null) el.value = v; }
+  function selChip(groupEl){ const s = groupEl.querySelector('.chip.sel'); return s ? s.textContent : '—'; }
+  function selectChipByText(groupEl, text){
+    if (!groupEl || !text) return;
+    groupEl.querySelectorAll('.chip').forEach(c => c.classList.toggle('sel', c.textContent.trim() === text.trim()));
+  }
+
+  // ---- collect every field into a flat object, for both drafts and the final profile ----
+  function collectFieldValues(){
+    return {
+      currentStatus: val('current-status'),
+      degree: val('degree'),
+      major: val('major'),
+      university: val('university'),
+      gpaScale: document.querySelector('#gpa-scale .chip.sel') ? document.querySelector('#gpa-scale .chip.sel').dataset.scale : '4.0',
+      gpaValue: document.getElementById('gpa-val').textContent,
+      nationality: val('nationality'),
+      citizenshipStatus: val('citizenship-status'),
+      financialSituation: selChip(document.getElementById('financial-chips')),
+      pellEligible: selChip(document.getElementById('pell-chips')),
+      otherEligibility: document.querySelector('#step-2-other') ? document.querySelector('#step-2-other').value : '',
+      ethnicity: val('ethnicity'),
+      gender: val('gender'),
+      familyIncome: val('family-income'),
+      readinessProgram: val('readiness-program'),
+      achievements: val('achievements'),
+      extracurriculars: val('extracurriculars'),
+      targetCountry: val('target-country'),
+      targetUniversity: val('target-university'),
+    };
+  }
+
+  function applyFieldValues(f){
+    if (!f) return;
+    setVal('current-status', f.currentStatus);
+    setVal('degree', f.degree);
+    setVal('major', f.major);
+    setVal('university', f.university);
+    setVal('nationality', f.nationality);
+    setVal('citizenship-status', f.citizenshipStatus);
+    setVal('ethnicity', f.ethnicity);
+    setVal('gender', f.gender);
+    setVal('family-income', f.familyIncome);
+    setVal('readiness-program', f.readinessProgram);
+    setVal('achievements', f.achievements);
+    setVal('extracurriculars', f.extracurriculars);
+    setVal('target-country', f.targetCountry);
+    setVal('target-university', f.targetUniversity);
+    selectChipByText(document.getElementById('financial-chips'), f.financialSituation);
+    selectChipByText(document.getElementById('pell-chips'), f.pellEligible);
+    if (f.gpaScale){
+      const chip = document.querySelector(`#gpa-scale .chip[data-scale="${f.gpaScale}"]`);
+      if (chip) chip.click();
+    }
+    if (f.gpaValue){
+      const range = document.getElementById('gpa-range');
+      range.value = f.gpaValue;
+      updateGpaVal();
+    }
+  }
+
+  // ---- restore draft (in-progress) or full saved profile (edit mode) on load ----
+  (function restoreOnLoad(){
+    if (isEditMode && hasCompletedOnboarding()){
+      const p = loadProfile();
+      // saved STUDENT_PROFILE shape differs slightly from raw field values — reverse-map what we can
+      setVal('major', p.major);
+      setVal('degree', p.degreeTarget);
+      setVal('target-university', p.targetUniversity);
+      setVal('ethnicity', p.ethnicity);
+      setVal('gender', p.gender);
+      setVal('readiness-program', p.collegeReadinessProgram);
+      if (p.citizenship) setVal('citizenship-status', p.citizenship);
+      if (p.levelNow) setVal('current-status', p.levelNow);
+      const financialMap = { high:'High financial need', some:'Some financial need', limited:'Limited need' };
+      if (p.financialNeed) selectChipByText(document.getElementById('financial-chips'), financialMap[p.financialNeed]);
+      if (p.pellEligible === true) selectChipByText(document.getElementById('pell-chips'), 'Yes');
+      if (p.pellEligible === false) selectChipByText(document.getElementById('pell-chips'), 'No');
+      if (typeof p.gpa === 'number'){
+        document.getElementById('gpa-range').value = p.gpa;
+        updateGpaVal();
+      }
+      return;
+    }
+    const draft = loadDraft();
+    if (draft){
+      applyFieldValues(draft.fields);
+      current = Math.min(draft.step || 0, steps.length - 1);
+    }
+  })();
+
   btnNext.addEventListener('click', () => {
-    if (current < steps.length - 1){ current++; render(); }
-    else { window.location.href = 'matches.html'; }
+    if (current < steps.length - 1){
+      current++;
+      saveDraft(current, collectFieldValues());
+      render();
+    } else {
+      finishOnboarding();
+    }
   });
-  btnBack.addEventListener('click', () => { if (current > 0){ current--; render(); } });
+  btnBack.addEventListener('click', () => {
+    if (current > 0){
+      current--;
+      saveDraft(current, collectFieldValues());
+      render();
+    }
+  });
 
   // chip selection (single-select per group, except financial situation acts single too)
   document.querySelectorAll('.chip-group').forEach(group => {
@@ -346,17 +516,14 @@
   }
   document.getElementById('gpa-range').addEventListener('input', updateGpaVal);
 
-  function val(id){ return document.getElementById(id) ? document.getElementById(id).value : ''; }
-  function selChip(groupEl){ const s = groupEl.querySelector('.chip.sel'); return s ? s.textContent : '—'; }
-
   function buildReview(){
     const grid = document.getElementById('review-grid');
     const items = [
-      ['Degree', val('degree')],
+      ['Current status', document.getElementById('current-status').selectedOptions[0].textContent],
       ['Major', val('major') || '—'],
       ['University', val('university') || '—'],
       ['GPA', document.getElementById('gpa-val').textContent],
-      ['Nationality', val('nationality') || '—'],
+      ['Citizenship', document.getElementById('citizenship-status').selectedOptions[0].textContent],
       ['Financial situation', selChip(document.getElementById('financial-chips'))],
       ['Target country', val('target-country') || '—'],
       ['Target university', val('target-university') || 'Open'],
@@ -387,6 +554,79 @@
       body.style.color = '#5B4610';
       body.textContent = `Still missing: ${missing.map(f=>f.label).join(', ')} — without these, ${missing.length === 1 ? 'a scholarship' : 'some scholarships'} (${missing.map(f=>f.unlocks).join(', ')}) will show as "missing information" instead of a confirmed match. You can add these anytime — continuing now is fine too.`;
     }
+  }
+
+  // ---- normalize whatever GPA scale was selected down to a 4.0 unweighted figure ----
+  function normalizeGpa(rawValue, scale){
+    const n = parseFloat(rawValue);
+    if (isNaN(n)) return null;
+    if (scale === '100') return Math.round((n / 100) * 4 * 100) / 100;
+    if (scale === '5.0') return Math.round((n / 5) * 4 * 100) / 100;
+    return n;
+  }
+
+  function parseIncome(text){
+    if (!text) return null;
+    const matches = text.replace(/,/g, '').match(/\d+/g);
+    if (!matches) return null;
+    return parseInt(matches[matches.length - 1], 10);
+  }
+
+  function financialNeedEnum(chipText){
+    if (chipText === 'High financial need') return 'high';
+    if (chipText === 'Some financial need') return 'some';
+    if (chipText === 'Limited need') return 'limited';
+    return null; // "Prefer not to say" or unset
+  }
+
+  function pellEnum(chipText){
+    if (chipText === 'Yes') return true;
+    if (chipText === 'No') return false;
+    return null; // "Not sure"
+  }
+
+  // ---- build the real STUDENT_PROFILE-shaped object the matching engine reads ----
+  function buildProfileFromForm(){
+    const f = collectFieldValues();
+    return {
+      citizenship: f.citizenshipStatus || null,
+      levelNow: f.currentStatus || null,
+      gpa: normalizeGpa(f.gpaValue, f.gpaScale),
+      major: f.major || null,
+      degreeTarget: f.degree || null,
+      financialNeed: financialNeedEnum(f.financialSituation),
+      pellEligible: pellEnum(f.pellEligible),
+      collegeReadinessProgram: f.readinessProgram || null,
+      targetUniversity: f.targetUniversity || null,
+      ethnicity: f.ethnicity || null,
+      gender: f.gender || null,
+      familyIncome: parseIncome(f.familyIncome),
+    };
+  }
+
+  function finishOnboarding(){
+    const profile = buildProfileFromForm();
+    saveProfile(profile);
+    syncProfileToSupabase(profile); // no-ops safely if Supabase isn't configured or no session — fire-and-forget, doesn't block the transition below
+
+    const overlay = document.getElementById('analyzing-overlay');
+    const text = document.getElementById('analyzing-text');
+    overlay.classList.add('show');
+    const messages = [
+      'Analyzing your profile…',
+      'Checking eligibility against real scholarship criteria…',
+      'Finding scholarships where you have the strongest match…',
+    ];
+    let i = 0;
+    text.textContent = messages[0];
+    const interval = setInterval(() => {
+      i++;
+      if (i < messages.length) text.textContent = messages[i];
+    }, 650);
+    setTimeout(() => {
+      clearInterval(interval);
+      window.location.href = 'dashboard.html';
+    }, 2100);
   }
 
   render();
