@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/icon-512.svg">
-<title>The Gates Scholarship — Application workspace — Veya</title>
+<title>Application workspace — Veya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
@@ -135,7 +135,7 @@
     <div class="app-head-top">
       <div>
         <span class="eyebrow">APPLICATION WORKSPACE</span>
-        <h1 id="app-title">The Gates Scholarship</h1>
+        <h1 id="app-title">Loading your workspace…</h1>
         <div class="app-meta" id="app-meta"><!-- filled by JS --></div>
       </div>
       <a href="matches.html" class="btn btn-ghost btn-sm">← All matches</a>
@@ -150,34 +150,13 @@
     <div class="card card-pad" data-checklist-group>
       <div class="panel-title">
         <h3>Requirements</h3>
-        <span class="mono" data-checklist-progress style="font-size:13px; color:var(--ink-soft); font-weight:700;">2/4</span>
+        <span class="mono" data-checklist-progress style="font-size:13px; color:var(--ink-soft); font-weight:700;">0/0</span>
       </div>
       <div class="checklist-progress-row">
-        <div class="bar-track"><div class="bar-fill match" data-checklist-bar style="transform:scaleX(0.5);"></div></div>
+        <div class="bar-track"><div class="bar-fill match" data-checklist-bar style="transform:scaleX(0);"></div></div>
       </div>
-      <div class="checklist">
-        <div class="check-row done">
-          <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L4.8 8.8L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="check-label">Online application</div>
-          <div class="check-meta">Started</div>
-        </div>
-        <div class="check-row done">
-          <div class="check-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L4.8 8.8L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="check-label">Pell/FAFSA eligibility documentation</div>
-          <div class="check-meta">Uploaded</div>
-        </div>
-        <div class="check-row">
-          <div class="check-box"></div>
-          <div class="check-label">Recommendations</div>
-          <div class="check-meta">Requested</div>
-        </div>
-        <div class="check-row">
-          <div class="check-box"></div>
-          <div class="check-label">Essays</div>
-          <div class="check-meta">Analyzing below ↓</div>
-        </div>
-      </div>
-      <p style="font-size:11.5px; color:var(--ink-ghost); margin:14px 0 0; line-height:1.5;">Requirement list sourced from Gates Scholarship's official eligibility page. Upload/status states above are simulated for this demo — Veya doesn't yet connect to a real application.</p>
+      <div class="checklist" id="requirements-checklist"><!-- filled by JS from the selected scholarship's real requirements --></div>
+      <p style="font-size:11.5px; color:var(--ink-ghost); margin:14px 0 0; line-height:1.5;" id="requirements-footnote">—</p>
     </div>
 
     <!-- essay analyzer -->
@@ -215,7 +194,7 @@
     <div class="card card-pad" id="analysis-results">
       <div class="panel-title">
         <h3>Current application strength</h3>
-        <span class="mono" style="font-size:12px; color:var(--ink-ghost);">Scored against the Gates Scholarship's published criteria</span>
+        <span class="mono" style="font-size:12px; color:var(--ink-ghost);" id="scored-against-label">—</span>
       </div>
 
       <div class="overall-score-row">
@@ -224,8 +203,8 @@
           <div class="val"><span class="n" id="overall-n">74</span><span class="d">OUT OF 100</span></div>
         </div>
         <div class="overall-text">
-          <h4 id="overall-headline">Solid foundation, one clear gap</h4>
-          <p id="overall-sub">Your academic fit is excellent and your story is well told — leadership is what's keeping this out of the top tier.</p>
+          <h4 id="overall-headline">—</h4>
+          <p id="overall-sub">Paste an essay above and click "Analyze" to see your results here.</p>
         </div>
       </div>
 
@@ -236,8 +215,8 @@
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L15 14H1L8 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6.2V9.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r="0.8" fill="currentColor"/></svg>
         </div>
         <div>
-          <div class="wt" id="weakness-title">Your biggest weakness: You haven't demonstrated enough leadership.</div>
-          <div class="wb" id="weakness-body">You mention joining a six-person robotics team, but the essay never says what you personally decided, owned, or changed. Scholarship reviewers weight individual initiative heavily — right now this reads as "participated in," not "led."</div>
+          <div class="wt" id="weakness-title">—</div>
+          <div class="wb" id="weakness-body">Run an analysis above to see your biggest weakness here.</div>
         </div>
       </div>
 
@@ -259,7 +238,7 @@
       <div class="snap-row"><span class="l">Deadline</span><span class="v" id="snap-deadline">—</span></div>
       <div class="snap-row"><span class="l">Field</span><span class="v" id="snap-field">—</span></div>
       <div class="snap-row"><span class="l">Level</span><span class="v" id="snap-level">—</span></div>
-      <a href="scholarship.html?id=gates-scholarship" style="font-size:12.5px; font-weight:600; color:var(--brand); display:block; margin-top:12px;">View full scholarship details →</a>
+      <a href="#" id="snap-detail-link" style="font-size:12.5px; font-weight:600; color:var(--brand); display:block; margin-top:12px;">View full scholarship details →</a>
     </div>
 
     <div class="card card-pad tip-card">
@@ -269,7 +248,7 @@
 
     <div class="card card-pad tip-card">
       <span class="eyebrow">WHAT THIS FUND LOOKS FOR</span>
-      <p>Gates Scholarship evaluates leadership, academic excellence, and personal success skills alongside financial need — your opening two sentences currently lead with backstory. Consider connecting your outcome to the fund's mission more directly.</p>
+      <p id="fund-looks-for">—</p>
     </div>
   </aside>
 </main>
@@ -278,25 +257,70 @@
 <script src="js/scholarships-data.js"></script>
 <script src="js/matching.js"></script>
 <script>
-  // ---- populate header + snapshot from the real scholarship dataset ----
-  const APP_SCHOLARSHIP_ID = 'gates-scholarship';
+  // ---- select the scholarship this workspace is for: an explicit ?id= from
+  // the link that brought us here, or the user's own top open match if none
+  // was specified (never a hardcoded scholarship). ----
+  const urlParams = new URLSearchParams(window.location.search);
+  const requestedId = urlParams.get('id');
+
+  const allAppMatches = matchAll(SCHOLARSHIPS, STUDENT_PROFILE);
+  const openAppMatches = sortMatches(allAppMatches.filter(m => m.bucket !== 'not_eligible' && m.scholarship.deadlineStatus !== 'closed_for_cycle'));
+
+  const APP_SCHOLARSHIP_ID = (requestedId && SCHOLARSHIPS.some(s => s.id === requestedId))
+    ? requestedId
+    : (openAppMatches[0] || allAppMatches[0]).scholarship.id;
+
   const appScholarship = SCHOLARSHIPS.find(s => s.id === APP_SCHOLARSHIP_ID);
   const appChecks = MATCHERS[APP_SCHOLARSHIP_ID](STUDENT_PROFILE);
   const appMatch = scoreChecks(appChecks);
   const appMeta = BUCKET_META[appMatch.bucket];
 
+  document.title = appScholarship.name + ' — Application workspace — Veya';
   document.getElementById('app-title').textContent = appScholarship.name;
   document.getElementById('app-meta').innerHTML = `
-    <span class="pill" style="background:${appMeta.color}22; color:${appMeta.color};">${appMeta.label} · ${appMatch.score}%</span>
+    <span class="pill" style="background:${appMeta.color}22; color:${appMeta.color};">${appMeta.label} · ${appMatch.score !== null ? appMatch.score+'%' : '—'}</span>
     <span>${appScholarship.amountDisplay}</span>
     <span>Deadline ${appScholarship.deadline}</span>
   `;
   document.getElementById('snap-amount').textContent = appScholarship.amount ? '$'+appScholarship.amount.toLocaleString() : appScholarship.amountDisplay;
   document.getElementById('snap-name').textContent = appScholarship.name;
-  document.getElementById('snap-match').textContent = `${appMeta.label} (${appMatch.score}%)`;
+  document.getElementById('snap-match').textContent = appMatch.score !== null ? `${appMeta.label} (${appMatch.score}%)` : appMeta.label;
   document.getElementById('snap-deadline').textContent = appScholarship.deadline;
   document.getElementById('snap-field').textContent = appScholarship.field;
   document.getElementById('snap-level').textContent = Array.isArray(appScholarship.level) ? appScholarship.level.join(', ') : appScholarship.level;
+  document.getElementById('snap-detail-link').href = `scholarship.html?id=${appScholarship.id}`;
+  document.getElementById('scored-against-label').textContent = `Scored against ${appScholarship.name}'s published criteria`;
+  document.getElementById('fund-looks-for').textContent = appScholarship.why;
+
+  // ---- requirements checklist: rendered from the real per-scholarship
+  // requirements array, not a hardcoded list. Every item starts unchecked —
+  // we have no real signal about what a given user has actually done for a
+  // given scholarship, so we don't fabricate partial progress. Clicking is
+  // still interactive (see app.js) for the person to track their own state.
+  const checklistEl = document.getElementById('requirements-checklist');
+  checklistEl.innerHTML = appScholarship.requirements.map(req => `
+    <div class="check-row">
+      <div class="check-box"></div>
+      <div class="check-label">${req}</div>
+      <div class="check-meta">Not started</div>
+    </div>`).join('');
+  document.querySelector('[data-checklist-progress]').textContent = `0/${appScholarship.requirements.length}`;
+  document.getElementById('requirements-footnote').textContent =
+    `Requirement list sourced from ${appScholarship.provider}'s official eligibility page. Checkbox state is tracked locally in this browser only — Veya doesn't yet connect to a real application.`;
+
+  // re-wire the checklist toggle now that rows were injected after app.js already ran its initial setup
+  checklistEl.querySelectorAll('.check-row').forEach(row => {
+    const box = row.querySelector('.check-box');
+    box.addEventListener('click', () => {
+      row.classList.toggle('done');
+      const group = row.closest('[data-checklist-group]');
+      const rows = group.querySelectorAll('.check-row');
+      const done = group.querySelectorAll('.check-row.done').length;
+      group.querySelector('[data-checklist-progress]').textContent = `${done}/${rows.length}`;
+      const bar = group.querySelector('[data-checklist-bar]');
+      if (bar) bar.style.transform = `scaleX(${rows.length ? done/rows.length : 0})`;
+    });
+  });
 
   const textarea = document.getElementById('essay-input');
   const wordCount = document.getElementById('word-count');
@@ -437,7 +461,7 @@
       },
       whyThis: {
         title: "Your biggest weakness: You haven't said why this scholarship, specifically.",
-        body: "The essay reads like it could go to almost any scholarship unchanged. Name this fund's mission directly and connect it to what you're trying to do next."
+        body: `The essay reads like it could go to almost any scholarship unchanged. Name ${appScholarship.provider}'s mission directly and connect it to what you're trying to do next.`
       },
       structure: {
         title: "Your biggest weakness: The essay doesn't build toward a clear point.",

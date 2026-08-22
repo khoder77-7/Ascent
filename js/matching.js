@@ -134,6 +134,24 @@ const MATCHERS = {
       chk('gender', 'Gender eligibility', p.gender ? (/^(female|woman)$/i.test(p.gender.trim()) ? 'pass' : 'fail') : 'unknown', 'Open only to applicants who identify as female/woman — not in your profile yet.'),
       chk('level', 'Study level matches', p.levelNow === 'hs_senior' ? 'pass' : 'fail', 'Emerging First Year track covers incoming first-year students, including current high school seniors.')
     ];
+  },
+
+  'chevening-scholarship'(p){
+    return [
+      chk('level', 'Study level matches', (p.levelNow === 'bachelors_complete' || p.levelNow === 'grad') ? 'pass' : 'fail', 'Requires a completed bachelor\'s degree — this is a one-year UK master\'s scholarship, not for students still finishing their first degree.'),
+      chk('citizenship', 'Citizenship eligible', p.citizenship === 'us_citizen' ? 'fail' : (p.citizenship === 'international' ? 'pass' : 'unknown'), 'Open to 160+ countries — but explicitly excludes U.K., EU/EEA, and U.S. citizens. Confirm your specific country is on Chevening\'s eligible list.'),
+      chk('experience', 'Work experience (2,800+ hours)', 'unknown', 'Requires roughly 2 years of full-time work experience completed after your undergraduate degree — not yet tracked in your profile.'),
+      chk('gpa', 'Academic requirement', 'info', 'No fixed minimum GPA published — Chevening looks for the equivalent of a UK upper-second-class (2:1) degree.')
+    ];
+  },
+
+  'mbzuai-graduate-scholarship'(p){
+    return [
+      chk('level', 'Study level matches', (p.levelNow === 'bachelors_complete' || p.levelNow === 'grad') ? 'pass' : 'fail', 'Requires a completed bachelor\'s degree for the MSc track (or a completed master\'s for the PhD track) — not for students still in high school or an unfinished undergraduate degree.'),
+      chk('citizenship', 'Citizenship eligible', 'pass', 'Open to all nationalities, including UAE nationals and international students.'),
+      chk('field', 'Field matches', /computer science|comp sci|engineer|math|physics|robotics|artificial intelligence|\bai\b/i.test(p.major || '') ? 'pass' : 'fail', 'Restricted to AI-related STEM fields — computer science, electrical/computer engineering, mathematics, physics, or robotics.'),
+      chk('gpa', 'GPA requirement met', (p.gpa !== null && p.gpa !== undefined) ? (p.gpa >= 3.2 ? 'pass' : 'fail') : 'unknown', 'Minimum cumulative GPA of approximately 3.2/4.0 is most commonly cited for admission.')
+    ];
   }
 
 };

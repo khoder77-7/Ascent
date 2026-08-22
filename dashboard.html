@@ -211,7 +211,7 @@
           <div class="rb-text"><b id="rb-headline">Readiness —</b><span class="rb-why" id="why-score-toggle">Why this score →</span></div>
         </div>
         <div class="why-score-pop" id="why-score-pop">
-          <div class="wp-row"><span>Match fit — Gates Scholarship</span><b id="wp-match">—</b></div>
+          <div class="wp-row"><span id="wp-match-label">Match fit</span><b id="wp-match">—</b></div>
           <div class="wp-row"><span>Essay strength — current draft</span><b id="wp-essay">—</b></div>
           <div class="wp-formula" id="wp-formula">—</div>
         </div>
@@ -252,7 +252,7 @@
     <aside class="side-col">
 
       <div class="card card-pad reveal">
-        <div class="panel-title"><h3>Application strength — Gates essay</h3><a href="application.html">Open workspace →</a></div>
+        <div class="panel-title"><h3 id="strength-panel-title">Application strength</h3><a href="application.html" id="strength-panel-link">Open workspace →</a></div>
         <div class="strength-ring-row">
           <div class="strength-ring-holder">
             <div id="strength-ring"></div>
@@ -308,8 +308,10 @@
   const openMatches = sortMatches(allMatches.filter(m => m.bucket !== 'not_eligible' && m.scholarship.deadlineStatus !== 'closed_for_cycle'));
   const strongMatches = allMatches.filter(m => m.bucket === 'eligible' || m.bucket === 'likely');
 
-  // ---- the essay/application currently being worked (real Gates checks + real essay analysis) ----
-  const ACTIVE_ID = 'gates-scholarship';
+  // ---- the essay/application currently being worked: dynamically the user's
+  // top-ranked open match, not a hardcoded scholarship — so the guidance
+  // below always points at something the person actually qualifies for.
+  const ACTIVE_ID = (openMatches[0] || allMatches[0]).scholarship.id;
   const activeMatch = allMatches.find(m => m.scholarship.id === ACTIVE_ID);
   const ESSAY_SCORES = { story: 85, structure: 74, specificity: 68, whyThis: 51, overall: 72 };
   const ESSAY_LABELS = { story: 'Personal story', structure: 'Structure', specificity: 'Specificity', whyThis: 'Why this scholarship' };
@@ -318,6 +320,7 @@
   // ---- readiness score: explainable composite of real match fit + real essay strength ----
   const READINESS = Math.round(activeMatch.score * 0.4 + ESSAY_SCORES.overall * 0.6);
   document.getElementById('rb-headline').textContent = `${READINESS} · Readiness`;
+  document.getElementById('wp-match-label').textContent = `Match fit — ${activeMatch.scholarship.name}`;
   document.getElementById('wp-match').textContent = `${activeMatch.score}%`;
   document.getElementById('wp-essay').textContent = `${ESSAY_SCORES.overall}/100`;
   document.getElementById('wp-formula').textContent =
@@ -335,7 +338,7 @@
   const nbmCopy = {
     whyThis: {
       headline: `Your essay is weakest on <b>"Why this scholarship"</b> — ${ESSAY_SCORES.whyThis}/100`,
-      body: `You never name ${activeMatch.scholarship.provider.replace('Bill & Melinda Gates Foundation','Gates')}'s mission or connect your robotics result to it. Add 1–2 sentences in your final paragraph linking your first-place finish to their focus on leadership and impact.`,
+      body: `You never name ${activeMatch.scholarship.provider}'s mission or connect your strongest achievement to it. Add 1–2 sentences in your final paragraph linking your proudest result to what this program says it's looking for.`,
       time: '~20–25 min'
     },
     specificity: {
@@ -355,7 +358,7 @@
       <p class="nbm-hero-body">${activeCopy.body}</p>
       <div class="nbm-action-row">
         <span class="nbm-time">${activeCopy.time}</span>
-        <a href="application.html" class="btn btn-gold">Fix this in the essay workspace →</a>
+        <a href="application.html?id=${activeMatch.scholarship.id}" class="btn btn-gold">Fix this in the essay workspace →</a>
       </div>
     </div>
     <div class="nbm-hero-right">
@@ -377,13 +380,13 @@
       <div class="u-label">Closest deadline</div>
       <div class="u-main">${closestOpen ? closestOpen.scholarship.name + ' closes in ' : 'Nothing open right now'}<b>${closestDays !== null ? closestDays+' days' : ''}</b></div>
       <div class="u-why">${closestOpen ? `Miss it and ${closestOpen.scholarship.amount ? '$'+closestOpen.scholarship.amount.toLocaleString() : closestOpen.scholarship.amountDisplay} is off the table until next cycle.` : 'Check back once a new cycle opens.'}</div>
-      ${closestOpen ? `<a href="application.html" class="u-link">Work on it now →</a>` : ''}
+      ${closestOpen ? `<a href="application.html?id=${closestOpen.scholarship.id}" class="u-link">Work on it now →</a>` : ''}
     </div>
     <div class="u-card tier-moderate">
       <div class="u-label">Unfinished</div>
       <div class="u-main">${activeMatch.scholarship.name} is <b>half done</b></div>
       <div class="u-why">Recommendations and your essay are still open — an incomplete application can't be submitted, no matter how strong the essay score is.</div>
-      <a href="application.html" class="u-link">Request recommendations →</a>
+      <a href="application.html?id=${activeMatch.scholarship.id}" class="u-link">Request recommendations →</a>
     </div>
     <div class="u-card ${gapCheck ? 'tier-moderate' : ''}">
       <div class="u-label">Profile gap</div>
@@ -448,6 +451,8 @@
   }
   document.getElementById('deadlines-list').innerHTML = openMatches.filter(m => !isOpensOnly(m.scholarship)).slice(0,3).map(deadlineRowHTML).join('');
 
+  document.getElementById('strength-panel-title').textContent = `Application strength — ${activeMatch.scholarship.name}`;
+  document.getElementById('strength-panel-link').href = `application.html?id=${activeMatch.scholarship.id}`;
   renderRing(document.getElementById('strength-ring'), ESSAY_SCORES.overall, { size:100, stroke:10, color:'var(--ember)' });
   document.querySelectorAll('.ring-holder').forEach(el => {
     renderRing(el, parseFloat(el.dataset.ring), { size:52, stroke:5, color: el.dataset.color });
