@@ -37,6 +37,19 @@ function hasCompletedOnboarding(){
   return loadProfile() !== null;
 }
 
+// Keep the browser cache strictly scoped to the active signed-in user. The
+// source of truth is Supabase; this cache exists only so the static matching
+// pages can render synchronously. Clearing it on sign-out prevents the next
+// person using the same browser from seeing the previous student's profile.
+function clearLocalProfileData(){
+  try {
+    localStorage.removeItem(VEYA_PROFILE_KEY);
+    localStorage.removeItem(VEYA_DRAFT_KEY);
+  } catch (e) {
+    console.error('clearLocalProfileData failed:', e);
+  }
+}
+
 function saveDraft(step, fields){
   try {
     localStorage.setItem(VEYA_DRAFT_KEY, JSON.stringify({ step, fields, savedAt: new Date().toISOString() }));

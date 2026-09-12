@@ -226,9 +226,17 @@
   applyMode();
 
   // ---- where to send the user after a successful sign-in ----
+  function safeNextPath(){
+    const next = new URLSearchParams(window.location.search).get('next');
+    // Only honor a same-site relative HTML path. This avoids turning the
+    // login page into an open redirect while preserving the protected page
+    // the student originally asked to visit.
+    return next && /^\/[a-z0-9-]+\.html(?:\?[^#]*)?$/i.test(next) ? next.slice(1) : null;
+  }
+
   async function routeAfterLogin(){
     await syncProfileFromSupabase(); // pulls a cloud profile into localStorage, if one exists — no-ops in demo mode
-    window.location.href = hasCompletedOnboarding() ? 'dashboard.html' : 'onboarding.html';
+    window.location.href = safeNextPath() || (hasCompletedOnboarding() ? 'dashboard.html' : 'onboarding.html');
   }
 
   document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -258,7 +266,7 @@
       }
     }
     if (mode === 'signup'){
-      window.location.href = 'onboarding.html';
+      window.location.href = safeNextPath() || 'onboarding.html';
     } else {
       await routeAfterLogin();
     }

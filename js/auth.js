@@ -64,7 +64,10 @@ async function veyaGetSession() {
 //   - Real session present                -> allow through.
 async function veyaRequireAuth() {
   const client = await window.veyaSupabaseReady;
-  const next = encodeURIComponent(window.location.pathname);
+  // Preserve a scholarship id (and other same-page context) when a user is
+  // sent through login, so protected deep links return to exactly where the
+  // student intended to go.
+  const next = encodeURIComponent(window.location.pathname + window.location.search);
   if (!client) {
     window.location.href = `login.html?next=${next}&reason=unavailable`;
     return false;
