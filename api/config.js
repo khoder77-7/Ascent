@@ -21,13 +21,21 @@
 // take effect on Vercel).
 
 export default function handler(req, res) {
-  const url = process.env.SUPABASE_URL;
-  const anonKey = process.env.SUPABASE_ANON_KEY;
+  const configuredUrl = process.env.SUPABASE_URL;
+  const configuredAnonKey = process.env.SUPABASE_ANON_KEY;
+
+  // A common dashboard mistake is pasting these two public values into the
+  // opposite fields. Accept either order here so a bad environment edit does
+  // not take the entire sign-in experience offline. The Vercel variables
+  // should still be corrected at the source when convenient.
+  const values = [configuredUrl, configuredAnonKey].filter(Boolean);
+  const url = values.find(value => /^https:\/\/[^/]+\.supabase\.co\/?$/i.test(value));
+  const anonKey = values.find(value => /^(sb_publishable_|eyJ)/.test(value));
 
   if (!url || !anonKey) {
     return res.status(500).json({
       error: 'Supabase is not configured on this deployment.',
-      detail: 'Set SUPABASE_URL and SUPABASE_ANON_KEY in Vercel → Project Settings → Environment Variables, then redeploy.',
+      detail: 'Set SUPABASE_URL to your project URL and SUPABASE_ANON_KEY to your publishable key in Vercel → Project Settings → Environment Variables, then redeploy.',
     });
   }
 
