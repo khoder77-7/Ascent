@@ -66,9 +66,9 @@
   --font-mono:    'Space Mono', 'IBM Plex Mono', monospace;
 
   /* --- radii: mostly architectural/sharp, pill reserved for tags+buttons --- */
-  --r-sm: 3px;
-  --r-md: 5px;
-  --r-lg: 7px;
+  --r-sm: 5px;
+  --r-md: 9px;
+  --r-lg: 14px;
   --r-pill: 999px;
 
   /* --- shadow --- */
@@ -88,12 +88,15 @@
 html{ scroll-behavior:smooth; }
 body{
   margin:0;
-  background:var(--bg);
+  background:linear-gradient(135deg, #FAF9F6 0%, var(--bg) 48%, #F3F1EA 100%);
   color:var(--ink);
   font-family:var(--font-ui);
+  line-height:1.5;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
+h1,h2,h3,h4,p{ text-wrap:pretty; }
+h1,h2,h3{ font-optical-sizing:auto; }
 img{ max-width:100%; display:block; }
 a{ color:inherit; text-decoration:none; }
 button{ font-family:inherit; }
